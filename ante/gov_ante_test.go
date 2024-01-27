@@ -13,9 +13,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	"github.com/cosmos/gaia/v14/ante"
-	gaiaapp "github.com/cosmos/gaia/v14/app"
-	gaiahelpers "github.com/cosmos/gaia/v14/app/helpers"
+	"github.com/govgen/govgen/v1/ante"
+	govgenapp "github.com/govgen/govgen/v1/app"
+	govgenhelpers "github.com/govgen/govgen/v1/app/helpers"
 )
 
 var (
@@ -34,19 +34,19 @@ var (
 type GovAnteHandlerTestSuite struct {
 	suite.Suite
 
-	app       *gaiaapp.GaiaApp
+	app       *govgenapp.GovGenApp
 	ctx       sdk.Context
 	clientCtx client.Context
 }
 
 func (s *GovAnteHandlerTestSuite) SetupTest() {
-	app := gaiahelpers.Setup(s.T())
+	app := govgenhelpers.Setup(s.T())
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{
 		ChainID: fmt.Sprintf("test-chain-%s", tmrand.Str(4)),
 		Height:  1,
 	})
 
-	encodingConfig := gaiaapp.MakeTestEncodingConfig()
+	encodingConfig := govgenapp.MakeTestEncodingConfig()
 	encodingConfig.Amino.RegisterConcrete(&testdata.TestMsg{}, "testdata.TestMsg", nil)
 	testdata.RegisterInterfaces(encodingConfig.InterfaceRegistry)
 

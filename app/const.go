@@ -1,5 +1,5 @@
-package gaia
+package govgen
 
 const (
-	appName = "GaiaApp"
+	appName = "GovGenApp"
 )

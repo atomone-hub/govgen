@@ -1,4 +1,4 @@
-package gaia_test
+package govgen_test
 
 import (
 	"testing"
@@ -10,8 +10,8 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	gaia "github.com/cosmos/gaia/v14/app"
-	gaiahelpers "github.com/cosmos/gaia/v14/app/helpers"
+	govgen "github.com/govgen/govgen/v1/app"
+	govgenhelpers "github.com/govgen/govgen/v1/app/helpers"
 )
 
 type EmptyAppOptions struct{}
@@ -20,16 +20,16 @@ func (ao EmptyAppOptions) Get(_ string) interface{} {
 	return nil
 }
 
-func TestGaiaApp_BlockedModuleAccountAddrs(t *testing.T) {
-	app := gaia.NewGaiaApp(
+func TestGovGenApp_BlockedModuleAccountAddrs(t *testing.T) {
+	app := govgen.NewGovGenApp(
 		log.NewNopLogger(),
 		db.NewMemDB(),
 		nil,
 		true,
 		map[int64]bool{},
-		gaia.DefaultNodeHome,
+		govgen.DefaultNodeHome,
 		0,
-		gaia.MakeTestEncodingConfig(),
+		govgen.MakeTestEncodingConfig(),
 		EmptyAppOptions{},
 	)
 	moduleAccountAddresses := app.ModuleAccountAddrs()
@@ -38,8 +38,8 @@ func TestGaiaApp_BlockedModuleAccountAddrs(t *testing.T) {
 	require.NotContains(t, blockedAddrs, authtypes.NewModuleAddress(govtypes.ModuleName).String())
 }
 
-func TestGaiaApp_Export(t *testing.T) {
-	app := gaiahelpers.Setup(t)
+func TestGovGenApp_Export(t *testing.T) {
+	app := govgenhelpers.Setup(t)
 	_, err := app.ExportAppStateAndValidators(true, []string{})
 	require.NoError(t, err, "ExportAppStateAndValidators should not have an error")
 }

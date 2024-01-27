@@ -1,4 +1,4 @@
-package gaia_test
+package govgen_test
 
 import (
 	"encoding/json"
@@ -17,10 +17,10 @@ import (
 	simulation2 "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	gaia "github.com/cosmos/gaia/v14/app"
-	"github.com/cosmos/gaia/v14/app/helpers"
-	"github.com/cosmos/gaia/v14/app/params"
-	"github.com/cosmos/gaia/v14/app/sim"
+	govgen "github.com/govgen/govgen/v1/app"
+	"github.com/govgen/govgen/v1/app/helpers"
+	"github.com/govgen/govgen/v1/app/params"
+	"github.com/govgen/govgen/v1/app/sim"
 )
 
 func init() {
@@ -28,7 +28,7 @@ func init() {
 }
 
 // Profile with:
-// /usr/local/go/bin/go test -benchmem -run=^$ github.com/cosmos/cosmos-sdk/GaiaApp -bench ^BenchmarkFullAppSimulation$ -Commit=true -cpuprofile cpu.out
+// /usr/local/go/bin/go test -benchmem -run=^$ github.com/cosmos/cosmos-sdk/GovGenApp -bench ^BenchmarkFullAppSimulation$ -Commit=true -cpuprofile cpu.out
 func BenchmarkFullAppSimulation(b *testing.B) {
 	config, db, dir, logger, _, err := sim.SetupSimulation("goleveldb-app-sim", "Simulation")
 	if err != nil {
@@ -43,7 +43,7 @@ func BenchmarkFullAppSimulation(b *testing.B) {
 		}
 	}()
 
-	app := gaia.NewGaiaApp(logger, db, nil, true, map[int64]bool{}, gaia.DefaultNodeHome, simapp.FlagPeriodValue, params.MakeTestEncodingConfig(), simapp.EmptyAppOptions{}, interBlockCacheOpt())
+	app := govgen.NewGovGenApp(logger, db, nil, true, map[int64]bool{}, govgen.DefaultNodeHome, simapp.FlagPeriodValue, params.MakeTestEncodingConfig(), simapp.EmptyAppOptions{}, interBlockCacheOpt())
 
 	// Run randomized simulation:w
 	_, simParams, simErr := simulation.SimulateFromSeed(
@@ -108,7 +108,7 @@ func TestAppStateDeterminism(t *testing.T) {
 			}
 
 			db := dbm.NewMemDB()
-			app := gaia.NewGaiaApp(logger, db, nil, true, map[int64]bool{}, gaia.DefaultNodeHome, simapp.FlagPeriodValue, gaia.MakeTestEncodingConfig(), EmptyAppOptions{}, interBlockCacheOpt())
+			app := govgen.NewGovGenApp(logger, db, nil, true, map[int64]bool{}, govgen.DefaultNodeHome, simapp.FlagPeriodValue, govgen.MakeTestEncodingConfig(), EmptyAppOptions{}, interBlockCacheOpt())
 
 			fmt.Printf(
 				"running non-determinism simulation; seed %d: %d/%d, attempt: %d/%d\n",

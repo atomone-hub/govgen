@@ -4,7 +4,7 @@ info:
   description: A REST interface for state queries
   version: 1.0.0
 paths:
-  /gaia/globalfee/v1beta1/minimum_gas_prices:
+  /govgen/globalfee/v1beta1/minimum_gas_prices:
     get:
       operationId: MinimumGasPrices
       responses:
@@ -71,7 +71,7 @@ definitions:
 
       NOTE: The amount field is an Dec which implements the custom method
       signatures required by gogoproto.
-  gaia.globalfee.v1beta1.QueryMinimumGasPricesResponse:
+  govgen.globalfee.v1beta1.QueryMinimumGasPricesResponse:
     type: object
     properties:
       minimum_gas_prices:

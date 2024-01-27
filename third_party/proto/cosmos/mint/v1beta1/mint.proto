@@ -42,7 +42,7 @@ message Params {
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
     (gogoproto.nullable)   = false
   ];
-  // goal of percent bonded atoms
+  // goal of percent bonded govgens
   string goal_bonded = 5 [
     (gogoproto.moretags)   = "yaml:\"goal_bonded\"",
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",

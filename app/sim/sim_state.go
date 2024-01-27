@@ -21,7 +21,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	gaia "github.com/cosmos/gaia/v14/app"
+	govgen "github.com/govgen/govgen/v1/app"
 )
 
 // AppStateFn returns the initial application state using a genesis or the simulation parameters.
@@ -144,7 +144,7 @@ func AppStateRandomizedFn(
 	accs []simtypes.Account, genesisTimestamp time.Time, appParams simtypes.AppParams,
 ) (json.RawMessage, []simtypes.Account) {
 	numAccs := int64(len(accs))
-	genesisState := gaia.NewDefaultGenesisState()
+	genesisState := govgen.NewDefaultGenesisState()
 
 	// generate a random amount of initial stake coins and a random initial
 	// number of bonded accounts
@@ -207,7 +207,7 @@ func AppStateFromGenesisFileFn(r io.Reader, cdc codec.JSONCodec, genesisFile str
 		panic(err)
 	}
 
-	var appState gaia.GenesisState
+	var appState govgen.GenesisState
 	err = json.Unmarshal(genesis.AppState, &appState)
 	if err != nil {
 		panic(err)

@@ -4,7 +4,7 @@ set -eo pipefail
 
 protoc_gen_gocosmos() {
   if ! grep "github.com/gogo/protobuf => github.com/regen-network/protobuf" go.mod &>/dev/null ; then
-    echo -e "\tPlease run this command from somewhere inside the gaia folder."
+    echo -e "\tPlease run this command from somewhere inside the govgen folder."
     return 1
   fi
 
@@ -26,5 +26,5 @@ Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types:. \
 done
 
 # move proto files to the right places
-cp -r github.com/cosmos/gaia/x/* x/
+cp -r github.com/govgen/govgen/x/* x/
 rm -rf github.com

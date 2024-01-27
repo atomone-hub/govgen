@@ -1,5 +1,5 @@
-# Upgrading Gaia
+# Upgrading GovGen
 
-This guide provides instructions for upgrading to specific versions of Gaia.
+This guide provides instructions for upgrading to specific versions of GovGen.
 
 ## [Unreleased]

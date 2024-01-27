@@ -1,19 +1,6 @@
-package gaia
+package govgen
 
 import (
-	"github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v4/router"
-	routertypes "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v4/router/types"
-	ica "github.com/cosmos/ibc-go/v4/modules/apps/27-interchain-accounts"
-	icatypes "github.com/cosmos/ibc-go/v4/modules/apps/27-interchain-accounts/types"
-	"github.com/cosmos/ibc-go/v4/modules/apps/transfer"
-	ibctransfertypes "github.com/cosmos/ibc-go/v4/modules/apps/transfer/types"
-	ibc "github.com/cosmos/ibc-go/v4/modules/core"
-	ibcclientclient "github.com/cosmos/ibc-go/v4/modules/core/02-client/client"
-	ibchost "github.com/cosmos/ibc-go/v4/modules/core/24-host"
-	ibcprovider "github.com/cosmos/interchain-security/v2/x/ccv/provider"
-	ibcproviderclient "github.com/cosmos/interchain-security/v2/x/ccv/provider/client"
-	providertypes "github.com/cosmos/interchain-security/v2/x/ccv/provider/types"
-
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
@@ -52,20 +39,16 @@ import (
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	gaiaappparams "github.com/cosmos/gaia/v14/app/params"
-	"github.com/cosmos/gaia/v14/x/globalfee"
+	govgenappparams "github.com/govgen/govgen/v1/app/params"
 )
 
 var maccPerms = map[string][]string{
-	authtypes.FeeCollectorName:        nil,
-	distrtypes.ModuleName:             nil,
-	icatypes.ModuleName:               nil,
-	minttypes.ModuleName:              {authtypes.Minter},
-	stakingtypes.BondedPoolName:       {authtypes.Burner, authtypes.Staking},
-	stakingtypes.NotBondedPoolName:    {authtypes.Burner, authtypes.Staking},
-	govtypes.ModuleName:               {authtypes.Burner},
-	ibctransfertypes.ModuleName:       {authtypes.Minter, authtypes.Burner},
-	providertypes.ConsumerRewardsPool: nil,
+	authtypes.FeeCollectorName:     nil,
+	distrtypes.ModuleName:          nil,
+	minttypes.ModuleName:           {authtypes.Minter},
+	stakingtypes.BondedPoolName:    {authtypes.Burner, authtypes.Staking},
+	stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
+	govtypes.ModuleName:            {authtypes.Burner},
 }
 
 // ModuleBasics defines the module BasicManager is in charge of setting up basic,
@@ -84,31 +67,20 @@ var ModuleBasics = module.NewBasicManager(
 		distrclient.ProposalHandler,
 		upgradeclient.ProposalHandler,
 		upgradeclient.CancelProposalHandler,
-		ibcclientclient.UpdateClientProposalHandler,
-		ibcclientclient.UpgradeProposalHandler,
-		ibcproviderclient.ConsumerAdditionProposalHandler,
-		ibcproviderclient.ConsumerRemovalProposalHandler,
-		ibcproviderclient.ChangeRewardDenomsProposalHandler,
 	),
 	params.AppModuleBasic{},
 	crisis.AppModuleBasic{},
 	slashing.AppModuleBasic{},
 	feegrantmodule.AppModuleBasic{},
 	authzmodule.AppModuleBasic{},
-	ibc.AppModuleBasic{},
 	upgrade.AppModuleBasic{},
 	evidence.AppModuleBasic{},
-	transfer.AppModuleBasic{},
 	vesting.AppModuleBasic{},
-	router.AppModuleBasic{},
-	ica.AppModuleBasic{},
-	globalfee.AppModule{},
-	ibcprovider.AppModuleBasic{},
 )
 
 func appModules(
-	app *GaiaApp,
-	encodingConfig gaiaappparams.EncodingConfig,
+	app *GovGenApp,
+	encodingConfig govgenappparams.EncodingConfig,
 	skipGenesisInvariants bool,
 ) []module.AppModule {
 	appCodec := encodingConfig.Codec
@@ -134,21 +106,15 @@ func appModules(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		feegrantmodule.NewAppModule(appCodec, app.AccountKeeper, app.BankKeeper, app.FeeGrantKeeper, app.interfaceRegistry),
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
-		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
-		globalfee.NewAppModule(app.GetSubspace(globalfee.ModuleName)),
-		app.TransferModule,
-		app.ICAModule,
-		app.RouterModule,
-		app.ProviderModule,
 	}
 }
 
 // simulationModules returns modules for simulation manager
 // define the order of the modules for deterministic simulations
 func simulationModules(
-	app *GaiaApp,
-	encodingConfig gaiaappparams.EncodingConfig,
+	app *GovGenApp,
+	encodingConfig govgenappparams.EncodingConfig,
 	_ bool,
 ) []module.AppModuleSimulation {
 	appCodec := encodingConfig.Codec
@@ -166,9 +132,6 @@ func simulationModules(
 		params.NewAppModule(app.ParamsKeeper),
 		evidence.NewAppModule(app.EvidenceKeeper),
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
-		ibc.NewAppModule(app.IBCKeeper),
-		app.TransferModule,
-		app.ProviderModule,
 	}
 }
 
@@ -198,37 +161,19 @@ func orderBeginBlockers() []string {
 		banktypes.ModuleName,
 		govtypes.ModuleName,
 		crisistypes.ModuleName,
-		ibctransfertypes.ModuleName,
-		ibchost.ModuleName,
-		icatypes.ModuleName,
-		routertypes.ModuleName,
 		genutiltypes.ModuleName,
 		authz.ModuleName,
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
-		globalfee.ModuleName,
-		providertypes.ModuleName,
 	}
 }
 
-/*
-Interchain Security Requirements:
-- provider.EndBlock gets validator updates from the staking module;
-thus, staking.EndBlock must be executed before provider.EndBlock;
-- creating a new consumer chain requires the following order,
-CreateChildClient(), staking.EndBlock, provider.EndBlock;
-thus, gov.EndBlock must be executed before staking.EndBlock
-*/
 func orderEndBlockers() []string {
 	return []string{
 		crisistypes.ModuleName,
 		govtypes.ModuleName,
 		stakingtypes.ModuleName,
-		ibctransfertypes.ModuleName,
-		ibchost.ModuleName,
-		icatypes.ModuleName,
-		routertypes.ModuleName,
 		capabilitytypes.ModuleName,
 		authtypes.ModuleName,
 		banktypes.ModuleName,
@@ -242,8 +187,6 @@ func orderEndBlockers() []string {
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
-		globalfee.ModuleName,
-		providertypes.ModuleName,
 	}
 }
 
@@ -267,25 +210,11 @@ func orderInitBlockers() []string {
 		minttypes.ModuleName,
 		crisistypes.ModuleName,
 		genutiltypes.ModuleName,
-		ibctransfertypes.ModuleName,
-		ibchost.ModuleName,
-		icatypes.ModuleName,
 		evidencetypes.ModuleName,
 		authz.ModuleName,
 		feegrant.ModuleName,
-		routertypes.ModuleName,
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
-		// The globalfee module should ideally be initialized before the genutil module in theory:
-		// The globalfee antehandler performs checks in DeliverTx, which is called by gentx.
-		// When the global fee > 0, gentx needs to pay the fee. However, this is not expected,
-		// (in our case, the global fee is initialized with an empty value, which might not be a problem
-		// if the globalfee in genesis is not changed.)
-		// To resolve this issue, we should initialize the globalfee module after genutil, ensuring that the global
-		// min fee is empty when gentx is called.
-		// For more details, please refer to the following link: https://github.com/cosmos/gaia/issues/2489
-		globalfee.ModuleName,
-		providertypes.ModuleName,
 	}
 }

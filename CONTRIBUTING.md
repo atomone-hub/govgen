@@ -19,7 +19,7 @@
   - [Branching Model and Release](#branching-model-and-release)
     - [PR Targeting](#pr-targeting)
 
-Thank you for considering making contributions to Gaia! 🎉👍
+Thank you for considering making contributions to GovGen! 🎉👍
 
 ## Overview
 
@@ -30,8 +30,8 @@ chance of getting changes merged into the codebase.
 
 ### Responsibilities of the stewarding team
 
-Gaia has many stakeholders contributing and shaping the project. 
-The _Gaia stewarding team_ is composed of Informal Systems developers and 
+GovGen has many stakeholders contributing and shaping the project. 
+The _GovGen stewarding team_ is composed of Informal Systems developers and 
 is responsible for stewarding this project over time.
 This means that the stewarding team needs to understand the nature of, 
 and agree to maintain, all of the changes that land on `main` or a backport branch. 
@@ -73,12 +73,12 @@ but _maintaining_ that change over the years has a much higher cost that the ste
 
 To ensure a smooth workflow for all contributors, a general procedure for contributing has been established.
 
-1. Start by browsing [existing issues](https://github.com/cosmos/gaia/issues) and [discussions](https://github.com/cosmos/gaia/discussions). If you are looking for something interesting or if you have something in your mind, there is a chance it had been discussed.
-   * Looking for a good place to start contributing? How about checking out some [good first issues](https://github.com/cosmos/gaia/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) or [bugs](https://github.com/cosmos/gaia/issues?q=is%3Aopen+is%3Aissue+label%3Abug)?
+1. Start by browsing [existing issues](https://github.com/govgen/govgen/issues) and [discussions](https://github.com/govgen/govgen/discussions). If you are looking for something interesting or if you have something in your mind, there is a chance it had been discussed.
+   * Looking for a good place to start contributing? How about checking out some [good first issues](https://github.com/govgen/govgen/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) or [bugs](https://github.com/govgen/govgen/issues?q=is%3Aopen+is%3Aissue+label%3Abug)?
 2. Determine whether a GitHub issue or discussion is more appropriate for your needs:
-   1. If you want to propose something new that requires specification or an additional design, or you would like to change a process, start with a [new discussion](https://github.com/cosmos/gaia/discussions/new/choose). With discussions, we can better handle the design process using discussion threads. A discussion usually leads to one or more issues.
-   2. If the issue you want addressed is a specific proposal or a bug, then open a [new issue](https://github.com/cosmos/gaia/issues/new/choose).
-   3. Review existing [issues](https://github.com/cosmos/gaia/issues) to find an issue you'd like to help with.
+   1. If you want to propose something new that requires specification or an additional design, or you would like to change a process, start with a [new discussion](https://github.com/govgen/govgen/discussions/new/choose). With discussions, we can better handle the design process using discussion threads. A discussion usually leads to one or more issues.
+   2. If the issue you want addressed is a specific proposal or a bug, then open a [new issue](https://github.com/govgen/govgen/issues/new/choose).
+   3. Review existing [issues](https://github.com/govgen/govgen/issues) to find an issue you'd like to help with.
 3. Participate in thoughtful discussion on that issue.
 4. If you would like to contribute:
    1. Ensure that the proposal has been accepted.
@@ -96,17 +96,17 @@ PRs opened before adequate design discussion has taken place in a GitHub issue h
 
 ## Project Board
 
-We use self-organizing principles to coordinate and collaborate across organizations in structured "EPICs" that focus on specific problem domains or architectural components of Gaia. For details, see the [GitHub Project board](https://github.com/orgs/cosmos/projects/28/views/11). 
+We use self-organizing principles to coordinate and collaborate across organizations in structured "EPICs" that focus on specific problem domains or architectural components of GovGen. For details, see the [GitHub Project board](https://github.com/orgs/govgen/projects/28/views/11). 
 
-The developers work in sprints, which are available in a [GitHub Project](https://github.com/orgs/cosmos/projects/28/views/2). 
+The developers work in sprints, which are available in a [GitHub Project](https://github.com/orgs/govgen/projects/28/views/2). 
 
 ## Architecture Decision Records (ADR)
 
-When proposing an architecture decision for Gaia, please start by opening an [issue](https://github.com/cosmos/gaia/issues/new/choose) or a [discussion](https://github.com/cosmos/gaia/discussions/new) with a summary of the proposal. Once the proposal has been discussed and there is rough alignment on a high-level approach to the design, you may either start development, or write an ADR.
+When proposing an architecture decision for GovGen, please start by opening an [issue](https://github.com/govgen/govgen/issues/new/choose) or a [discussion](https://github.com/govgen/govgen/discussions/new) with a summary of the proposal. Once the proposal has been discussed and there is rough alignment on a high-level approach to the design, you may either start development, or write an ADR.
 
 If your architecture decision is a simple change, you may contribute directly without writing an ADR. However, if you are proposing a significant change, please include a corresponding ADR.
 
-To create an ADR, follow the [template](./docs/architecture/adr-template.md) and [doc](./docs/architecture/README.md). If you would like to see examples of how these are written, please refer to the current [ADRs](https://github.com/cosmos/gaia/tree/main/docs/architecture).
+To create an ADR, follow the [template](./docs/architecture/adr-template.md) and [doc](./docs/architecture/README.md). If you would like to see examples of how these are written, please refer to the current [ADRs](https://github.com/govgen/govgen/tree/main/docs/architecture).
 
 ## Development Procedure
 
@@ -116,9 +116,9 @@ Depending on the scope of the work, we differentiate between self-contained pull
 
 **Self-contained pull requests**:
 
-* Fork the repo (core developers must create a branch directly in the Gaia repo),
+* Fork the repo (core developers must create a branch directly in the GovGen repo),
 branch from the HEAD of `main`, make some commits, and submit a PR to `main`.
-* For developers who are core contributors and are working within the `gaia` repo, follow branch name conventions to ensure clear
+* For developers who are core contributors and are working within the `govgen` repo, follow branch name conventions to ensure clear
 ownership of branches: `{moniker}/{issue#}-branch-name`.
 * See [Branching Model](#branching-model-and-release) for more details.
 
@@ -129,7 +129,7 @@ ownership of branches: `{moniker}/{issue#}-branch-name`.
   The name convention for the feature branch must be `feat/{issue#}-branch-name`.
   Note that (similar to `main`) all feature branches have branch protection rules and they run the CI.
   Unlike `main`, feature branch may intermittently fail `make lint`, `make run-tests`, or `make build/install`.
-* Fork the repo (core developers must create a branch directly in the Gaia repo),
+* Fork the repo (core developers must create a branch directly in the GovGen repo),
   branch from the HEAD of the feature branch, make some commits, and submit a PR to the feature branch.
   All PRs targeting a feature branch should follow the same guidelines in this document.
 * Once the feature is completed, submit a PR from the feature branch targeting `main`. 
@@ -144,7 +144,7 @@ before each commit is available in the `contrib/githooks/` directory.
 
 ### Testing
 
-Tests can be executed by running `make run-tests` at the top level of the Gaia repository.
+Tests can be executed by running `make run-tests` at the top level of the GovGen repository.
 For running the e2e tests, make sure to build the docker images by running `make docker-build-all`.
 
 When testing a function under a variety of different inputs, we prefer to use
@@ -231,7 +231,7 @@ items. In addition, use the following review explanations:
 
 ### Updating Documentation
 
-If you open a PR in Gaia, it is mandatory to update the relevant documentation in `/docs`.
+If you open a PR in GovGen, it is mandatory to update the relevant documentation in `/docs`.
 
 ### Changelog
 
@@ -272,7 +272,7 @@ where `${description}` is a detailed description of the changelog entry.
 For example, 
 ```bash
 # add an entry for bumping IBC to v4.4.2
-unclog add -i "2554-bump-ibc" -p 2554 -s "dependencies" -m "Bump [ibc-go](https://github.com/cosmos/ibc-go) to [v4.4.2](https://github.com/cosmos/ibc-go/releases/tag/v4.4.2)" 
+unclog add -i "2554-bump-ibc" -p 2554 -s "dependencies" -m "Bump [ibc-go](https://github.com/govgen/ibc-go) to [v4.4.2](https://github.com/govgen/ibc-go/releases/tag/v4.4.2)" 
 
 # add an entry for changing the global fee module;
 # note that the entry is added to both state-breaking and api-breaking sections
@@ -290,11 +290,11 @@ title of the PR _very_ clearly explains the benefit of a change to a user.
 We use [Go Modules](https://github.com/golang/go/wiki/Modules) to manage
 dependency versions.
 
-The main branch of every Cosmos repository should just build with `go get`,
+The main branch of every GovGen repository should just build with `go get`,
 which means they should be kept up-to-date with their dependencies so we can
 get away with telling people they can just `go get` our software.
 
-When dependencies in Gaia's `go.mod` are changed, it is generally accepted practice
+When dependencies in GovGen's `go.mod` are changed, it is generally accepted practice
 to delete `go.sum` and then run `go mod tidy`.
 
 Since some dependencies are not under our control, a third party may break our
@@ -302,7 +302,7 @@ build, in which case we can fall back on `go mod tidy -v`.
 
 ## Protobuf
 
-We use [Protocol Buffers](https://developers.google.com/protocol-buffers) along with [gogoproto](https://github.com/cosmos/gogoproto) to generate code for use in Gaia.
+We use [Protocol Buffers](https://developers.google.com/protocol-buffers) along with [gogoproto](https://github.com/govgen/gogoproto) to generate code for use in GovGen.
 
 For deterministic behavior around Protobuf tooling, everything is containerized using Docker. Make sure to have Docker installed on your machine, or head to [Docker's website](https://docs.docker.com/get-docker/) to install it.
 
@@ -312,7 +312,7 @@ To generate the protobuf stubs, you can run `make proto-gen`.
 
 User-facing repos should adhere to the trunk based development branching model: https://trunkbaseddevelopment.com. User branches should start with a user name, example: `{moniker}/{issue#}-branch-name`.
 
-Gaia follows [semantic versioning](https://semver.org), but with the some deviations to account for state-machine and API breaking changes. See [RELEASE_PROCESS.md](./RELEASE_PROCESS.md) for details. 
+GovGen follows [semantic versioning](https://semver.org), but with the some deviations to account for state-machine and API breaking changes. See [RELEASE_PROCESS.md](./RELEASE_PROCESS.md) for details. 
 
 ### PR Targeting
 

@@ -151,7 +151,7 @@ message DepositParams {
     (gogoproto.jsontag)      = "min_deposit,omitempty"
   ];
 
-  //  Maximum period for Atom holders to deposit on a proposal. Initial value: 2
+  //  Maximum period for GOVGEN holders to deposit on a proposal. Initial value: 2
   //  months.
   google.protobuf.Duration max_deposit_period = 2 [
     (gogoproto.nullable)    = false,

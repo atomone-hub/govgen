@@ -1,10 +1,10 @@
-package gaia
+package govgen
 
 import (
 	"runtime/debug"
 	"testing"
 
-	"github.com/google/gofuzz"
+	fuzz "github.com/google/gofuzz"
 )
 
 func TestFuzzGenesisAccountValidate(t *testing.T) {

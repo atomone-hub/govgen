@@ -61,13 +61,13 @@ message Supply {
 // DenomUnit represents a struct that describes a given
 // denomination unit of the basic token.
 message DenomUnit {
-  // denom represents the string name of the given denom unit (e.g uatom).
+  // denom represents the string name of the given denom unit (e.g ugovgen).
   string denom = 1;
   // exponent represents power of 10 exponent that one must
   // raise the base_denom to in order to equal the given DenomUnit's denom
   // 1 denom = 1^exponent base_denom
-  // (e.g. with a base_denom of uatom, one can create a DenomUnit of 'atom' with
-  // exponent = 6, thus: 1 atom = 10^6 uatom).
+  // (e.g. with a base_denom of ugovgen, one can create a DenomUnit of 'govgen' with
+  // exponent = 6, thus: 1 govgen = 10^6 ugovgen).
   uint32 exponent = 2;
   // aliases is a list of string aliases for the given denom
   repeated string aliases = 3;
@@ -84,11 +84,11 @@ message Metadata {
   // display indicates the suggested denom that should be
   // displayed in clients.
   string display = 4;
-  // name defines the name of the token (eg: Cosmos Atom)
+  // name defines the name of the token (eg: GovGen)
   //
   // Since: cosmos-sdk 0.43
   string name = 5;
-  // symbol is the token symbol usually shown on exchanges (eg: ATOM). This can
+  // symbol is the token symbol usually shown on exchanges (eg: GOVGEN). This can
   // be the same as the display.
   //
   // Since: cosmos-sdk 0.43

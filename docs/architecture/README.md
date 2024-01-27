@@ -7,7 +7,7 @@ parent:
 
 # Architecture Decision Records (ADR)
 
-This is a location to record all high-level architecture decisions for new feature and module proposals in the Cosmos Hub.
+This is a location to record all high-level architecture decisions for new feature and module proposals in the GovGen.
 
 An Architectural Decision (**AD**) is a software design choice that addresses a functional or non-functional requirement that is architecturally significant.
 An Architecturally Significant Requirement (**ASR**) is a requirement that has a measurable effect on a software system’s architecture and quality.
@@ -49,7 +49,7 @@ They are to be interpreted as described in [RFC 2119](https://datatracker.ietf.o
 
 ### Accepted
 
-- [ADR 002: Globalfee Module](./adr-002-globalfee.md)
+- n/a
 
 ### Proposed
 
@@ -61,4 +61,4 @@ They are to be interpreted as described in [RFC 2119](https://datatracker.ietf.o
 
 ### Rejected
 
-- [ADR 001: Interchain Accounts](./adr-001-interchain-accounts.md)
+- n/a

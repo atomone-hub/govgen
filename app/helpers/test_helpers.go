@@ -22,16 +22,16 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	gaiaapp "github.com/cosmos/gaia/v14/app"
+	govgenapp "github.com/govgen/govgen/v1/app"
 )
 
 // SimAppChainID hardcoded chainID for simulation
 const (
-	SimAppChainID = "gaia-app"
+	SimAppChainID = "govgen-app"
 )
 
 // DefaultConsensusParams defines the default Tendermint consensus params used
-// in GaiaApp testing.
+// in GovGenApp testing.
 var DefaultConsensusParams = &abci.ConsensusParams{
 	Block: &abci.BlockParams{
 		MaxBytes: 200000,
@@ -66,7 +66,7 @@ type EmptyAppOptions struct{}
 
 func (EmptyAppOptions) Get(_ string) interface{} { return nil }
 
-func Setup(t *testing.T) *gaiaapp.GaiaApp {
+func Setup(t *testing.T) *govgenapp.GovGenApp {
 	t.Helper()
 
 	privVal := NewPV()
@@ -91,21 +91,21 @@ func Setup(t *testing.T) *gaiaapp.GaiaApp {
 	return app
 }
 
-// SetupWithGenesisValSet initializes a new GaiaApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new GovGenApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
-// of one consensus engine unit in the default token of the GaiaApp from first genesis
-// account. A Nop logger is set in GaiaApp.
-func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *gaiaapp.GaiaApp {
+// of one consensus engine unit in the default token of the GovGenApp from first genesis
+// account. A Nop logger is set in GovGenApp.
+func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *govgenapp.GovGenApp {
 	t.Helper()
 
-	gaiaApp, genesisState := setup()
-	genesisState = genesisStateWithValSet(t, gaiaApp, genesisState, valSet, genAccs, balances...)
+	govgenApp, genesisState := setup()
+	genesisState = genesisStateWithValSet(t, govgenApp, genesisState, valSet, genAccs, balances...)
 
 	stateBytes, err := json.MarshalIndent(genesisState, "", " ")
 	require.NoError(t, err)
 
 	// init chain will set the validator set and initialize the genesis accounts
-	gaiaApp.InitChain(
+	govgenApp.InitChain(
 		abci.RequestInitChain{
 			Validators:      []abci.ValidatorUpdate{},
 			ConsensusParams: DefaultConsensusParams,
@@ -114,40 +114,40 @@ func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs 
 	)
 
 	// commit genesis changes
-	gaiaApp.Commit()
-	gaiaApp.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{
-		Height:             gaiaApp.LastBlockHeight() + 1,
-		AppHash:            gaiaApp.LastCommitID().Hash,
+	govgenApp.Commit()
+	govgenApp.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{
+		Height:             govgenApp.LastBlockHeight() + 1,
+		AppHash:            govgenApp.LastCommitID().Hash,
 		ValidatorsHash:     valSet.Hash(),
 		NextValidatorsHash: valSet.Hash(),
 	}})
 
-	return gaiaApp
+	return govgenApp
 }
 
-func setup() (*gaiaapp.GaiaApp, gaiaapp.GenesisState) {
+func setup() (*govgenapp.GovGenApp, govgenapp.GenesisState) {
 	db := dbm.NewMemDB()
-	encCdc := gaiaapp.MakeTestEncodingConfig()
+	encCdc := govgenapp.MakeTestEncodingConfig()
 	var invCheckPeriod uint = 5
-	gaiaApp := gaiaapp.NewGaiaApp(
+	govgenApp := govgenapp.NewGovGenApp(
 		log.NewNopLogger(),
 		db,
 		nil,
 		true,
 		map[int64]bool{},
-		gaiaapp.DefaultNodeHome,
+		govgenapp.DefaultNodeHome,
 		invCheckPeriod,
 		encCdc,
 		EmptyAppOptions{},
 	)
-	return gaiaApp, gaiaapp.NewDefaultGenesisState()
+	return govgenApp, govgenapp.NewDefaultGenesisState()
 }
 
 func genesisStateWithValSet(t *testing.T,
-	app *gaiaapp.GaiaApp, genesisState gaiaapp.GenesisState,
+	app *govgenapp.GovGenApp, genesisState govgenapp.GenesisState,
 	valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount,
 	balances ...banktypes.Balance,
-) gaiaapp.GenesisState {
+) govgenapp.GenesisState {
 	t.Helper()
 	// set genesis accounts
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccs)

@@ -14,9 +14,9 @@
   - [Stable Release Policy](#stable-release-policy)
 
 
-This document outlines the release process for Cosmos Hub (Gaia).
+This document outlines the release process for GovGen.
 
-Gaia follows [semantic versioning](https://semver.org), but with the following deviations to account for state-machine and API breaking changes: 
+GovGen follows [semantic versioning](https://semver.org), but with the following deviations to account for state-machine and API breaking changes: 
 
 - State-machine breaking changes will result in an increase of the major version X (X.y.z).
 - Emergency releases & API breaking changes (changes in node interactions e.g. queries) will result in an increase of the minor version Y (x.Y.z | x > 0).
@@ -68,8 +68,6 @@ An exception are PRs open via the Github mergify integration (i.e., backported P
 
 For PRs that are changing production code, please add a changelog entry in `.changelog` (for details, see [contributing guidelines](./CONTRIBUTING.md#changelog)). 
 
-To manage and generate the changelog on Gaia, we currently use [unclog](https://github.com/informalsystems/unclog).
-
 #### Creating a new release branch 
 
 Unreleased changes are collected on `main` in `.changelog/unreleased/`. 
@@ -82,7 +80,7 @@ Thus, when creating a new release branch (e.g., `release/v11.x`), the following 
 ```md
 ## Previous Versions
 
-[CHANGELOG of previous versions](https://github.com/cosmos/gaia/blob/main/CHANGELOG.md)
+[CHANGELOG of previous versions](https://github.com/govgen/govgen/blob/main/CHANGELOG.md)
 ```
 
 #### Cutting a new release
@@ -121,19 +119,19 @@ Once the automated releases process is completed, please add any missing informa
 With every release, the `goreleaser` tool will create a file with all the build artifact checksums and upload it alongside the artifacts.
 The file is called `SHA256SUMS-{{.version}}.txt` and contains the following:
 ```
-098b00ed78ca01456c388d7f1f22d09a93927d7a234429681071b45d94730a05  gaiad_0.0.4_windows_arm64.exe
-15b2b9146d99426a64c19d219234cd0fa725589c7dc84e9d4dc4d531ccc58bec  gaiad_0.0.4_darwin_amd64
-604912ee7800055b0a1ac36ed31021d2161d7404cea8db8776287eb512cd67a9  gaiad_0.0.4_darwin_arm64
-76e5ff7751d66807ee85bc5301484d0f0bcc5c90582d4ba1692acefc189392be  gaiad_0.0.4_linux_arm64
-bcbca82da2cb2387ad6d24c1f6401b229a9b4752156573327250d37e5cc9bb1c  gaiad_0.0.4_windows_amd64.exe
-f39552cbfcfb2b06f1bd66fd324af54ac9ee06625cfa652b71eba1869efe8670  gaiad_0.0.4_linux_amd64
+098b00ed78ca01456c388d7f1f22d09a93927d7a234429681071b45d94730a05  govgend_0.0.4_windows_arm64.exe
+15b2b9146d99426a64c19d219234cd0fa725589c7dc84e9d4dc4d531ccc58bec  govgend_0.0.4_darwin_amd64
+604912ee7800055b0a1ac36ed31021d2161d7404cea8db8776287eb512cd67a9  govgend_0.0.4_darwin_arm64
+76e5ff7751d66807ee85bc5301484d0f0bcc5c90582d4ba1692acefc189392be  govgend_0.0.4_linux_arm64
+bcbca82da2cb2387ad6d24c1f6401b229a9b4752156573327250d37e5cc9bb1c  govgend_0.0.4_windows_amd64.exe
+f39552cbfcfb2b06f1bd66fd324af54ac9ee06625cfa652b71eba1869efe8670  govgend_0.0.4_linux_amd64
 ```
 
 ### Tagging Procedure
 
 **Important**: _**Always create tags from your local machine**_ since all release tags should be signed and annotated.
-Using Github UI will create a `lightweight` tag, so it's possible that `gaiad version` returns a commit hash, instead of a tag.
-This is important because most operators build from source, and having incorrect information when you run `make install && gaiad version` raises confusion.
+Using Github UI will create a `lightweight` tag, so it's possible that `govgend version` returns a commit hash, instead of a tag.
+This is important because most operators build from source, and having incorrect information when you run `make install && govgend version` raises confusion.
 
 The following steps are the default for tagging a specific branch commit using git on your local machine. Usually, release branches are labeled `release/v*`:
 
@@ -209,7 +207,7 @@ For example, `release/v10.x` is deemed EOL once the network upgrades to `release
 
 ## Stable Release Policy
 
-Once a Gaia release has been completed and published, updates for it are released under certain circumstances
+Once a GovGen release has been completed and published, updates for it are released under certain circumstances
 and must follow the [Non-major Release Procedure](#non-major-release-procedure).
 
 The intention of the Stable Release Policy is to ensure that all major release series that are not EOL, 

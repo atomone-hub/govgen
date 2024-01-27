@@ -9,10 +9,10 @@ on:
 jobs:
 
   run-tests:
-    uses: cosmos/gaia/.github/workflows/test.yml@main
+    uses: govgen/govgen/.github/workflows/test.yml@main
 
   run-simulations:
-    uses: cosmos/gaia/.github/workflows/sims.yml@main
+    uses: govgen/govgen/.github/workflows/sims.yml@main
 
   run-vulncheck:
     runs-on: ubuntu-latest

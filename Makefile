@@ -15,10 +15,10 @@ endif
 PACKAGES_SIMTEST=$(shell go list ./... | grep '/simulation')
 LEDGER_ENABLED ?= true
 SDK_PACK := $(shell go list -m github.com/cosmos/cosmos-sdk | sed  's/ /\@/g')
-TM_VERSION := $(shell go list -m github.com/cometbft/cometbft | sed 's:.* ::') # grab everything after the space in "github.com/cometbft/cometbft v0.34.7"
+TM_VERSION := $(shell go list -m github.com/tendermint/tendermint | sed 's:.* ::') # grab everything after the space in "github.com/cometbft/cometbft v0.34.7"
 DOCKER := $(shell which docker)
 BUILDDIR ?= $(CURDIR)/build
-TEST_DOCKER_REPO=cosmos/contrib-gaiatest
+TEST_DOCKER_REPO=cosmos/contrib-govgentest
 
 GO_SYSTEM_VERSION = $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f1-2)
 REQUIRE_GO_VERSION = 1.20
@@ -51,7 +51,7 @@ ifeq ($(LEDGER_ENABLED),true)
   endif
 endif
 
-ifeq (cleveldb,$(findstring cleveldb,$(GAIA_BUILD_OPTIONS)))
+ifeq (cleveldb,$(findstring cleveldb,$(GOVGEN_BUILD_OPTIONS)))
   build_tags += gcc cleveldb
 endif
 build_tags += $(BUILD_TAGS)
@@ -64,17 +64,17 @@ build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=gaia \
-		  -X github.com/cosmos/cosmos-sdk/version.AppName=gaiad \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=govgen \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=govgend \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
 			-X github.com/cometbft/cometbft/version.TMCoreSemVer=$(TM_VERSION)
 
-ifeq (cleveldb,$(findstring cleveldb,$(GAIA_BUILD_OPTIONS)))
+ifeq (cleveldb,$(findstring cleveldb,$(GOVGEN_BUILD_OPTIONS)))
   ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=cleveldb
 endif
-ifeq (,$(findstring nostrip,$(GAIA_BUILD_OPTIONS)))
+ifeq (,$(findstring nostrip,$(GOVGEN_BUILD_OPTIONS)))
   ldflags += -w -s
 endif
 ldflags += $(LDFLAGS)
@@ -82,7 +82,7 @@ ldflags := $(strip $(ldflags))
 
 BUILD_FLAGS := -tags "$(build_tags)" -ldflags '$(ldflags)'
 # check for nostrip option
-ifeq (,$(findstring nostrip,$(GAIA_BUILD_OPTIONS)))
+ifeq (,$(findstring nostrip,$(GOVGEN_BUILD_OPTIONS)))
   BUILD_FLAGS += -trimpath
 endif
 
@@ -97,11 +97,11 @@ include contrib/devtools/Makefile
 
 check_version:
 ifneq ($(GO_SYSTEM_VERSION), $(REQUIRE_GO_VERSION))
-	@echo "ERROR: Go version 1.20 is required for $(VERSION) of Gaia."
+	@echo "ERROR: Go version 1.20 is required for $(VERSION) of GovGen."
 	exit 1
 endif
 
-all: install lint run-tests test-e2e vulncheck
+all: install lint run-tests vulncheck
 
 BUILD_TARGETS := build install
 
@@ -131,7 +131,7 @@ go.sum: go.mod
 draw-deps:
 	@# requires brew install graphviz or apt-get install graphviz
 	go install github.com/RobotsAndPencils/goviz
-	@goviz -i ./cmd/gaiad -d 2 | dot -Tpng -o dependency-graph.png
+	@goviz -i ./cmd/govgend -d 2 | dot -Tpng -o dependency-graph.png
 
 clean:
 	rm -rf $(BUILDDIR)/ artifacts/
@@ -202,10 +202,9 @@ sync-docs:
 
 include sims.mk
 
-PACKAGES_UNIT=$(shell go list ./... | grep -v -e '/tests/e2e')
-PACKAGES_E2E=$(shell cd tests/e2e && go list ./... | grep '/e2e')
+PACKAGES_UNIT=$(shell go list ./...)
 TEST_PACKAGES=./...
-TEST_TARGETS := test-unit test-unit-cover test-race test-e2e
+TEST_TARGETS := test-unit test-unit-cover test-race
 
 test-unit: ARGS=-timeout=5m -tags='norace'
 test-unit: TEST_PACKAGES=$(PACKAGES_UNIT)
@@ -213,8 +212,6 @@ test-unit-cover: ARGS=-timeout=5m -tags='norace' -coverprofile=coverage.txt -cov
 test-unit-cover: TEST_PACKAGES=$(PACKAGES_UNIT)
 test-race: ARGS=-timeout=5m -race
 test-race: TEST_PACKAGES=$(PACKAGES_UNIT)
-test-e2e: ARGS=-timeout=25m -v
-test-e2e: TEST_PACKAGES=$(PACKAGES_E2E)
 $(TEST_TARGETS): run-tests
 
 run-tests:
@@ -227,16 +224,6 @@ else
 endif
 
 .PHONY: run-tests $(TEST_TARGETS)
-
-docker-build-debug:
-	@docker build -t cosmos/gaiad-e2e -f e2e.Dockerfile .
-
-# TODO: Push this to the Cosmos Dockerhub so we don't have to keep building it
-# in CI.
-docker-build-hermes:
-	@cd tests/e2e/docker; docker build -t cosmos/hermes-e2e:latest -f hermes.Dockerfile .
-
-docker-build-all: docker-build-debug docker-build-hermes
 
 ###############################################################################
 ###                                Linting                                  ###
@@ -266,16 +253,16 @@ format:
 ###############################################################################
 
 start-localnet-ci: build
-	rm -rf ~/.gaiad-liveness
-	./build/gaiad init liveness --chain-id liveness --home ~/.gaiad-liveness
-	./build/gaiad config chain-id liveness --home ~/.gaiad-liveness
-	./build/gaiad config keyring-backend test --home ~/.gaiad-liveness
-	./build/gaiad keys add val --home ~/.gaiad-liveness
-	./build/gaiad add-genesis-account val 10000000000000000000000000stake --home ~/.gaiad-liveness --keyring-backend test
-	./build/gaiad gentx val 1000000000stake --home ~/.gaiad-liveness --chain-id liveness
-	./build/gaiad collect-gentxs --home ~/.gaiad-liveness
-	sed -i.bak'' 's/minimum-gas-prices = ""/minimum-gas-prices = "0uatom"/' ~/.gaiad-liveness/config/app.toml
-	./build/gaiad start --home ~/.gaiad-liveness --x-crisis-skip-assert-invariants
+	rm -rf ~/.govgend-liveness
+	./build/govgend init liveness --chain-id liveness --home ~/.govgend-liveness
+	./build/govgend config chain-id liveness --home ~/.govgend-liveness
+	./build/govgend config keyring-backend test --home ~/.govgend-liveness
+	./build/govgend keys add val --home ~/.govgend-liveness
+	./build/govgend add-genesis-account val 10000000000000000000000000stake --home ~/.govgend-liveness --keyring-backend test
+	./build/govgend gentx val 1000000000stake --home ~/.govgend-liveness --chain-id liveness
+	./build/govgend collect-gentxs --home ~/.govgend-liveness
+	sed -i.bak'' 's/minimum-gas-prices = ""/minimum-gas-prices = "0ugovgen"/' ~/.govgend-liveness/config/app.toml
+	./build/govgend start --home ~/.govgend-liveness --x-crisis-skip-assert-invariants
 
 .PHONY: start-localnet-ci
 
