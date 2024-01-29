@@ -14,8 +14,8 @@ var flagBech32Prefix = "prefix"
 func AddBech32ConvertCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "bech32-convert [address]",
-		Short: "Convert any bech32 string to the cosmos prefix",
-		Long: `Convert any bech32 string to the cosmos prefix
+		Short: "Convert any bech32 string to the govgen prefix",
+		Long: `Convert any bech32 string to the govgen prefix
 
 Example:
 	govgend debug bech32-convert akash1a6zlyvpnksx8wr6wz8wemur2xe8zyh0ytz6d88
@@ -41,7 +41,7 @@ Example:
 		},
 	}
 
-	cmd.Flags().StringP(flagBech32Prefix, "p", "cosmos", "Bech32 Prefix to encode to")
+	cmd.Flags().StringP(flagBech32Prefix, "p", "govgen", "Bech32 Prefix to encode to")
 
 	return cmd
 }
