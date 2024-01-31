@@ -12,8 +12,8 @@ import (
 	"github.com/govgen/govgen/v1/types/errors"
 )
 
-// initial deposit must be greater than or equal to 10% of the minimum deposit
-var minInitialDepositFraction = sdk.NewDecWithPrec(10, 2)
+// initial deposit must be greater than or equal to 1% of the minimum deposit
+var minInitialDepositFraction = sdk.NewDecWithPrec(1, 2)
 
 type GovPreventSpamDecorator struct {
 	govKeeper *govkeeper.Keeper
