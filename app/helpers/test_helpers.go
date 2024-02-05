@@ -22,7 +22,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	govgenapp "github.com/govgen/govgen/v1/app"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
 )
 
 // SimAppChainID hardcoded chainID for simulation

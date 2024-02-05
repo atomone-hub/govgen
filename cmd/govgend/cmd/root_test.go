@@ -7,8 +7,8 @@ import (
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	app "github.com/govgen/govgen/v1/app"
-	"github.com/govgen/govgen/v1/cmd/govgend/cmd"
+	app "github.com/atomone-hub/govgen/v1/app"
+	"github.com/atomone-hub/govgen/v1/cmd/govgend/cmd"
 )
 
 func TestRootCmdConfig(t *testing.T) {

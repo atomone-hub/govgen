@@ -9,10 +9,10 @@ on:
 jobs:
 
   run-tests:
-    uses: govgen/govgen/.github/workflows/test.yml@main
+    uses: atomone-hub/govgen/.github/workflows/test.yml@main
 
   run-simulations:
-    uses: govgen/govgen/.github/workflows/sims.yml@main
+    uses: atomone-hub/govgen/.github/workflows/sims.yml@main
 
   run-vulncheck:
     runs-on: ubuntu-latest

@@ -10,8 +10,8 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	govgen "github.com/govgen/govgen/v1/app"
-	govgenhelpers "github.com/govgen/govgen/v1/app/helpers"
+	govgen "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 )
 
 type EmptyAppOptions struct{}

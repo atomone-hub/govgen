@@ -21,7 +21,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	govgen "github.com/govgen/govgen/v1/app"
+	govgen "github.com/atomone-hub/govgen/v1/app"
 )
 
 // AppStateFn returns the initial application state using a genesis or the simulation parameters.

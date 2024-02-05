@@ -15,7 +15,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	govgen "github.com/govgen/govgen/v1/app"
+	govgen "github.com/atomone-hub/govgen/v1/app"
 )
 
 // SetupSimulation creates the config, db (levelDB), temporary directory and logger for

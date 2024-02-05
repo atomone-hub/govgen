@@ -26,5 +26,5 @@ Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types:. \
 done
 
 # move proto files to the right places
-cp -r github.com/govgen/govgen/x/* x/
+cp -r github.com/atomone-hub/govgen/x/* x/
 rm -rf github.com

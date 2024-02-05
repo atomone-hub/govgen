@@ -31,8 +31,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
-	govgen "github.com/govgen/govgen/v1/app"
-	"github.com/govgen/govgen/v1/app/params"
+	govgen "github.com/atomone-hub/govgen/v1/app"
+	"github.com/atomone-hub/govgen/v1/app/params"
 )
 
 // NewRootCmd creates a new root command for simd. It is called once in the

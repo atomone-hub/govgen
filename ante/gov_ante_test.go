@@ -13,9 +13,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	"github.com/govgen/govgen/v1/ante"
-	govgenapp "github.com/govgen/govgen/v1/app"
-	govgenhelpers "github.com/govgen/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/ante"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 )
 
 var (

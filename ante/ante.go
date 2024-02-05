@@ -9,7 +9,7 @@ import (
 	govkeeper "github.com/cosmos/cosmos-sdk/x/gov/keeper"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/govgen/govgen/v1/types/errors"
+	"github.com/atomone-hub/govgen/v1/types/errors"
 )
 
 // HandlerOptions extend the SDK's AnteHandler options by requiring the IBC

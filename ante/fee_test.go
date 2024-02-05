@@ -17,9 +17,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	xauthsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 
-	"github.com/govgen/govgen/v1/ante"
-	govgenapp "github.com/govgen/govgen/v1/app"
-	govgenhelpers "github.com/govgen/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/ante"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 )
 
 type FeeIntegrationTestSuite struct {
