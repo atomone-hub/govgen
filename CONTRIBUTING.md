@@ -2,7 +2,6 @@
 
 - [Contributing](#contributing)
   - [Overview](#overview)
-    - [Responsibilities of the stewarding team](#responsibilities-of-the-stewarding-team)
     - [Ease of reviewing](#ease-of-reviewing)
     - [Workflow](#workflow)
   - [Project Board](#project-board)
@@ -13,7 +12,6 @@
     - [Pull Request Templates](#pull-request-templates)
     - [Requesting Reviews](#requesting-reviews)
     - [Updating Documentation](#updating-documentation)
-    - [Changelog](#changelog)
   - [Dependencies](#dependencies)
   - [Protobuf](#protobuf)
   - [Branching Model and Release](#branching-model-and-release)
@@ -28,19 +26,9 @@ discussion or proposing code changes.
 Following the processes outlined in this document will lead to the best
 chance of getting changes merged into the codebase.
 
-### Responsibilities of the stewarding team
-
-GovGen has many stakeholders contributing and shaping the project. 
-The _GovGen stewarding team_ is composed of Informal Systems developers and 
-is responsible for stewarding this project over time.
-This means that the stewarding team needs to understand the nature of, 
-and agree to maintain, all of the changes that land on `main` or a backport branch. 
-It may cost a few days/weeks' worth of time to _submit_ a particular change, 
-but _maintaining_ that change over the years has a much higher cost that the stewarding team will bear.
-
 ### Ease of reviewing
 
- The fact that the stewarding team needs to be able to deeply understand the short-,
+ The fact that the codeowners need to be able to deeply understand the short-,
  medium- and long-term consequences of incoming changes means that changes need
  to be **easy to review**.
 
@@ -86,7 +74,7 @@ To ensure a smooth workflow for all contributors, a general procedure for contri
       make sure to contact them to collaborate.
    3. If nobody has been assigned for the issue and you would like to work on it,
       make a comment on the issue to inform the community of your intentions
-      to begin work and please wait for an acknowledgement from the stewarding team.
+      to begin work.
 5. To submit your work as a contribution to the repository, follow standard GitHub best practices. 
    See [development procedure guidelines](#development-procedure) below.
 
@@ -96,9 +84,7 @@ PRs opened before adequate design discussion has taken place in a GitHub issue h
 
 ## Project Board
 
-We use self-organizing principles to coordinate and collaborate across organizations in structured "EPICs" that focus on specific problem domains or architectural components of GovGen. For details, see the [GitHub Project board](https://github.com/orgs/govgen/projects/28/views/11). 
-
-The developers work in sprints, which are available in a [GitHub Project](https://github.com/orgs/govgen/projects/28/views/2). 
+We use self-organizing principles to coordinate and collaborate across organizations in structured "EPICs" that focus on specific problem domains or architectural components of GovGen.
 
 ## Architecture Decision Records (ADR)
 
@@ -125,7 +111,7 @@ ownership of branches: `{moniker}/{issue#}-branch-name`.
 **Large contributions**:
 
 * Make sure that a feature branch is created in the repo.
-  This will be created by the stewarding team after design discussions. 
+  This will be created by the codeowners after design discussions. 
   The name convention for the feature branch must be `feat/{issue#}-branch-name`.
   Note that (similar to `main`) all feature branches have branch protection rules and they run the CI.
   Unlike `main`, feature branch may intermittently fail `make lint`, `make run-tests`, or `make build/install`.
@@ -140,7 +126,7 @@ will do it anyway using a pre-configured setup of the programming language mode)
 A convenience git `pre-commit` hook that runs the formatters automatically
 before each commit is available in the `contrib/githooks/` directory.
 
-**Note:** Exceptions to the above guidelines are possible, but only after prior discussions with the stewarding team. 
+**Note:** Exceptions to the above guidelines are possible, but only after prior discussions with the codeowners. 
 
 ### Testing
 
@@ -180,9 +166,10 @@ Before submitting a pull request:
 Then:
 
 1. If you have something to show, **start with a `Draft` PR**. It's good to have early validation of your work and we highly recommend this practice. A Draft PR also indicates to the community that the work is in progress.
-   Draft PRs also help the stewarding team provide early feedback and ensure the work is in the right direction.
+   Draft PRs also help the codeowners provide early feedback and ensure the work is in the right direction.
 2. When the code is complete, change your PR from `Draft` to `Ready for Review`.
 3. Go through the actions for each checkbox present in the PR template description. The PR actions are automatically provided for each new PR.
+4. Be sure to include a relevant changelog entry in the `Unreleased` section of `CHANGELOG.md` (see file for log format).
 
 PRs must have a category prefix that is based on the type of changes being made (for example, `fix`, `feat`,
 `refactor`, `docs`, and so on). The [type](https://github.com/commitizen/conventional-commit-types/blob/v3.0.0/index.json) 
@@ -233,58 +220,6 @@ items. In addition, use the following review explanations:
 
 If you open a PR in GovGen, it is mandatory to update the relevant documentation in `/docs`.
 
-### Changelog
-
-To manage and generate our changelog, we currently use [unclog](https://github.com/informalsystems/unclog).
-
-Every PR with types `fix`, `feat`, `deps`, and `refactor` should include a file 
-`.changelog/unreleased/${section}/[${component}/]${pr-number}-${short-description}.md`,
-where:
-
-- `section` is one of 
-  `dependencies`, `improvements`, `features`, `bug-fixes`, `state-breaking`, `api-breaking`, 
-  and _**if multiple apply, create multiple files**_;
-- `pr-number` is the PR number;
-- `short-description` is a short (4 to 6 word), hyphen separated description of the change;
-- `component` is used for changes that affect one of the components defined in the [config](.changelog/config.toml), e.g., `tests`, `globalfee`.
-
-For examples, see the [.changelog](.changelog) folder.
-
-Use `unclog` to add a changelog entry in `.changelog` (check the [requirements](https://github.com/informalsystems/unclog#requirements) first): 
-```bash
-# add a general entry
-unclog add 
-   -i "${pr-number}-${short-description}" 
-   -p "${pr-number}" 
-   -s "${section}" 
-   -m "${description}"
-
-# add a entry to a component 
-unclog add 
-   -i "${pr-number}-${short-description}" 
-   -p "${pr-number}" 
-   -c "${component}"
-   -s "${section}" 
-   -m "${description}"
-```
-where `${description}` is a detailed description of the changelog entry.
-
-For example, 
-```bash
-# add an entry for bumping IBC to v4.4.2
-unclog add -i "2554-bump-ibc" -p 2554 -s "dependencies" -m "Bump [ibc-go](https://github.com/govgen/ibc-go) to [v4.4.2](https://github.com/govgen/ibc-go/releases/tag/v4.4.2)" 
-
-# add an entry for changing the global fee module;
-# note that the entry is added to both state-breaking and api-breaking sections
-unclog add -i "2424-params" -p 2424 -c globalfee -s "state-breaking" -m "Add \`bypass-min-fee-msg-types\` and \`maxTotalBypassMinFeeMsgGagUsage\` to globalfee params" 
-unclog add -i "2424-params" -p 2424 -c globalfee -s "api-breaking" -m "Add \`bypass-min-fee-msg-types\` and \`maxTotalBypassMinFeeMsgGagUsage\` to globalfee params" 
-```
-
-**Note:** Changelog entries should answer the question: "what is important about this
-change for users to know?" or "what problem does this solve for users?". It
-should not simply be a reiteration of the title of the associated PR, unless the
-title of the PR _very_ clearly explains the benefit of a change to a user.
-
 ## Dependencies
 
 We use [Go Modules](https://github.com/golang/go/wiki/Modules) to manage
@@ -302,7 +237,7 @@ build, in which case we can fall back on `go mod tidy -v`.
 
 ## Protobuf
 
-We use [Protocol Buffers](https://developers.google.com/protocol-buffers) along with [gogoproto](https://github.com/govgen/gogoproto) to generate code for use in GovGen.
+We use [Protocol Buffers](https://developers.google.com/protocol-buffers) along with [gogoproto](https://github.com/cosmos/gogoproto) to generate code for use in GovGen.
 
 For deterministic behavior around Protobuf tooling, everything is containerized using Docker. Make sure to have Docker installed on your machine, or head to [Docker's website](https://docs.docker.com/get-docker/) to install it.
 
@@ -323,4 +258,3 @@ Exception is for bug fixes which are only related to a released version.
 In that case, the related bug fix PRs must target against the release branch.
 
 If needed, we will backport a commit from `main` to a release branch with appropriate consideration of versioning.
-

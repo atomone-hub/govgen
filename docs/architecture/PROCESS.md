@@ -1,7 +1,7 @@
 # ADR Creation Process
 
 1. Copy the `adr-template.md` file. Use the following filename pattern: `adr-next_number-title.md`
-2. Create a draft Pull Request and solicit input from the stewarding team, if you want to get an early feedback.
+2. Create a draft Pull Request and solicit input from the codeowners, if you want to get an early feedback.
 3. Make sure that the problem, the context and a recommended solution is clear and well documented. Be sure to document alternate solution spaces and give reasons why they have been discarded.
 4. Add an entry to a list in the README file [Table of Contents](./README.md#adr-table-of-contents).
 5. Create a Pull Request to propose a new ADR.

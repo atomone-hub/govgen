@@ -2,16 +2,11 @@
 
 - [Release Process](#release-process)
   - [Major Release Procedure](#major-release-procedure)
-    - [Changelog](#changelog)
-      - [Creating a new release branch](#creating-a-new-release-branch)
-      - [Cutting a new release](#cutting-a-new-release)
     - [Release Notes](#release-notes)
     - [Tagging Procedure](#tagging-procedure)
       - [Test building artifacts](#test-building-artifacts)
       - [Installing goreleaser](#installing-goreleaser)
   - [Non-major Release Procedure](#non-major-release-procedure)
-  - [Major Release Maintenance](#major-release-maintenance)
-  - [Stable Release Policy](#stable-release-policy)
 
 
 This document outlines the release process for GovGen.
@@ -36,7 +31,7 @@ Therefore, after the upgrade, the nodes continue functioning in a deterministic 
 
 ## Major Release Procedure
 
-A _major release_ is an increment of the first number (eg: `v9.1.0` → `v10.0.0`). Each major release opens a _stable release series_ and receives updates outlined in the [Major Release Maintenance](#major-release-maintenance) section.
+A _major release_ is an increment of the first number (eg: `v9.1.0` → `v10.0.0`).
 
 **Note**: Generally, PRs should target either `main` or a long-lived feature branch (see [CONTRIBUTING.md](./CONTRIBUTING.md#pull-requests)).
 An exception are PRs open via the Github mergify integration (i.e., backported PRs). 
@@ -46,10 +41,10 @@ An exception are PRs open via the Github mergify integration (i.e., backported P
   * Update the [GitHub mergify integration](./.mergify.yml) by adding instructions for automatically backporting commits from `main` to the `release/vY` using the `A:backport/vY` label.
   * **PRs targeting directly a release branch can be merged _only_ when exceptional circumstances arise**.
 * In the release branch 
-  * Create a new version section in the `CHANGELOG.md` (follow the procedure described [below](#changelog))
+  * Create a new version section in the `CHANGELOG.md`.
   * Create release notes, in `RELEASE_NOTES.md`, highlighting the new features and changes in the version. 
     This is needed so the bot knows which entries to add to the release page on GitHub.
-  * (To be added in the future) ~~Additionally verify that the `UPGRADING.md` file is up to date and contains all the necessary information for upgrading to the new version.~~
+  * Additionally verify that the `UPGRADING.md` file is up to date and contains all the necessary information for upgrading to the new version.
 * We freeze the release branch from receiving any new features and focus on releasing a release candidate.
   * Finish audits and reviews.
   * Add more tests.
@@ -63,53 +58,6 @@ An exception are PRs open via the Github mergify integration (i.e., backported P
   * **Note:** The final release MUST have the same commit hash as the latest corresponding release candidate.
   * Create a new annotated git tag in the release branch (follow the [Tagging Procedure](#tagging-procedure)). This will trigger the automated release process (which will also create the release artifacts).
   * Once the release process completes, modify release notes if needed.
-
-### Changelog
-
-For PRs that are changing production code, please add a changelog entry in `.changelog` (for details, see [contributing guidelines](./CONTRIBUTING.md#changelog)). 
-
-#### Creating a new release branch 
-
-Unreleased changes are collected on `main` in `.changelog/unreleased/`. 
-However, `.changelog/` on `main` contains also existing releases (e.g., `v10.0.0`).
-Thus, when creating a new release branch (e.g., `release/v11.x`), the following steps are necessary:
-
-- move to the release branch, e.g., `release/v11.x`
-- delete all the sub-folders in `.changelog/` except `unreleased/` 
-- replace the content of `.changelog/epilogue.md` with the following text
-```md
-## Previous Versions
-
-[CHANGELOG of previous versions](https://github.com/govgen/govgen/blob/main/CHANGELOG.md)
-```
-
-#### Cutting a new release
-
-Before cutting a _**release candidate**_ (e.g., `v11.0.0-rc0`), the following steps are necessary:
-
-- move to the release branch, e.g., `release/v11.x`
-- move all entries in ".changelog/unreleased" to the release version, e.g., `v11.0.0`, i.e.,
-```bash
-unclog release v11.0.0
-```
-- update the CHANGELOG.md, i.e.,
-```bash
-unclog build > CHANGELOG.md
-```
-
-❗Once the **final release** is cut, the new changelog section must be added to main:
-
-- checkout a new branch from the `main` branch, i.e.,
-- bring the new changelog section from the release branch into this branch, e.g.,
-```bash
-git checkout release/v11.x .changelog/v11.0.0
-```
-- remove duplicate entries that are both in `.changelog/unreleased/` and the new changelog section, e.g., `.changelog/v11.0.0`
-- update the CHANGELOG.md
-```bash
-unclog build > CHANGELOG.md
-```
-- open a PR (from this new created branch) against `main`
 
 ### Release Notes
 
@@ -183,41 +131,11 @@ Updates to the release branch should come from `main` by backporting PRs
 (usually done by automatic cherry pick followed by a PRs to the release branch). 
 The backports must be marked using `backport/Y` label in PR for main.
 It is the PR author's responsibility to fix merge conflicts, update changelog entries, and
-ensure CI passes. If a PR originates from an external contributor, a member of the stewarding team assumes
+ensure CI passes. If a PR originates from an external contributor, a member of the codeowners assumes
 responsibility to perform this process instead of the original author.
-Lastly, it is the stewarding team's responsibility to ensure that the PR meets all the Stable Release Update (SRU) criteria.
-
-Non-major Release must follow the [Stable Release Policy](#stable-release-policy).
 
 After the release branch has all commits required for the next patch release:
 
-* Update the [changelog](#changelog) and the [release notes](#release-notes).
+* Update the `CHANGELOG.md` and the [release notes](#release-notes).
 * Create a new annotated git tag in the release branch (follow the [Tagging Procedure](#tagging-procedure)). This will trigger the automated release process (which will also create the release artifacts).
 * Once the release process completes, modify release notes if needed.
-
-## Major Release Maintenance
-
-Major Release series continue to receive bug fixes (released as either a Minor or a Patch Release) until they reach **End Of Life**.
-Major Release series is maintained in compliance with the **Stable Release Policy** as described in this document.
-
-**Note**: Not every Major Release is denoted as stable releases.
-
-After two major releases, a supported major release will be transitioned to unsupported and will be deemed EOL with no further updates.
-For example, `release/v10.x` is deemed EOL once the network upgrades to `release/v12.x`. 
-
-## Stable Release Policy
-
-Once a GovGen release has been completed and published, updates for it are released under certain circumstances
-and must follow the [Non-major Release Procedure](#non-major-release-procedure).
-
-The intention of the Stable Release Policy is to ensure that all major release series that are not EOL, 
-are maintained with the following categories of fixes:
-
-- Tooling improvements (including code formatting, linting, static analysis and updates to testing frameworks)
-- Performance enhancements for running archival and synching nodes
-- Test and benchmarking suites, ensuring that fixes are sound and there are no performance regressions
-- Library updates including point releases for core libraries such as IBC-Go, Cosmos SDK, Tendermint and other dependencies
-- General maintenance improvements, that are deemed necessary by the stewarding team, that help align different releases and reduce the workload on the stewarding team
-- Security fixes
-
-Issues that are likely excluded, are any issues that impact operating a block producing network.
