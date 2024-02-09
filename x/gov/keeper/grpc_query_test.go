@@ -7,7 +7,8 @@ import (
 
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
+	"github.com/atomone-hub/govgen/v1/simapp"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 )

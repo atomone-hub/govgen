@@ -1,4 +1,4 @@
-package sim
+package simapp
 
 import (
 	"encoding/json"
@@ -11,6 +11,7 @@ import (
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	tmtypes "github.com/tendermint/tendermint/types"
 
+	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -19,9 +20,6 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
-	govgen "github.com/atomone-hub/govgen/v1/app"
-	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
 )
 
 // AppStateFn returns the initial application state using a genesis or the simulation parameters.
@@ -144,7 +142,7 @@ func AppStateRandomizedFn(
 	accs []simtypes.Account, genesisTimestamp time.Time, appParams simtypes.AppParams,
 ) (json.RawMessage, []simtypes.Account) {
 	numAccs := int64(len(accs))
-	genesisState := govgen.NewDefaultGenesisState()
+	genesisState := NewDefaultGenesisState(cdc)
 
 	// generate a random amount of initial stake coins and a random initial
 	// number of bonded accounts
@@ -207,7 +205,7 @@ func AppStateFromGenesisFileFn(r io.Reader, cdc codec.JSONCodec, genesisFile str
 		panic(err)
 	}
 
-	var appState govgen.GenesisState
+	var appState GenesisState
 	err = json.Unmarshal(genesis.AppState, &appState)
 	if err != nil {
 		panic(err)
