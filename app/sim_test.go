@@ -7,6 +7,10 @@ import (
 	"os"
 	"testing"
 
+	govgen "github.com/atomone-hub/govgen/v1/app"
+	"github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/app/params"
+	"github.com/atomone-hub/govgen/v1/app/sim"
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
@@ -16,11 +20,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/store"
 	simulation2 "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-
-	govgen "github.com/atomone-hub/govgen/v1/app"
-	"github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/app/sim"
 )
 
 func init() {

@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
+	govgen "github.com/atomone-hub/govgen/v1/app"
+	"github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	tmcli "github.com/tendermint/tendermint/libs/cli"
@@ -30,9 +32,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
-
-	govgen "github.com/atomone-hub/govgen/v1/app"
-	"github.com/atomone-hub/govgen/v1/app/params"
 )
 
 // NewRootCmd creates a new root command for simd. It is called once in the

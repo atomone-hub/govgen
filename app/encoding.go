@@ -1,9 +1,9 @@
 package govgen
 
 import (
-	"github.com/cosmos/cosmos-sdk/std"
-
 	"github.com/atomone-hub/govgen/v1/app/params"
+
+	"github.com/cosmos/cosmos-sdk/std"
 )
 
 // MakeTestEncodingConfig creates an EncodingConfig for testing. This function

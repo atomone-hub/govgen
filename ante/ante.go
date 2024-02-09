@@ -1,15 +1,15 @@
 package ante
 
 import (
+	"github.com/atomone-hub/govgen/v1/types/errors"
+	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
+
 	errorsmod "cosmossdk.io/errors"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
-	govkeeper "github.com/cosmos/cosmos-sdk/x/gov/keeper"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-
-	"github.com/atomone-hub/govgen/v1/types/errors"
 )
 
 // HandlerOptions extend the SDK's AnteHandler options by requiring the IBC
