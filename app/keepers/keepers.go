@@ -7,7 +7,6 @@ import (
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
 
 	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -30,7 +29,7 @@ import (
 	evidencetypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	"github.com/cosmos/cosmos-sdk/x/feegrant"
 	feegrantkeeper "github.com/cosmos/cosmos-sdk/x/feegrant/keeper"
-	legacygovtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/x/params"
@@ -206,11 +205,9 @@ func NewAppKeeper(
 		appKeepers.SlashingKeeper,
 	)
 
-	// NOTE(tb): use legacy gov router because params, distribution and upgrade
-	// modules returns legacy gov Handlers.
-	govRouter := legacygovtypes.NewRouter()
+	govRouter := govtypes.NewRouter()
 	govRouter.
-		AddRoute(govtypes.RouterKey, legacygovtypes.ProposalHandler).
+		AddRoute(govtypes.RouterKey, govtypes.ProposalHandler).
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(appKeepers.ParamsKeeper)).
 		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(appKeepers.DistrKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(appKeepers.UpgradeKeeper))

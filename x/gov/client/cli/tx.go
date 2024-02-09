@@ -8,13 +8,13 @@ import (
 	"github.com/spf13/cobra"
 
 	govutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
+	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 // Proposal flags

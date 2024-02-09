@@ -10,11 +10,11 @@ import (
 
 	"github.com/atomone-hub/govgen/v1/simapp"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 
+	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/kv"
+	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 var (

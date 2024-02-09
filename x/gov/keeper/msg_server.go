@@ -7,10 +7,9 @@ import (
 
 	"github.com/armon/go-metrics"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
-
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 type msgServer struct {

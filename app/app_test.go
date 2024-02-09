@@ -8,10 +8,10 @@ import (
 	db "github.com/tendermint/tm-db"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	govgen "github.com/atomone-hub/govgen/v1/app"
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 type EmptyAppOptions struct{}

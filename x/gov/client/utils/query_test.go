@@ -12,11 +12,11 @@ import (
 
 	"github.com/atomone-hub/govgen/v1/simapp"
 	"github.com/atomone-hub/govgen/v1/x/gov/client/utils"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/legacy/legacytx"
+	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 type TxSearchMock struct {
