@@ -7,13 +7,14 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	v040gov "github.com/atomone-hub/govgen/v1/x/gov/legacy/v040"
+	v043gov "github.com/atomone-hub/govgen/v1/x/gov/legacy/v043"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v040gov "github.com/cosmos/cosmos-sdk/x/gov/legacy/v040"
-	v043gov "github.com/cosmos/cosmos-sdk/x/gov/legacy/v043"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 func TestMigrateStore(t *testing.T) {

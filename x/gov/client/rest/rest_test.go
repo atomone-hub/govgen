@@ -8,7 +8,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
+
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 func (s *IntegrationTestSuite) TestLegacyGetAllProposals() {

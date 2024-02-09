@@ -3,8 +3,9 @@ package client
 import (
 	"github.com/spf13/cobra"
 
+	"github.com/atomone-hub/govgen/v1/x/gov/client/rest"
+
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/x/gov/client/rest"
 )
 
 // function to create the rest handler

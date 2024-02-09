@@ -10,9 +10,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/atomone-hub/govgen/v1/x/gov"
+	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/gov"
-	"github.com/cosmos/cosmos-sdk/x/gov/keeper"
 )
 
 func TestInvalidMsg(t *testing.T) {

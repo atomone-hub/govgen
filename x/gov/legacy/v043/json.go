@@ -1,7 +1,7 @@
 package v043
 
 import (
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 // migrateWeightedVotes migrates the ADR-037 weighted votes.

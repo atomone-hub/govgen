@@ -1,8 +1,9 @@
 package keeper
 
 import (
+	v043 "github.com/atomone-hub/govgen/v1/x/gov/legacy/v043"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v043 "github.com/cosmos/cosmos-sdk/x/gov/legacy/v043"
 )
 
 // Migrator is a struct for handling in-place store migrations.

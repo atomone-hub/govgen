@@ -5,12 +5,13 @@ import (
 
 	proto "github.com/gogo/protobuf/proto"
 
+	v034gov "github.com/atomone-hub/govgen/v1/x/gov/legacy/v034"
+	v036gov "github.com/atomone-hub/govgen/v1/x/gov/legacy/v036"
+	v040gov "github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	v036distr "github.com/cosmos/cosmos-sdk/x/distribution/legacy/v036"
 	v040distr "github.com/cosmos/cosmos-sdk/x/distribution/types"
-	v034gov "github.com/cosmos/cosmos-sdk/x/gov/legacy/v034"
-	v036gov "github.com/cosmos/cosmos-sdk/x/gov/legacy/v036"
-	v040gov "github.com/cosmos/cosmos-sdk/x/gov/types"
 	v036params "github.com/cosmos/cosmos-sdk/x/params/legacy/v036"
 	v040params "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	v038upgrade "github.com/cosmos/cosmos-sdk/x/upgrade/legacy/v038"
