@@ -10,10 +10,11 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	"github.com/atomone-hub/govgen/v1/x/gov/client/testutil"
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 
 	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
@@ -146,12 +147,12 @@ func getQueriedVotes(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, quer
 }
 
 func TestQueries(t *testing.T) {
-	app := simapp.Setup(false)
+	app := testutil.SimAppSetup(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	legacyQuerierCdc := app.LegacyAmino()
 	querier := keeper.NewQuerier(app.GovKeeper, legacyQuerierCdc)
 
-	TestAddrs := simapp.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(20000001))
+	TestAddrs := simapp.AddTestAddrsIncremental(app.SimApp, ctx, 2, sdk.NewInt(20000001))
 
 	oneCoins := sdk.NewCoins(sdk.NewInt64Coin(sdk.DefaultBondDenom, 1))
 	consCoins := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, app.StakingKeeper.TokensFromConsensusPower(ctx, 10)))
@@ -305,7 +306,7 @@ func TestQueries(t *testing.T) {
 }
 
 func TestPaginatedVotesQuery(t *testing.T) {
-	app := simapp.Setup(false)
+	app := testutil.SimAppSetup(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	legacyQuerierCdc := app.LegacyAmino()
 

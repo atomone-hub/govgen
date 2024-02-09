@@ -10,10 +10,11 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
-	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
+	"github.com/atomone-hub/govgen/v1/x/gov/client/testutil"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 
+	"github.com/cosmos/cosmos-sdk/simapp"
+	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -67,7 +68,7 @@ func TestWeightedOperations(t *testing.T) {
 	// setup 3 accounts
 	s := rand.NewSource(1)
 	r := rand.New(s)
-	accs := getTestingAccounts(t, r, app, ctx, 3)
+	accs := getTestingAccounts(t, r, app.SimApp, ctx, 3)
 
 	expected := []struct {
 		weight     int
@@ -101,7 +102,7 @@ func TestSimulateMsgSubmitProposal(t *testing.T) {
 	// setup 3 accounts
 	s := rand.NewSource(1)
 	r := rand.New(s)
-	accounts := getTestingAccounts(t, r, app, ctx, 3)
+	accounts := getTestingAccounts(t, r, app.SimApp, ctx, 3)
 
 	// begin a new block
 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash}})
@@ -133,7 +134,7 @@ func TestSimulateMsgDeposit(t *testing.T) {
 	// setup 3 accounts
 	s := rand.NewSource(1)
 	r := rand.New(s)
-	accounts := getTestingAccounts(t, r, app, ctx, 3)
+	accounts := getTestingAccounts(t, r, app.SimApp, ctx, 3)
 
 	// setup a proposal
 	content := types.NewTextProposal("Test", "description")
@@ -175,7 +176,7 @@ func TestSimulateMsgVote(t *testing.T) {
 	// setup 3 accounts
 	s := rand.NewSource(1)
 	r := rand.New(s)
-	accounts := getTestingAccounts(t, r, app, ctx, 3)
+	accounts := getTestingAccounts(t, r, app.SimApp, ctx, 3)
 
 	// setup a proposal
 	content := types.NewTextProposal("Test", "description")
@@ -217,7 +218,7 @@ func TestSimulateMsgVoteWeighted(t *testing.T) {
 	// setup 3 accounts
 	s := rand.NewSource(1)
 	r := rand.New(s)
-	accounts := getTestingAccounts(t, r, app, ctx, 3)
+	accounts := getTestingAccounts(t, r, app.SimApp, ctx, 3)
 
 	// setup a proposal
 	content := types.NewTextProposal("Test", "description")
@@ -250,8 +251,8 @@ func TestSimulateMsgVoteWeighted(t *testing.T) {
 }
 
 // returns context and an app with updated mint keeper
-func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context) {
-	app := simapp.Setup(isCheckTx)
+func createTestApp(isCheckTx bool) (testutil.GovGenSimApp, sdk.Context) {
+	app := testutil.SimAppSetup(isCheckTx)
 
 	ctx := app.BaseApp.NewContext(isCheckTx, tmproto.Header{})
 	app.MintKeeper.SetParams(ctx, minttypes.DefaultParams())
