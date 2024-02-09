@@ -13,9 +13,7 @@ import (
 	"github.com/spf13/cobra"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	govclient "github.com/atomone-hub/govgen/v1/x/gov/client"
 	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
-	"github.com/atomone-hub/govgen/v1/x/gov/client/rest"
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
@@ -26,6 +24,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	legacygovclient "github.com/cosmos/cosmos-sdk/x/gov/client"
+	legacyrest "github.com/cosmos/cosmos-sdk/x/gov/client/rest"
 )
 
 var (
@@ -37,11 +37,11 @@ var (
 // AppModuleBasic defines the basic application module used by the gov module.
 type AppModuleBasic struct {
 	cdc              codec.Codec
-	proposalHandlers []govclient.ProposalHandler // proposal handlers which live in governance cli and rest
+	proposalHandlers []legacygovclient.ProposalHandler // proposal handlers which live in governance cli and rest
 }
 
 // NewAppModuleBasic creates a new AppModuleBasic object
-func NewAppModuleBasic(proposalHandlers ...govclient.ProposalHandler) AppModuleBasic {
+func NewAppModuleBasic(proposalHandlers ...legacygovclient.ProposalHandler) AppModuleBasic {
 	return AppModuleBasic{
 		proposalHandlers: proposalHandlers,
 	}
@@ -75,12 +75,12 @@ func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncod
 
 // RegisterRESTRoutes registers the REST routes for the gov module.
 func (a AppModuleBasic) RegisterRESTRoutes(clientCtx client.Context, rtr *mux.Router) {
-	proposalRESTHandlers := make([]rest.ProposalRESTHandler, 0, len(a.proposalHandlers))
+	proposalRESTHandlers := make([]legacyrest.ProposalRESTHandler, 0, len(a.proposalHandlers))
 	for _, proposalHandler := range a.proposalHandlers {
 		proposalRESTHandlers = append(proposalRESTHandlers, proposalHandler.RESTHandler(clientCtx))
 	}
 
-	rest.RegisterHandlers(clientCtx, rtr, proposalRESTHandlers)
+	legacyrest.RegisterHandlers(clientCtx, rtr, proposalRESTHandlers)
 }
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the gov module.

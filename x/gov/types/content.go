@@ -3,7 +3,6 @@ package types
 import (
 	"strings"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
@@ -27,10 +26,6 @@ type Content interface {
 	ValidateBasic() error
 	String() string
 }
-
-// Handler defines a function that handles a proposal after it has passed the
-// governance process.
-type Handler func(ctx sdk.Context, content Content) error
 
 // ValidateAbstract validates a proposal's abstract contents returning an error
 // if invalid.
