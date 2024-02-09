@@ -6,12 +6,11 @@ import (
 	"testing"
 	"time"
 
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -20,7 +19,7 @@ import (
 
 const custom = "custom"
 
-func getQueriedParams(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier) (types.DepositParams, types.VotingParams, types.TallyParams) {
+func getQueriedParams(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier) (types.DepositParams, types.VotingParams, types.TallyParams) { //nolint: thelper
 	query := abci.RequestQuery{
 		Path: strings.Join([]string{custom, types.QuerierRoute, types.QueryParams, types.ParamDeposit}, "/"),
 		Data: []byte{},
@@ -60,9 +59,9 @@ func getQueriedParams(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, que
 	return depositParams, votingParams, tallyParams
 }
 
-func getQueriedProposals(
+func getQueriedProposals( //nolint: thelper
 	t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier,
-	depositor, voter sdk.AccAddress, status types.ProposalStatus, page, limit int,
+	depositor, voter sdk.AccAddress, status types.ProposalStatus, page, limit int, //nolint: unparam
 ) []types.Proposal {
 	query := abci.RequestQuery{
 		Path: strings.Join([]string{custom, types.QuerierRoute, types.QueryProposals}, "/"),
@@ -79,7 +78,7 @@ func getQueriedProposals(
 	return proposals
 }
 
-func getQueriedDeposit(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier, proposalID uint64, depositor sdk.AccAddress) types.Deposit {
+func getQueriedDeposit(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier, proposalID uint64, depositor sdk.AccAddress) types.Deposit { //nolint: thelper
 	query := abci.RequestQuery{
 		Path: strings.Join([]string{custom, types.QuerierRoute, types.QueryDeposit}, "/"),
 		Data: cdc.MustMarshalJSON(types.NewQueryDepositParams(proposalID, depositor)),
@@ -95,7 +94,7 @@ func getQueriedDeposit(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, qu
 	return deposit
 }
 
-func getQueriedDeposits(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier, proposalID uint64) []types.Deposit {
+func getQueriedDeposits(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier, proposalID uint64) []types.Deposit { //nolint: thelper
 	query := abci.RequestQuery{
 		Path: strings.Join([]string{custom, types.QuerierRoute, types.QueryDeposits}, "/"),
 		Data: cdc.MustMarshalJSON(types.NewQueryProposalParams(proposalID)),
@@ -111,7 +110,7 @@ func getQueriedDeposits(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, q
 	return deposits
 }
 
-func getQueriedVote(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier, proposalID uint64, voter sdk.AccAddress) types.Vote {
+func getQueriedVote(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier, proposalID uint64, voter sdk.AccAddress) types.Vote { //nolint: thelper
 	query := abci.RequestQuery{
 		Path: strings.Join([]string{custom, types.QuerierRoute, types.QueryVote}, "/"),
 		Data: cdc.MustMarshalJSON(types.NewQueryVoteParams(proposalID, voter)),
@@ -127,7 +126,7 @@ func getQueriedVote(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, queri
 	return vote
 }
 
-func getQueriedVotes(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier,
+func getQueriedVotes(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier, //nolint: thelper
 	proposalID uint64, page, limit int,
 ) []types.Vote {
 	query := abci.RequestQuery{
@@ -146,7 +145,7 @@ func getQueriedVotes(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, quer
 }
 
 func TestQueries(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	legacyQuerierCdc := app.LegacyAmino()
 	querier := keeper.NewQuerier(app.GovKeeper, legacyQuerierCdc)
@@ -305,7 +304,7 @@ func TestQueries(t *testing.T) {
 }
 
 func TestPaginatedVotesQuery(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	legacyQuerierCdc := app.LegacyAmino()
 
@@ -391,7 +390,7 @@ func TestPaginatedVotesQuery(t *testing.T) {
 // When querying, the keeper populates the `vote.Option` field when there's
 // only 1 vote, this function checks equality of structs while skipping that
 // field.
-func checkEqualVotes(t *testing.T, vote1, vote2 types.Vote) {
+func checkEqualVotes(t *testing.T, vote1, vote2 types.Vote) { //nolint: thelper
 	require.Equal(t, vote1.Options, vote2.Options)
 	require.Equal(t, vote1.Voter, vote2.Voter)
 	require.Equal(t, vote1.ProposalId, vote2.ProposalId)

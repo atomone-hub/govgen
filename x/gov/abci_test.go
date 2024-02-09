@@ -4,13 +4,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/golang/protobuf/proto"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov"
+	"github.com/golang/protobuf/proto" //nolint:staticcheck
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -70,7 +69,7 @@ func TestTickExpiredDepositPeriod(t *testing.T) {
 }
 
 func TestTickMultipleExpiredDepositPeriod(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
@@ -147,7 +146,7 @@ func TestTickMultipleExpiredDepositPeriod(t *testing.T) {
 }
 
 func TestTickPassedDepositPeriod(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
@@ -204,7 +203,7 @@ func TestTickPassedDepositPeriod(t *testing.T) {
 }
 
 func TestTickPassedVotingPeriod(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
@@ -272,7 +271,7 @@ func TestTickPassedVotingPeriod(t *testing.T) {
 }
 
 func TestProposalPassedEndblocker(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
@@ -323,7 +322,7 @@ func TestProposalPassedEndblocker(t *testing.T) {
 }
 
 func TestEndBlockerProposalHandlerFailed(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 	addrs := govgenhelpers.AddTestAddrs(app, ctx, 1, valTokens)
 

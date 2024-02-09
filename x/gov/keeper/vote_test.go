@@ -3,10 +3,9 @@ package keeper_test
 import (
 	"testing"
 
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -41,7 +40,6 @@ func TestVotes(t *testing.T) {
 	require.Equal(t, proposalID, vote.ProposalId)
 	require.True(t, len(vote.Options) == 1)
 	require.Equal(t, types.OptionAbstain, vote.Options[0].Option)
-	require.Equal(t, types.OptionAbstain, vote.Option)
 
 	// Test change of vote
 	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionYes)))
@@ -51,7 +49,6 @@ func TestVotes(t *testing.T) {
 	require.Equal(t, proposalID, vote.ProposalId)
 	require.True(t, len(vote.Options) == 1)
 	require.Equal(t, types.OptionYes, vote.Options[0].Option)
-	require.Equal(t, types.OptionYes, vote.Option)
 
 	// Test second vote
 	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[1], types.WeightedVoteOptions{
@@ -73,7 +70,7 @@ func TestVotes(t *testing.T) {
 	require.True(t, vote.Options[1].Weight.Equal(sdk.NewDecWithPrec(30, 2)))
 	require.True(t, vote.Options[2].Weight.Equal(sdk.NewDecWithPrec(5, 2)))
 	require.True(t, vote.Options[3].Weight.Equal(sdk.NewDecWithPrec(5, 2)))
-	require.Equal(t, types.OptionEmpty, vote.Option)
+	require.Equal(t, types.OptionEmpty, vote.Options[0].Option)
 
 	// Test vote iterator
 	// NOTE order of deposits is determined by the addresses
@@ -91,5 +88,5 @@ func TestVotes(t *testing.T) {
 	require.True(t, votes[1].Options[1].Weight.Equal(sdk.NewDecWithPrec(30, 2)))
 	require.True(t, votes[1].Options[2].Weight.Equal(sdk.NewDecWithPrec(5, 2)))
 	require.True(t, votes[1].Options[3].Weight.Equal(sdk.NewDecWithPrec(5, 2)))
-	require.Equal(t, types.OptionEmpty, vote.Option)
+	require.Equal(t, types.OptionEmpty, vote.Options[0].Option)
 }

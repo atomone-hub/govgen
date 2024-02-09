@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/atomone-hub/govgen/v1/ante"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/stretchr/testify/suite"
 	tmrand "github.com/tendermint/tendermint/libs/rand"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
@@ -11,15 +14,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	xauthsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
-
-	"github.com/atomone-hub/govgen/v1/ante"
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/cosmos/cosmos-sdk/simapp"
 )
 
 type FeeIntegrationTestSuite struct {

@@ -4,11 +4,10 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/stretchr/testify/require"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-
 	appparams "github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/stretchr/testify/require"
+	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"

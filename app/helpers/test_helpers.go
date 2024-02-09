@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/crypto"
@@ -32,8 +33,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
 )
 
 // SimAppChainID hardcoded chainID for simulation
@@ -366,6 +365,8 @@ func TestAddr(addr string, bech string) (sdk.AccAddress, error) {
 
 // CheckBalance checks the balance of an account.
 func CheckBalance(t *testing.T, app *govgenapp.GovGenApp, addr sdk.AccAddress, balances sdk.Coins) {
+	t.Helper()
+
 	ctxCheck := app.BaseApp.NewContext(true, tmproto.Header{})
 	require.True(t, balances.IsEqual(app.BankKeeper.GetAllBalances(ctxCheck, addr)))
 }
@@ -378,6 +379,8 @@ func SignCheckDeliver(
 	t *testing.T, txCfg client.TxConfig, app *bam.BaseApp, header tmproto.Header, msgs []sdk.Msg,
 	chainID string, accNums, accSeqs []uint64, expSimPass, expPass bool, priv ...cryptotypes.PrivKey,
 ) (sdk.GasInfo, *sdk.Result, error) {
+	t.Helper()
+
 	tx, err := helpers.GenSignedMockTx(
 		rand.New(rand.NewSource(time.Now().UnixNano())),
 		txCfg,

@@ -7,6 +7,10 @@ import (
 	"os"
 	"path/filepath"
 
+	govgenante "github.com/atomone-hub/govgen/v1/ante"
+	"github.com/atomone-hub/govgen/v1/app/keepers"
+	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
+	"github.com/atomone-hub/govgen/v1/app/upgrades"
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
 	"github.com/spf13/cast"
@@ -29,6 +33,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/api"
 	"github.com/cosmos/cosmos-sdk/server/config"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
+	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/version"
@@ -40,12 +45,6 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-
-	govgenante "github.com/atomone-hub/govgen/v1/ante"
-	"github.com/atomone-hub/govgen/v1/app/keepers"
-	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/app/upgrades"
-	"github.com/cosmos/cosmos-sdk/simapp"
 )
 
 var (

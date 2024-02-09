@@ -3,10 +3,9 @@ package keeper_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
 	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -17,7 +16,7 @@ import (
 
 var TestProposal = types.NewTextProposal("Test", "description")
 
-func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) {
+func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) { //nolint: thelper
 	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))
 	valAddrs := govgenhelpers.ConvertAddrsToValAddrs(addrs)
 	pks := govgenhelpers.CreateTestPubKeys(5)
@@ -41,9 +40,9 @@ func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, p
 	app.StakingKeeper.SetValidator(ctx, val1)
 	app.StakingKeeper.SetValidator(ctx, val2)
 	app.StakingKeeper.SetValidator(ctx, val3)
-	app.StakingKeeper.SetValidatorByConsAddr(ctx, val1)
-	app.StakingKeeper.SetValidatorByConsAddr(ctx, val2)
-	app.StakingKeeper.SetValidatorByConsAddr(ctx, val3)
+	app.StakingKeeper.SetValidatorByConsAddr(ctx, val1) //nolint: errcheck
+	app.StakingKeeper.SetValidatorByConsAddr(ctx, val2) //nolint: errcheck
+	app.StakingKeeper.SetValidatorByConsAddr(ctx, val3) //nolint: errcheck
 	app.StakingKeeper.SetNewValidatorByPowerIndex(ctx, val1)
 	app.StakingKeeper.SetNewValidatorByPowerIndex(ctx, val2)
 	app.StakingKeeper.SetNewValidatorByPowerIndex(ctx, val3)

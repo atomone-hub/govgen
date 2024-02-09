@@ -6,14 +6,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/require"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-
 	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	appparams "github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/stretchr/testify/require"
+	abci "github.com/tendermint/tendermint/abci/types"
+	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
@@ -113,7 +112,7 @@ func TestSimulateMsgSubmitProposal(t *testing.T) {
 	require.NoError(t, err)
 
 	var msg types.MsgSubmitProposal
-	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg)
+	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg) //nolint: errcheck
 
 	require.True(t, operationMsg.OK)
 	require.Equal(t, "cosmos1p8wcgrjr4pjju90xg6u9cgq55dxwq8j7u4x9a0", msg.Proposer)
@@ -156,7 +155,7 @@ func TestSimulateMsgDeposit(t *testing.T) {
 	require.NoError(t, err)
 
 	var msg types.MsgDeposit
-	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg)
+	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg) //nolint: errcheck
 
 	require.True(t, operationMsg.OK)
 	require.Equal(t, uint64(1), msg.ProposalId)
@@ -198,7 +197,7 @@ func TestSimulateMsgVote(t *testing.T) {
 	require.NoError(t, err)
 
 	var msg types.MsgVote
-	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg)
+	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg) //nolint: errcheck
 
 	require.True(t, operationMsg.OK)
 	require.Equal(t, uint64(1), msg.ProposalId)
@@ -240,7 +239,7 @@ func TestSimulateMsgVoteWeighted(t *testing.T) {
 	require.NoError(t, err)
 
 	var msg types.MsgVoteWeighted
-	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg)
+	types.ModuleCdc.UnmarshalJSON(operationMsg.Msg, &msg) //nolint: errcheck
 
 	require.True(t, operationMsg.OK)
 	require.Equal(t, uint64(1), msg.ProposalId)
@@ -251,7 +250,7 @@ func TestSimulateMsgVoteWeighted(t *testing.T) {
 }
 
 // returns context and an app with updated mint keeper
-func createTestApp(isCheckTx bool) (*govgenapp.GovGenApp, sdk.Context) {
+func createTestApp(isCheckTx bool) (*govgenapp.GovGenApp, sdk.Context) { //nolint: unparam
 	app := govgenhelpers.SetupNoValset(isCheckTx)
 
 	ctx := app.BaseApp.NewContext(isCheckTx, tmproto.Header{})
@@ -261,7 +260,7 @@ func createTestApp(isCheckTx bool) (*govgenapp.GovGenApp, sdk.Context) {
 	return app, ctx
 }
 
-func getTestingAccounts(t *testing.T, r *rand.Rand, app *govgenapp.GovGenApp, ctx sdk.Context, n int) []simtypes.Account {
+func getTestingAccounts(t *testing.T, r *rand.Rand, app *govgenapp.GovGenApp, ctx sdk.Context, n int) []simtypes.Account { //nolint: unparam, thelper
 	accounts := simtypes.RandomAccounts(r, n)
 
 	initAmt := app.StakingKeeper.TokensFromConsensusPower(ctx, 200)

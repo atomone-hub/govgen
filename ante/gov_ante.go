@@ -1,15 +1,15 @@
 package ante
 
 import (
+	"github.com/atomone-hub/govgen/v1/types/errors"
+	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
+
 	errorsmod "cosmossdk.io/errors"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-
-	"github.com/atomone-hub/govgen/v1/types/errors"
-	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
 )
 
 // initial deposit must be greater than or equal to 1% of the minimum deposit

@@ -4,9 +4,8 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/stretchr/testify/require"
 )
 
 func TestParamChanges(t *testing.T) {

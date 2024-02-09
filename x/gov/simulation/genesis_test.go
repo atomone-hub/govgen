@@ -5,9 +5,8 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/stretchr/testify/require"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"

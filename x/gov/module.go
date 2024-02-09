@@ -8,15 +8,13 @@ import (
 	"fmt"
 	"math/rand"
 
+	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
+	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 	abci "github.com/tendermint/tendermint/abci/types"
-
-	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
-	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -26,6 +24,7 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	legacygovclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 	legacyrest "github.com/cosmos/cosmos-sdk/x/gov/client/rest"
+	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 var (
@@ -85,7 +84,7 @@ func (a AppModuleBasic) RegisterRESTRoutes(clientCtx client.Context, rtr *mux.Ro
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the gov module.
 func (a AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
-	types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx))
+	types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx)) //nolint: errcheck
 }
 
 // GetTxCmd returns the root tx command for the gov module.

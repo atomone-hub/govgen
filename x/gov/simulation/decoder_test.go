@@ -6,10 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/require"
-
 	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/stretchr/testify/require"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	sdk "github.com/cosmos/cosmos-sdk/types"

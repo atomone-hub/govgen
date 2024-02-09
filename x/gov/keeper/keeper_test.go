@@ -3,12 +3,11 @@ package keeper_test
 import (
 	"testing"
 
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
