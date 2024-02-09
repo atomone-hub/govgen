@@ -5,7 +5,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -16,11 +17,11 @@ import (
 
 var TestProposal = types.NewTextProposal("Test", "description")
 
-func createValidators(t *testing.T, ctx sdk.Context, app *simapp.SimApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) {
-	addrs := simapp.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))
-	valAddrs := simapp.ConvertAddrsToValAddrs(addrs)
-	pks := simapp.CreateTestPubKeys(5)
-	cdc := simapp.MakeTestEncodingConfig().Marshaler
+func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) {
+	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))
+	valAddrs := govgenhelpers.ConvertAddrsToValAddrs(addrs)
+	pks := govgenhelpers.CreateTestPubKeys(5)
+	cdc := govgenapp.MakeTestEncodingConfig().Codec
 
 	app.StakingKeeper = stakingkeeper.NewKeeper(
 		cdc,

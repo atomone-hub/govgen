@@ -9,7 +9,7 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/atomone-hub/govgen/v1/x/gov"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -18,9 +18,9 @@ import (
 )
 
 func TestTickExpiredDepositPeriod(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
-	addrs := simapp.AddTestAddrs(app, ctx, 10, valTokens)
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
 	header := tmproto.Header{Height: app.LastBlockHeight() + 1}
 	app.BeginBlock(abci.RequestBeginBlock{Header: header})
@@ -70,9 +70,9 @@ func TestTickExpiredDepositPeriod(t *testing.T) {
 }
 
 func TestTickMultipleExpiredDepositPeriod(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
-	addrs := simapp.AddTestAddrs(app, ctx, 10, valTokens)
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
 	header := tmproto.Header{Height: app.LastBlockHeight() + 1}
 	app.BeginBlock(abci.RequestBeginBlock{Header: header})
@@ -147,9 +147,9 @@ func TestTickMultipleExpiredDepositPeriod(t *testing.T) {
 }
 
 func TestTickPassedDepositPeriod(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
-	addrs := simapp.AddTestAddrs(app, ctx, 10, valTokens)
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
 	header := tmproto.Header{Height: app.LastBlockHeight() + 1}
 	app.BeginBlock(abci.RequestBeginBlock{Header: header})
@@ -204,9 +204,9 @@ func TestTickPassedDepositPeriod(t *testing.T) {
 }
 
 func TestTickPassedVotingPeriod(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
-	addrs := simapp.AddTestAddrs(app, ctx, 10, valTokens)
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
 	SortAddresses(addrs)
 
@@ -272,9 +272,9 @@ func TestTickPassedVotingPeriod(t *testing.T) {
 }
 
 func TestProposalPassedEndblocker(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
-	addrs := simapp.AddTestAddrs(app, ctx, 10, valTokens)
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
 	SortAddresses(addrs)
 
@@ -323,9 +323,9 @@ func TestProposalPassedEndblocker(t *testing.T) {
 }
 
 func TestEndBlockerProposalHandlerFailed(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
-	addrs := simapp.AddTestAddrs(app, ctx, 1, valTokens)
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 1, valTokens)
 
 	SortAddresses(addrs)
 

@@ -20,7 +20,7 @@ import (
 	"github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/app/sim"
-	"github.com/atomone-hub/govgen/v1/simapp"
+	"github.com/cosmos/cosmos-sdk/simapp"
 )
 
 func init() {

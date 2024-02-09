@@ -19,7 +19,7 @@ import (
 	"github.com/atomone-hub/govgen/v1/ante"
 	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/simapp"
+	"github.com/cosmos/cosmos-sdk/simapp"
 )
 
 type FeeIntegrationTestSuite struct {

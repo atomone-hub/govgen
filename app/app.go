@@ -45,7 +45,7 @@ import (
 	"github.com/atomone-hub/govgen/v1/app/keepers"
 	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/app/upgrades"
-	"github.com/atomone-hub/govgen/v1/simapp"
+	"github.com/cosmos/cosmos-sdk/simapp"
 )
 
 var (

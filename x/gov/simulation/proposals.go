@@ -3,7 +3,7 @@ package simulation
 import (
 	"math/rand"
 
-	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
@@ -19,7 +19,7 @@ func ProposalContents() []simtypes.WeightedProposalContent {
 	return []simtypes.WeightedProposalContent{
 		simulation.NewWeightedProposalContent(
 			OpWeightMsgDeposit,
-			simappparams.DefaultWeightTextProposal,
+			appparams.DefaultWeightTextProposal,
 			SimulateTextProposalContent,
 		),
 	}

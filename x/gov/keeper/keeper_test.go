@@ -7,7 +7,8 @@ import (
 	"github.com/stretchr/testify/suite"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -17,14 +18,14 @@ import (
 type KeeperTestSuite struct {
 	suite.Suite
 
-	app         *simapp.SimApp
+	app         *govgenapp.GovGenApp
 	ctx         sdk.Context
 	queryClient types.QueryClient
 	addrs       []sdk.AccAddress
 }
 
 func (suite *KeeperTestSuite) SetupTest() {
-	app := simapp.Setup(false)
+	app := govgenhelpers.Setup(suite.T())
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	queryHelper := baseapp.NewQueryServerTestHelper(ctx, app.InterfaceRegistry())
@@ -34,11 +35,11 @@ func (suite *KeeperTestSuite) SetupTest() {
 	suite.app = app
 	suite.ctx = ctx
 	suite.queryClient = queryClient
-	suite.addrs = simapp.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(30000000))
+	suite.addrs = govgenhelpers.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(30000000))
 }
 
 func TestIncrementProposalNumber(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	tp := TestProposal
@@ -59,7 +60,7 @@ func TestIncrementProposalNumber(t *testing.T) {
 }
 
 func TestProposalQueues(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	// create test proposals

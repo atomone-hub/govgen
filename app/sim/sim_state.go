@@ -21,7 +21,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	govgen "github.com/atomone-hub/govgen/v1/app"
-	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
 )
 
 // AppStateFn returns the initial application state using a genesis or the simulation parameters.
@@ -150,11 +150,11 @@ func AppStateRandomizedFn(
 	// number of bonded accounts
 	var initialStake, numInitiallyBonded int64
 	appParams.GetOrGenerate(
-		cdc, simappparams.StakePerAccount, &initialStake, r,
+		cdc, appparams.StakePerAccount, &initialStake, r,
 		func(r *rand.Rand) { initialStake = r.Int63n(1e12) },
 	)
 	appParams.GetOrGenerate(
-		cdc, simappparams.InitiallyBondedValidators, &numInitiallyBonded, r,
+		cdc, appparams.InitiallyBondedValidators, &numInitiallyBonded, r,
 		func(r *rand.Rand) { numInitiallyBonded = int64(r.Intn(300)) },
 	)
 

@@ -10,7 +10,7 @@ import (
 	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	"github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -76,7 +76,7 @@ func (mock TxSearchMock) Block(ctx context.Context, height *int64) (*ctypes.Resu
 }
 
 func TestGetPaginatedVotes(t *testing.T) {
-	encCfg := simapp.MakeTestEncodingConfig()
+	encCfg := govgenapp.MakeTestEncodingConfig()
 
 	type testCase struct {
 		description string

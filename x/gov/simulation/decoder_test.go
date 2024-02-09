@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
@@ -23,7 +23,7 @@ var (
 )
 
 func TestDecodeStore(t *testing.T) {
-	cdc := simapp.MakeTestEncodingConfig().Marshaler
+	cdc := govgenapp.MakeTestEncodingConfig().Codec
 	dec := simulation.NewDecodeStore(cdc)
 
 	endTime := time.Now().UTC()

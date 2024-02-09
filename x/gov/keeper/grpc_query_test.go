@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
@@ -337,7 +337,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryVote() {
 func (suite *KeeperTestSuite) TestGRPCQueryVotes() {
 	app, ctx, queryClient := suite.app, suite.ctx, suite.queryClient
 
-	addrs := simapp.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(30000000))
+	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(30000000))
 
 	var (
 		req      *types.QueryVotesRequest

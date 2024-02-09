@@ -10,8 +10,9 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
-	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -77,9 +78,9 @@ func TestWeightedOperations(t *testing.T) {
 		{0, types.ModuleName, "submit_proposal"},
 		{1, types.ModuleName, "submit_proposal"},
 		{2, types.ModuleName, "submit_proposal"},
-		{simappparams.DefaultWeightMsgDeposit, types.ModuleName, types.TypeMsgDeposit},
-		{simappparams.DefaultWeightMsgVote, types.ModuleName, types.TypeMsgVote},
-		{simappparams.DefaultWeightMsgVoteWeighted, types.ModuleName, types.TypeMsgVoteWeighted},
+		{appparams.DefaultWeightMsgDeposit, types.ModuleName, types.TypeMsgDeposit},
+		{appparams.DefaultWeightMsgVote, types.ModuleName, types.TypeMsgVote},
+		{appparams.DefaultWeightMsgVoteWeighted, types.ModuleName, types.TypeMsgVoteWeighted},
 	}
 
 	for i, w := range weightesOps {
@@ -250,8 +251,8 @@ func TestSimulateMsgVoteWeighted(t *testing.T) {
 }
 
 // returns context and an app with updated mint keeper
-func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context) {
-	app := simapp.Setup(isCheckTx)
+func createTestApp(isCheckTx bool) (*govgenapp.GovGenApp, sdk.Context) {
+	app := govgenhelpers.SetupNoValset(isCheckTx)
 
 	ctx := app.BaseApp.NewContext(isCheckTx, tmproto.Header{})
 	app.MintKeeper.SetParams(ctx, minttypes.DefaultParams())
@@ -260,7 +261,7 @@ func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context) {
 	return app, ctx
 }
 
-func getTestingAccounts(t *testing.T, r *rand.Rand, app *simapp.SimApp, ctx sdk.Context, n int) []simtypes.Account {
+func getTestingAccounts(t *testing.T, r *rand.Rand, app *govgenapp.GovGenApp, ctx sdk.Context, n int) []simtypes.Account {
 	accounts := simtypes.RandomAccounts(r, n)
 
 	initAmt := app.StakingKeeper.TokensFromConsensusPower(ctx, 200)
@@ -270,7 +271,7 @@ func getTestingAccounts(t *testing.T, r *rand.Rand, app *simapp.SimApp, ctx sdk.
 	for _, account := range accounts {
 		acc := app.AccountKeeper.NewAccountWithAddress(ctx, account.Address)
 		app.AccountKeeper.SetAccount(ctx, acc)
-		require.NoError(t, simapp.FundAccount(app.BankKeeper, ctx, account.Address, initCoins))
+		require.NoError(t, govgenhelpers.FundAccount(app.BankKeeper, ctx, account.Address, initCoins))
 	}
 
 	return accounts

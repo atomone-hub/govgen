@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -30,7 +30,7 @@ func TestProposalContents(t *testing.T) {
 
 	// tests w0 interface:
 	require.Equal(t, simulation.OpWeightMsgDeposit, w0.AppParamsKey())
-	require.Equal(t, simappparams.DefaultWeightTextProposal, w0.DefaultWeight())
+	require.Equal(t, appparams.DefaultWeightTextProposal, w0.DefaultWeight())
 
 	content := w0.ContentSimulatorFn()(r, ctx, accounts)
 

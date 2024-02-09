@@ -5,12 +5,12 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/atomone-hub/govgen/v1/simapp/helpers"
-	simappparams "github.com/atomone-hub/govgen/v1/simapp/params"
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/cosmos/cosmos-sdk/simapp/helpers"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -39,19 +39,19 @@ func WeightedOperations(
 
 	appParams.GetOrGenerate(cdc, OpWeightMsgDeposit, &weightMsgDeposit, nil,
 		func(_ *rand.Rand) {
-			weightMsgDeposit = simappparams.DefaultWeightMsgDeposit
+			weightMsgDeposit = appparams.DefaultWeightMsgDeposit
 		},
 	)
 
 	appParams.GetOrGenerate(cdc, OpWeightMsgVote, &weightMsgVote, nil,
 		func(_ *rand.Rand) {
-			weightMsgVote = simappparams.DefaultWeightMsgVote
+			weightMsgVote = appparams.DefaultWeightMsgVote
 		},
 	)
 
 	appParams.GetOrGenerate(cdc, OpWeightMsgVoteWeighted, &weightMsgVoteWeighted, nil,
 		func(_ *rand.Rand) {
-			weightMsgVoteWeighted = simappparams.DefaultWeightMsgVoteWeighted
+			weightMsgVoteWeighted = appparams.DefaultWeightMsgVoteWeighted
 		},
 	)
 
@@ -154,7 +154,7 @@ func SimulateMsgSubmitProposal(
 			}
 		}
 
-		txGen := simappparams.MakeTestEncodingConfig().TxConfig
+		txGen := appparams.MakeTestEncodingConfig().TxConfig
 		tx, err := helpers.GenSignedMockTx(
 			r,
 			txGen,
@@ -245,7 +245,7 @@ func SimulateMsgDeposit(ak types.AccountKeeper, bk types.BankKeeper, k keeper.Ke
 		txCtx := simulation.OperationInput{
 			R:             r,
 			App:           app,
-			TxGen:         simappparams.MakeTestEncodingConfig().TxConfig,
+			TxGen:         appparams.MakeTestEncodingConfig().TxConfig,
 			Cdc:           nil,
 			Msg:           msg,
 			MsgType:       msg.Type(),
@@ -297,7 +297,7 @@ func operationSimulateMsgVote(ak types.AccountKeeper, bk types.BankKeeper, k kee
 		txCtx := simulation.OperationInput{
 			R:               r,
 			App:             app,
-			TxGen:           simappparams.MakeTestEncodingConfig().TxConfig,
+			TxGen:           appparams.MakeTestEncodingConfig().TxConfig,
 			Cdc:             nil,
 			Msg:             msg,
 			MsgType:         msg.Type(),
@@ -351,7 +351,7 @@ func operationSimulateMsgVoteWeighted(ak types.AccountKeeper, bk types.BankKeepe
 		txCtx := simulation.OperationInput{
 			R:               r,
 			App:             app,
-			TxGen:           simappparams.MakeTestEncodingConfig().TxConfig,
+			TxGen:           appparams.MakeTestEncodingConfig().TxConfig,
 			Cdc:             nil,
 			Msg:             msg,
 			MsgType:         msg.Type(),

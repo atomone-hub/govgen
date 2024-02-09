@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/atomone-hub/govgen/v1/x/gov"
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 
@@ -47,11 +47,11 @@ func (h *MockGovHooksReceiver) AfterProposalVotingPeriodEnded(ctx sdk.Context, p
 }
 
 func TestHooks(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	minDeposit := app.GovKeeper.GetDepositParams(ctx).MinDeposit
-	addrs := simapp.AddTestAddrs(app, ctx, 1, minDeposit[0].Amount)
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 1, minDeposit[0].Amount)
 
 	govHooksReceiver := MockGovHooksReceiver{}
 

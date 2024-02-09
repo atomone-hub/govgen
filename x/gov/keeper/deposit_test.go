@@ -7,16 +7,16 @@ import (
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/atomone-hub/govgen/v1/simapp"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func TestDeposits(t *testing.T) {
-	app := simapp.Setup(false)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	TestAddrs := simapp.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(10000000))
+	TestAddrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(10000000))
 
 	tp := TestProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
