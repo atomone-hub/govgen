@@ -4,20 +4,21 @@ import (
 	"encoding/json"
 	"testing"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 func TestImportExportQueues(t *testing.T) {

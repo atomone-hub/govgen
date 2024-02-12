@@ -11,6 +11,8 @@ import (
 	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
@@ -24,7 +26,6 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	legacygovclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 	legacyrest "github.com/cosmos/cosmos-sdk/x/gov/client/rest"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 var (
@@ -52,9 +53,7 @@ func (AppModuleBasic) Name() string {
 }
 
 // RegisterLegacyAminoCodec registers the gov module's types for the given codec.
-func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	types.RegisterLegacyAminoCodec(cdc)
-}
+func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {}
 
 // DefaultGenesis returns default genesis state as raw bytes for the gov
 // module.
@@ -103,9 +102,7 @@ func (AppModuleBasic) GetQueryCmd() *cobra.Command {
 }
 
 // RegisterInterfaces implements InterfaceModule.RegisterInterfaces
-func (a AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
-	types.RegisterInterfaces(registry)
-}
+func (a AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {}
 
 // AppModule implements an application module for the gov module.
 type AppModule struct {

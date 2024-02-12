@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/atomone-hub/govgen/v1/ante"
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/stretchr/testify/suite"
 	tmrand "github.com/tendermint/tendermint/libs/rand"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
+	"github.com/atomone-hub/govgen/v1/ante"
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 var (

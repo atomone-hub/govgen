@@ -3,13 +3,14 @@ package gov_test
 import (
 	"testing"
 
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/stretchr/testify/require"
 	abcitypes "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 func TestItCreatesModuleAccountOnInitBlock(t *testing.T) {

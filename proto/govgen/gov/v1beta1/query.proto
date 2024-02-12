@@ -1,12 +1,12 @@
 syntax = "proto3";
-package cosmos.gov.v1beta1;
+package govgen.gov.v1beta1;
 
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
-import "cosmos/gov/v1beta1/gov.proto";
+import "govgen/gov/v1beta1/gov.proto";
 
-option go_package = "github.com/cosmos/cosmos-sdk/x/gov/types";
+option go_package = "github.com/atomone-hub/govgen/v1/x/gov/types";
 
 // Query defines the gRPC querier service for gov module
 service Query {

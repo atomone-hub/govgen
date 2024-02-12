@@ -5,17 +5,18 @@ import (
 	"regexp"
 	"testing"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	"github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/rpc/client/mock"
 	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	"github.com/atomone-hub/govgen/v1/x/gov/client/utils"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/legacy/legacytx"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 type TxSearchMock struct {

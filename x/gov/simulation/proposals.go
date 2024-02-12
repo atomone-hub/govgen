@@ -5,9 +5,9 @@ import (
 
 	appparams "github.com/atomone-hub/govgen/v1/app/params"
 
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 )
 
