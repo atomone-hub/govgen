@@ -5,10 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/spf13/cobra"
-
 	gcutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"

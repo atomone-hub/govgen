@@ -7,6 +7,11 @@ import (
 	"os"
 	"path/filepath"
 
+	govgenante "github.com/atomone-hub/govgen/v1/ante"
+	"github.com/atomone-hub/govgen/v1/app/keepers"
+	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
+	"github.com/atomone-hub/govgen/v1/app/upgrades"
+	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
 	"github.com/spf13/cast"
@@ -15,12 +20,6 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
-
-	govgenante "github.com/atomone-hub/govgen/v1/ante"
-	"github.com/atomone-hub/govgen/v1/app/keepers"
-	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/app/upgrades"
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"

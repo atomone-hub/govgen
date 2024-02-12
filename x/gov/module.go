@@ -12,7 +12,6 @@ import (
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
-
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"

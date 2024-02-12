@@ -1,10 +1,9 @@
 package keepers
 
 import (
-	tmos "github.com/tendermint/tendermint/libs/os"
-
 	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
+	tmos "github.com/tendermint/tendermint/libs/os"
 
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"

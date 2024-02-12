@@ -3,9 +3,8 @@ package types
 import (
 	"fmt"
 
-	yaml "gopkg.in/yaml.v2"
-
 	"github.com/gogo/protobuf/proto"
+	yaml "gopkg.in/yaml.v2"
 
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -101,11 +100,7 @@ func (m MsgSubmitProposal) ValidateBasic() error {
 	if !IsValidProposalType(content.ProposalType()) {
 		return sdkerrors.Wrap(ErrInvalidProposalType, content.ProposalType())
 	}
-	if err := content.ValidateBasic(); err != nil {
-		return err
-	}
-
-	return nil
+	return content.ValidateBasic()
 }
 
 // GetSignBytes implements Msg
