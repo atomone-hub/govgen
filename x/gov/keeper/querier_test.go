@@ -10,6 +10,10 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -202,7 +206,7 @@ func TestQueries(t *testing.T) {
 
 	proposal2.TotalDeposit = proposal2.TotalDeposit.Add(deposit4.Amount...)
 	proposal2.Status = types.StatusVotingPeriod
-	proposal2.VotingEndTime = proposal2.VotingEndTime.Add(types.DefaultPeriod)
+	proposal2.VotingEndTime = proposal2.VotingEndTime.Add(types.DefaultPeriodText)
 
 	deposit5 := types.NewDeposit(proposal3.ProposalId, TestAddrs[1], depositParams.MinDeposit)
 	depositer5, err := sdk.AccAddressFromBech32(deposit5.Depositor)
@@ -212,7 +216,7 @@ func TestQueries(t *testing.T) {
 
 	proposal3.TotalDeposit = proposal3.TotalDeposit.Add(deposit5.Amount...)
 	proposal3.Status = types.StatusVotingPeriod
-	proposal3.VotingEndTime = proposal3.VotingEndTime.Add(types.DefaultPeriod)
+	proposal3.VotingEndTime = proposal3.VotingEndTime.Add(types.DefaultPeriodText)
 	// total deposit of TestAddrs[1] on proposal #3 is worth the proposal deposit + individual deposit
 	deposit5.Amount = deposit5.Amount.Add(deposit3.Amount...)
 

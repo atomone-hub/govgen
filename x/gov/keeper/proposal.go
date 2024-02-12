@@ -2,10 +2,13 @@ package keeper
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	paramsproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
@@ -186,7 +189,18 @@ func (keeper Keeper) SetProposalID(ctx sdk.Context, proposalID uint64) {
 
 func (keeper Keeper) ActivateVotingPeriod(ctx sdk.Context, proposal types.Proposal) {
 	proposal.VotingStartTime = ctx.BlockHeader().Time
-	votingPeriod := keeper.GetVotingParams(ctx).VotingPeriod
+	var votingPeriod time.Duration
+	switch proposal.GetContent().(type) {
+	case *paramsproposal.ParameterChangeProposal:
+		votingPeriod = keeper.GetVotingParams(ctx).VotingPeriodParamsChange
+	case *upgradetypes.CancelSoftwareUpgradeProposal, *upgradetypes.SoftwareUpgradeProposal:
+		votingPeriod = keeper.GetVotingParams(ctx).VotingPeriodUpgrade
+	case *types.TextProposal:
+		votingPeriod = keeper.GetVotingParams(ctx).VotingPeriodText
+	}
+	if votingPeriod == 0 {
+		panic("cannot find voting period for proposal " + proposal.GetContent().ProposalType())
+	}
 	proposal.VotingEndTime = proposal.VotingStartTime.Add(votingPeriod)
 	proposal.Status = types.StatusVotingPeriod
 	keeper.SetProposal(ctx, proposal)

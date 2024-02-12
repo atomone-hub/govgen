@@ -195,7 +195,7 @@ func SimulateMsgSubmitProposal(
 
 		// didntVote := whoVotes[numVotes:]
 		whoVotes = whoVotes[:numVotes]
-		votingPeriod := k.GetVotingParams(ctx).VotingPeriod
+		votingPeriod := k.GetVotingParams(ctx).VotingPeriodText
 
 		fops := make([]simtypes.FutureOperation, numVotes+1)
 		for i := 0; i < numVotes; i++ {

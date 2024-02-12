@@ -10,6 +10,11 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -34,7 +39,7 @@ func TestImportExportQueues(t *testing.T) {
 	ctx = app.BaseApp.NewContext(false, tmproto.Header{})
 
 	// Create two proposals, put the second into the voting period
-	proposal := TestProposal
+	proposal := TestTextProposal
 	proposal1, err := app.GovKeeper.SubmitProposal(ctx, proposal)
 	require.NoError(t, err)
 	proposalID1 := proposal1.ProposalId
@@ -90,7 +95,7 @@ func TestImportExportQueues(t *testing.T) {
 	ctx2 := app2.BaseApp.NewContext(false, tmproto.Header{})
 
 	// Jump the time forward past the DepositPeriod and VotingPeriod
-	ctx2 = ctx2.WithBlockTime(ctx2.BlockHeader().Time.Add(app2.GovKeeper.GetDepositParams(ctx2).MaxDepositPeriod).Add(app2.GovKeeper.GetVotingParams(ctx2).VotingPeriod))
+	ctx2 = ctx2.WithBlockTime(ctx2.BlockHeader().Time.Add(app2.GovKeeper.GetDepositParams(ctx2).MaxDepositPeriod).Add(app2.GovKeeper.GetVotingParams(ctx2).VotingPeriodText))
 
 	// Make sure that they are still in the DepositPeriod and VotingPeriod respectively
 	proposal1, ok = app2.GovKeeper.GetProposal(ctx2, proposalID1)
@@ -146,7 +151,7 @@ func TestEqualProposals(t *testing.T) {
 	app.BeginBlock(abci.RequestBeginBlock{Header: header})
 
 	// Submit two proposals
-	proposal := TestProposal
+	proposal := TestTextProposal
 	proposal1, err := app.GovKeeper.SubmitProposal(ctx, proposal)
 	require.NoError(t, err)
 
