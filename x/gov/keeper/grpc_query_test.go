@@ -10,6 +10,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
 func (suite *KeeperTestSuite) TestGRPCQueryProposal() {
@@ -337,7 +338,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryVote() {
 func (suite *KeeperTestSuite) TestGRPCQueryVotes() {
 	app, ctx, queryClient := suite.app, suite.ctx, suite.queryClient
 
-	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(30000000))
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 2, sdk.NewInt(30000000))
 
 	var (
 		req      *types.QueryVotesRequest
@@ -714,7 +715,17 @@ func (suite *KeeperTestSuite) TestGRPCQueryDeposits() {
 func (suite *KeeperTestSuite) TestGRPCQueryTally() {
 	app, ctx, queryClient := suite.app, suite.ctx, suite.queryClient
 
-	addrs, _ := createValidators(suite.T(), ctx, app, []int64{5, 5, 5})
+	_, valAddrs := createValidators(suite.T(), ctx, app, []int64{5, 5, 5})
+	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
+
+	delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 5)
+	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
+	suite.Require().True(found)
+
+	for _, addr := range addrs {
+		_, err := app.StakingKeeper.Delegate(ctx, addr, delTokens, stakingtypes.Unbonded, val1, true)
+		suite.Require().NoError(err)
+	}
 
 	var (
 		req      *types.QueryTallyResultRequest

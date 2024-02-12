@@ -14,4 +14,5 @@ var (
 	ErrInvalidVote             = sdkerrors.Register(ModuleName, 70, "invalid vote option")
 	ErrInvalidGenesis          = sdkerrors.Register(ModuleName, 80, "invalid genesis state")
 	ErrNoProposalHandlerExists = sdkerrors.Register(ModuleName, 90, "no handler exists for proposal type")
+	ErrValidatorCannotVote     = sdkerrors.Register(ModuleName, 100, "voting for validators is disabled")
 )
