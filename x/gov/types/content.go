@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkgovtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 // Constants pertaining to a Content object
@@ -31,6 +32,13 @@ type Content interface {
 // Handler defines a function that handles a proposal after it has passed the
 // governance process.
 type Handler func(ctx sdk.Context, content Content) error
+
+// WrapHandler converts a Cosmos SDK gov Handler to GovGen gov Handler
+func WrapSDKHandler(sdkHandler sdkgovtypes.Handler) Handler {
+	return func(ctx sdk.Context, content Content) error {
+		return sdkHandler(ctx, content)
+	}
+}
 
 // ValidateAbstract validates a proposal's abstract contents returning an error
 // if invalid.

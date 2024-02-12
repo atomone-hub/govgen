@@ -30,7 +30,6 @@ import (
 	evidencetypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	"github.com/cosmos/cosmos-sdk/x/feegrant"
 	feegrantkeeper "github.com/cosmos/cosmos-sdk/x/feegrant/keeper"
-	legacygovtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/x/params"
@@ -206,12 +205,12 @@ func NewAppKeeper(
 		appKeepers.SlashingKeeper,
 	)
 
-	govRouter := legacygovtypes.NewRouter()
+	govRouter := govtypes.NewRouter()
 	govRouter.
-		AddRoute(govtypes.RouterKey, legacygovtypes.ProposalHandler).
-		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(appKeepers.ParamsKeeper)).
-		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(appKeepers.DistrKeeper)).
-		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(appKeepers.UpgradeKeeper))
+		AddRoute(govtypes.RouterKey, govtypes.ProposalHandler).
+		AddRoute(paramproposal.RouterKey, govtypes.WrapSDKHandler(params.NewParamChangeProposalHandler(appKeepers.ParamsKeeper))).
+		AddRoute(distrtypes.RouterKey, govtypes.WrapSDKHandler(distr.NewCommunityPoolSpendProposalHandler(appKeepers.DistrKeeper))).
+		AddRoute(upgradetypes.RouterKey, govtypes.WrapSDKHandler(upgrade.NewSoftwareUpgradeProposalHandler(appKeepers.UpgradeKeeper)))
 
 	/*
 		Example of setting gov params:

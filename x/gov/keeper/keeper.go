@@ -11,7 +11,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	legacygovtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 // Keeper defines the governance module Keeper
@@ -35,7 +34,7 @@ type Keeper struct {
 	cdc codec.BinaryCodec
 
 	// Proposal router
-	router legacygovtypes.Router
+	router types.Router
 }
 
 // NewKeeper returns a governance keeper. It handles:
@@ -47,7 +46,7 @@ type Keeper struct {
 // CONTRACT: the parameter Subspace must have the param key table already initialized
 func NewKeeper(
 	cdc codec.BinaryCodec, key sdk.StoreKey, paramSpace types.ParamSubspace,
-	authKeeper types.AccountKeeper, bankKeeper types.BankKeeper, sk types.StakingKeeper, rtr legacygovtypes.Router,
+	authKeeper types.AccountKeeper, bankKeeper types.BankKeeper, sk types.StakingKeeper, rtr types.Router,
 ) Keeper {
 	// ensure governance module account is set
 	if addr := authKeeper.GetModuleAddress(types.ModuleName); addr == nil {
@@ -87,7 +86,7 @@ func (keeper Keeper) Logger(ctx sdk.Context) log.Logger {
 }
 
 // Router returns the gov Keeper's Router
-func (keeper Keeper) Router() legacygovtypes.Router {
+func (keeper Keeper) Router() types.Router {
 	return keeper.router
 }
 
