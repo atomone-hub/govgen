@@ -6,6 +6,9 @@ import (
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
+	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	paramsproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
 
 // RegisterLegacyAminoCodec registers all the necessary types and interfaces for the
@@ -30,6 +33,21 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 		"govgen.gov.v1beta1.Content",
 		(*Content)(nil),
 		&TextProposal{},
+	)
+
+	// Register proposal types (this is actually done in related modules, but
+	// since we are using an other gov module, we need to do it manually).
+	registry.RegisterImplementations(
+		(*Content)(nil),
+		&paramsproposal.ParameterChangeProposal{},
+	)
+	registry.RegisterImplementations(
+		(*Content)(nil),
+		&distrtypes.CommunityPoolSpendProposal{},
+	)
+	registry.RegisterImplementations(
+		(*Content)(nil),
+		&upgradetypes.SoftwareUpgradeProposal{},
 	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
@@ -60,4 +78,15 @@ var (
 func init() {
 	RegisterLegacyAminoCodec(amino)
 	cryptocodec.RegisterCrypto(amino)
+
+	// Register proposal types (this is actually done in related modules, but
+	// since we are using an other gov module, we need to do it manually).
+	RegisterProposalType(distrtypes.ProposalTypeCommunityPoolSpend)
+	RegisterProposalTypeCodec(&distrtypes.CommunityPoolSpendProposal{}, "cosmos-sdk/CommunityPoolSpendProposal")
+	RegisterProposalType(paramsproposal.ProposalTypeChange)
+	RegisterProposalTypeCodec(&paramsproposal.ParameterChangeProposal{}, "cosmos-sdk/ParameterChangeProposal")
+	RegisterProposalType(upgradetypes.ProposalTypeSoftwareUpgrade)
+	RegisterProposalTypeCodec(&upgradetypes.SoftwareUpgradeProposal{}, "cosmos-sdk/SoftwareUpgradeProposal")
+	RegisterProposalType(upgradetypes.ProposalTypeCancelSoftwareUpgrade)
+	RegisterProposalTypeCodec(&upgradetypes.CancelSoftwareUpgradeProposal{}, "cosmos-sdk/CancelSoftwareUpgradeProposal")
 }
