@@ -6,7 +6,6 @@ require (
 	cosmossdk.io/errors v1.0.0
 	github.com/armon/go-metrics v0.4.1
 	github.com/cosmos/cosmos-sdk v0.45.16
-	github.com/cosmos/gogoproto v1.4.3
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.3
 	github.com/google/gofuzz v1.2.0
