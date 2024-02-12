@@ -53,7 +53,9 @@ func (AppModuleBasic) Name() string {
 }
 
 // RegisterLegacyAminoCodec registers the gov module's types for the given codec.
-func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {}
+func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
+	types.RegisterLegacyAminoCodec(cdc)
+}
 
 // DefaultGenesis returns default genesis state as raw bytes for the gov
 // module.
@@ -102,7 +104,9 @@ func (AppModuleBasic) GetQueryCmd() *cobra.Command {
 }
 
 // RegisterInterfaces implements InterfaceModule.RegisterInterfaces
-func (a AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {}
+func (a AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
+	types.RegisterInterfaces(registry)
+}
 
 // AppModule implements an application module for the gov module.
 type AppModule struct {
