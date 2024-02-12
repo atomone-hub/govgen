@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gorilla/mux"
-
 	gcutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/gorilla/mux"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"

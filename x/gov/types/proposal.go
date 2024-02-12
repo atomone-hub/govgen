@@ -23,13 +23,13 @@ func NewProposal(content Content, id uint64, submitTime, depositEndTime time.Tim
 		return Proposal{}, fmt.Errorf("%T does not implement proto.Message", content)
 	}
 
-	any, err := types.NewAnyWithValue(msg)
+	a, err := types.NewAnyWithValue(msg)
 	if err != nil {
 		return Proposal{}, err
 	}
 
 	p := Proposal{
-		Content:          any,
+		Content:          a,
 		ProposalId:       id,
 		Status:           StatusDepositPeriod,
 		FinalTallyResult: EmptyTallyResult(),
@@ -167,7 +167,6 @@ func (status *ProposalStatus) Unmarshal(data []byte) error {
 }
 
 // Format implements the fmt.Formatter interface.
-// nolint: errcheck
 func (status ProposalStatus) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 's':
