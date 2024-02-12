@@ -5,13 +5,13 @@ import (
 	"time"
 
 	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/suite"
 	tmcli "github.com/tendermint/tendermint/libs/cli"
 
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	"github.com/cosmos/cosmos-sdk/testutil/network"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 type DepositTestSuite struct {

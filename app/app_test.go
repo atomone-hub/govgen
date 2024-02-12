@@ -5,12 +5,12 @@ import (
 
 	govgen "github.com/atomone-hub/govgen/v1/app"
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/log"
 	db "github.com/tendermint/tm-db"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 type EmptyAppOptions struct{}

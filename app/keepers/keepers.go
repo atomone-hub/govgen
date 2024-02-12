@@ -2,6 +2,7 @@ package keepers
 
 import (
 	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 	tmos "github.com/tendermint/tendermint/libs/os"
 
 	// unnamed import of statik for swagger UI support
@@ -28,7 +29,6 @@ import (
 	evidencetypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	"github.com/cosmos/cosmos-sdk/x/feegrant"
 	feegrantkeeper "github.com/cosmos/cosmos-sdk/x/feegrant/keeper"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/x/params"
@@ -207,9 +207,9 @@ func NewAppKeeper(
 	govRouter := govtypes.NewRouter()
 	govRouter.
 		AddRoute(govtypes.RouterKey, govtypes.ProposalHandler).
-		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(appKeepers.ParamsKeeper)).
-		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(appKeepers.DistrKeeper)).
-		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(appKeepers.UpgradeKeeper))
+		AddRoute(paramproposal.RouterKey, govtypes.WrapSDKHandler(params.NewParamChangeProposalHandler(appKeepers.ParamsKeeper))).
+		AddRoute(distrtypes.RouterKey, govtypes.WrapSDKHandler(distr.NewCommunityPoolSpendProposalHandler(appKeepers.DistrKeeper))).
+		AddRoute(upgradetypes.RouterKey, govtypes.WrapSDKHandler(upgrade.NewSoftwareUpgradeProposalHandler(appKeepers.UpgradeKeeper)))
 
 	/*
 		Example of setting gov params:

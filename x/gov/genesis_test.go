@@ -7,6 +7,7 @@ import (
 	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/atomone-hub/govgen/v1/x/gov"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
@@ -17,7 +18,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 func TestImportExportQueues(t *testing.T) {

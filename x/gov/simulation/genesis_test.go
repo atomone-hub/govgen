@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -13,7 +14,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 // TestRandomizedGenState tests the normal scenario of applying RandomizedGenState.

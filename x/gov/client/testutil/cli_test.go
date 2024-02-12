@@ -7,11 +7,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/testutil/network"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
+
+	"github.com/cosmos/cosmos-sdk/testutil/network"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func TestIntegrationTestSuite(t *testing.T) {

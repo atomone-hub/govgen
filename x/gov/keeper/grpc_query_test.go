@@ -6,10 +6,10 @@ import (
 	"strconv"
 
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 func (suite *KeeperTestSuite) TestGRPCQueryProposal() {

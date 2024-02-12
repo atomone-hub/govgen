@@ -11,6 +11,7 @@ import (
 	"github.com/atomone-hub/govgen/v1/app/keepers"
 	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
 	"github.com/atomone-hub/govgen/v1/app/upgrades"
+	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
 	"github.com/spf13/cast"
@@ -42,7 +43,6 @@ import (
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )

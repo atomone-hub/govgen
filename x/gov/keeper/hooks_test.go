@@ -7,11 +7,11 @@ import (
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/atomone-hub/govgen/v1/x/gov"
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 var _ types.GovHooks = &MockGovHooksReceiver{}

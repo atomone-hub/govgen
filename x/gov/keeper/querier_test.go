@@ -8,13 +8,13 @@ import (
 
 	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
 const custom = "custom"
