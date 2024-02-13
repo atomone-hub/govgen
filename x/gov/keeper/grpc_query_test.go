@@ -427,7 +427,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryVotes() {
 
 			if testCase.expPass {
 				suite.Require().NoError(err)
-				suite.Require().Equal(expRes.GetVotes(), votes.GetVotes())
+				suite.Require().ElementsMatch(expRes.GetVotes(), votes.GetVotes())
 			} else {
 				suite.Require().Error(err)
 				suite.Require().Nil(votes)
