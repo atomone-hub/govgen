@@ -9,10 +9,6 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 
@@ -236,7 +232,7 @@ func TestTickPassedVotingPeriod(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			app := govgenhelpers.SetupNoValset(t)
+			app := govgenhelpers.SetupNoValset(false)
 			ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 			addrs := govgenhelpers.AddTestAddrs(app, ctx, 10, valTokens)
 
