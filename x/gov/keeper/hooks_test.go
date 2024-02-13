@@ -46,7 +46,7 @@ func (h *MockGovHooksReceiver) AfterProposalVotingPeriodEnded(ctx sdk.Context, p
 }
 
 func TestHooks(t *testing.T) {
-	app := govgenhelpers.Setup(t)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	minDeposit := app.GovKeeper.GetDepositParams(ctx).MinDeposit

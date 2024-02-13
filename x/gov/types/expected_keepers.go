@@ -24,6 +24,8 @@ type StakingKeeper interface {
 		ctx sdk.Context, delegator sdk.AccAddress,
 		fn func(index int64, delegation stakingtypes.DelegationI) (stop bool),
 	)
+	// GetValidator gets a single validator
+	GetValidator(ctx sdk.Context, addr sdk.ValAddress) (validator stakingtypes.Validator, found bool)
 }
 
 // AccountKeeper defines the expected account keeper (noalias)

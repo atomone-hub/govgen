@@ -12,7 +12,7 @@ import (
 )
 
 func TestDeposits(t *testing.T) {
-	app := govgenhelpers.Setup(t)
+	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	TestAddrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 2, sdk.NewInt(10000000))

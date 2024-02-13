@@ -12,7 +12,7 @@ import (
 )
 
 func TestVotes(t *testing.T) {
-	app := govgenhelpers.SetupNoValset(false)
+	app := govgenhelpers.Setup(t)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))
@@ -31,6 +31,12 @@ func TestVotes(t *testing.T) {
 	app.GovKeeper.SetProposal(ctx, proposal)
 
 	require.Error(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(invalidOption)), "invalid option")
+
+	// Test vote from validator
+	vals := app.StakingKeeper.GetAllValidators(ctx)
+	valAddr, err := sdk.ValAddressFromBech32(vals[0].OperatorAddress)
+	require.NoError(t, err)
+	require.Error(t, app.GovKeeper.AddVote(ctx, proposalID, sdk.AccAddress(valAddr.Bytes()), types.NewNonSplitVoteOption(types.OptionAbstain)), "voting for validators is disabled")
 
 	// Test first vote
 	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionAbstain)))
