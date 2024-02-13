@@ -13,5 +13,5 @@
 ### FEATURES
 
 ### STATE BREAKING
-* Remove community spend proposal.
+* Remove community spend proposal ([#13](https://github.com/atomone-hub/govgen/pull/13)).
 
