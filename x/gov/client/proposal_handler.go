@@ -1,11 +1,12 @@
 package client
 
 import (
-	"github.com/atomone-hub/govgen/v1/x/gov/client/rest"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	legacyclient "github.com/cosmos/cosmos-sdk/x/gov/client"
+
+	"github.com/atomone-hub/govgen/v1/x/gov/client/rest"
 )
 
 // function to create the rest handler

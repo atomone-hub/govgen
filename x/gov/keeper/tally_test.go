@@ -3,13 +3,14 @@ package keeper_test
 import (
 	"testing"
 
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 func TestTallyNoOneVotes(t *testing.T) {

@@ -3,8 +3,9 @@ package utils_test
 import (
 	"testing"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 	"github.com/stretchr/testify/require"
+
+	"github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 )
 
 func TestNormalizeWeightedVoteOptions(t *testing.T) {

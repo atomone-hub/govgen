@@ -3,9 +3,6 @@ package keepers
 import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 
-	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
-
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
 
@@ -42,6 +39,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/upgrade"
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+
+	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 type AppKeepers struct {

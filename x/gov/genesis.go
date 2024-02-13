@@ -3,10 +3,10 @@ package gov
 import (
 	"fmt"
 
+	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // InitGenesis - store genesis parameters

@@ -4,13 +4,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/atomone-hub/govgen/v1/x/gov"
-	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	"github.com/atomone-hub/govgen/v1/x/gov"
+	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
 )
 
 func TestInvalidMsg(t *testing.T) {

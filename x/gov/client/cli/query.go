@@ -5,14 +5,15 @@ import (
 	"strconv"
 	"strings"
 
-	gcutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
+
+	gcutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

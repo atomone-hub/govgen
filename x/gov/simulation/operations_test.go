@@ -6,11 +6,6 @@ import (
 	"testing"
 	"time"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	appparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
@@ -18,6 +13,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
+	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 type MockWeightedProposalContent struct {
