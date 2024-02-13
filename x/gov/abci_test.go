@@ -342,7 +342,9 @@ func TestProposalPassedEndblocker(t *testing.T) {
 	require.NoError(t, err)
 
 	newHeader := ctx.BlockHeader()
-	newHeader.Time = ctx.BlockHeader().Time.Add(app.GovKeeper.GetDepositParams(ctx).MaxDepositPeriod).Add(app.GovKeeper.GetVotingParams(ctx).VotingPeriodText)
+	newHeader.Time = ctx.BlockHeader().Time.
+		Add(app.GovKeeper.GetDepositParams(ctx).MaxDepositPeriod).
+		Add(app.GovKeeper.GetVotingPeriod(ctx, TestTextProposal))
 	ctx = ctx.WithBlockHeader(newHeader)
 
 	gov.EndBlocker(ctx, app.GovKeeper)
@@ -383,7 +385,9 @@ func TestEndBlockerProposalHandlerFailed(t *testing.T) {
 	require.NoError(t, err)
 
 	newHeader := ctx.BlockHeader()
-	newHeader.Time = ctx.BlockHeader().Time.Add(app.GovKeeper.GetDepositParams(ctx).MaxDepositPeriod).Add(app.GovKeeper.GetVotingParams(ctx).VotingPeriodText)
+	newHeader.Time = ctx.BlockHeader().Time.
+		Add(app.GovKeeper.GetDepositParams(ctx).MaxDepositPeriod).
+		Add(app.GovKeeper.GetVotingPeriod(ctx, TestTextProposal))
 	ctx = ctx.WithBlockHeader(newHeader)
 
 	// Set the contextKeyBadProposal value to false so that the handler will fail

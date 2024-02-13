@@ -90,7 +90,9 @@ func TestHooks(t *testing.T) {
 	require.True(t, govHooksReceiver.AfterProposalVoteValid)
 
 	newHeader = ctx.BlockHeader()
-	newHeader.Time = ctx.BlockHeader().Time.Add(app.GovKeeper.GetVotingParams(ctx).VotingPeriodText).Add(time.Duration(1) * time.Second)
+	newHeader.Time = ctx.BlockHeader().Time.
+		Add(app.GovKeeper.GetVotingPeriod(ctx, tp)).
+		Add(time.Duration(1) * time.Second)
 	ctx = ctx.WithBlockHeader(newHeader)
 	gov.EndBlocker(ctx, app.GovKeeper)
 	require.True(t, govHooksReceiver.AfterProposalVotingPeriodEndedValid)
