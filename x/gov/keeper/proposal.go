@@ -187,20 +187,21 @@ func (keeper Keeper) SetProposalID(ctx sdk.Context, proposalID uint64) {
 	store.Set(types.ProposalIDKey, types.GetProposalIDBytes(proposalID))
 }
 
+func (keeper Keeper) GetVotingPeriod(ctx sdk.Context, content types.Content) time.Duration {
+	switch content.(type) {
+	case *types.TextProposal:
+		return keeper.GetVotingParams(ctx).VotingPeriodText
+	case *paramsproposal.ParameterChangeProposal:
+		return keeper.GetVotingParams(ctx).VotingPeriodParamsChange
+	case *upgradetypes.SoftwareUpgradeProposal, *upgradetypes.CancelSoftwareUpgradeProposal:
+		return keeper.GetVotingParams(ctx).VotingPeriodUpgrade
+	}
+	panic("cannot find voting period for proposal " + content.ProposalType())
+}
+
 func (keeper Keeper) ActivateVotingPeriod(ctx sdk.Context, proposal types.Proposal) {
 	proposal.VotingStartTime = ctx.BlockHeader().Time
-	var votingPeriod time.Duration
-	switch proposal.GetContent().(type) {
-	case *paramsproposal.ParameterChangeProposal:
-		votingPeriod = keeper.GetVotingParams(ctx).VotingPeriodParamsChange
-	case *upgradetypes.CancelSoftwareUpgradeProposal, *upgradetypes.SoftwareUpgradeProposal:
-		votingPeriod = keeper.GetVotingParams(ctx).VotingPeriodUpgrade
-	case *types.TextProposal:
-		votingPeriod = keeper.GetVotingParams(ctx).VotingPeriodText
-	}
-	if votingPeriod == 0 {
-		panic("cannot find voting period for proposal " + proposal.GetContent().ProposalType())
-	}
+	votingPeriod := keeper.GetVotingPeriod(ctx, proposal.GetContent())
 	proposal.VotingEndTime = proposal.VotingStartTime.Add(votingPeriod)
 	proposal.Status = types.StatusVotingPeriod
 	keeper.SetProposal(ctx, proposal)

@@ -28,10 +28,10 @@ var (
 		"Test", "description", upgradetypes.Plan{
 			Name:   "plan",
 			Height: 42,
-		}, // TODO test such proposal?
+		},
 	)
 	TestCancelUpgradeProposal = upgradetypes.NewCancelSoftwareUpgradeProposal(
-		"Test", "description", // TODO test such proposal?
+		"Test", "description",
 	)
 	TestDescription     = stakingtypes.NewDescription("T", "E", "S", "T", "Z")
 	TestCommissionRates = stakingtypes.NewCommissionRates(sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec())
