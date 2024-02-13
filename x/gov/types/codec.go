@@ -6,7 +6,6 @@ import (
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
-	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	paramsproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
@@ -40,10 +39,6 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 	registry.RegisterImplementations(
 		(*Content)(nil),
 		&paramsproposal.ParameterChangeProposal{},
-	)
-	registry.RegisterImplementations(
-		(*Content)(nil),
-		&distrtypes.CommunityPoolSpendProposal{},
 	)
 	registry.RegisterImplementations(
 		(*Content)(nil),
@@ -85,8 +80,6 @@ func init() {
 
 	// Register proposal types (this is actually done in related modules, but
 	// since we are using an other gov module, we need to do it manually).
-	RegisterProposalType(distrtypes.ProposalTypeCommunityPoolSpend)
-	RegisterProposalTypeCodec(&distrtypes.CommunityPoolSpendProposal{}, "cosmos-sdk/CommunityPoolSpendProposal")
 	RegisterProposalType(paramsproposal.ProposalTypeChange)
 	RegisterProposalTypeCodec(&paramsproposal.ParameterChangeProposal{}, "cosmos-sdk/ParameterChangeProposal")
 	RegisterProposalType(upgradetypes.ProposalTypeSoftwareUpgrade)

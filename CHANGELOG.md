@@ -13,4 +13,5 @@
 ### FEATURES
 
 ### STATE BREAKING
+* Remove community spend proposal.
 
