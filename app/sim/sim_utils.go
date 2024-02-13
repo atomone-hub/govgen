@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	govgen "github.com/atomone-hub/govgen/v1/app"
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
+
+	govgen "github.com/atomone-hub/govgen/v1/app"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/simapp/helpers"
@@ -15,6 +16,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/kv"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	distrsim "github.com/cosmos/cosmos-sdk/x/distribution/simulation"
 )
 
 // SetupSimulation creates the config, db (levelDB), temporary directory and logger for
@@ -70,6 +72,13 @@ func SimulationOperations(app *govgen.GovGenApp, cdc codec.JSONCodec, config sim
 
 	simState.ParamChanges = app.SimulationManager().GenerateParamChanges(config.Seed)
 	simState.Contents = app.SimulationManager().GetProposalContents(simState)
+	// Remove disabled community spend proposal
+	for i := 0; i < len(simState.Contents); i++ {
+		if simState.Contents[i].AppParamsKey() == distrsim.OpWeightSubmitCommunitySpendProposal {
+			simState.Contents = append(simState.Contents[:i], simState.Contents[i+1:]...)
+			break
+		}
+	}
 	return app.SimulationManager().WeightedOperations(simState)
 }
 

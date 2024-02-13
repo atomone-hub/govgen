@@ -16,5 +16,7 @@
   ([#4](https://github.com/atomone-hub/govgen/pull/4)).
 * Removed ability for validators to vote on proposals
   ([#10](https://github.com/atomone-hub/govgen/pull/10)).
+* Remove community spend proposal
+  ([#13](https://github.com/atomone-hub/govgen/pull/13)).
 
 ### STATE BREAKING

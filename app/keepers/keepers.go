@@ -1,9 +1,10 @@
 package keepers
 
 import (
+	tmos "github.com/tendermint/tendermint/libs/os"
+
 	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
 	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
-	tmos "github.com/tendermint/tendermint/libs/os"
 
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
@@ -22,7 +23,6 @@ import (
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	crisiskeeper "github.com/cosmos/cosmos-sdk/x/crisis/keeper"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
-	distr "github.com/cosmos/cosmos-sdk/x/distribution"
 	distrkeeper "github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	evidencekeeper "github.com/cosmos/cosmos-sdk/x/evidence/keeper"
@@ -208,7 +208,6 @@ func NewAppKeeper(
 	govRouter.
 		AddRoute(govtypes.RouterKey, govtypes.ProposalHandler).
 		AddRoute(paramproposal.RouterKey, govtypes.WrapSDKHandler(params.NewParamChangeProposalHandler(appKeepers.ParamsKeeper))).
-		AddRoute(distrtypes.RouterKey, govtypes.WrapSDKHandler(distr.NewCommunityPoolSpendProposalHandler(appKeepers.DistrKeeper))).
 		AddRoute(upgradetypes.RouterKey, govtypes.WrapSDKHandler(upgrade.NewSoftwareUpgradeProposalHandler(appKeepers.UpgradeKeeper)))
 
 	/*
