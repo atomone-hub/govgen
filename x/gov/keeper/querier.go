@@ -1,13 +1,14 @@
 package keeper
 
 import (
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 // NewQuerier creates a new gov Querier instance
@@ -72,8 +73,7 @@ func queryParams(ctx sdk.Context, path []string, req abci.RequestQuery, keeper K
 	}
 }
 
-//nolint: unparam
-func queryProposal(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func queryProposal(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) { //nolint: unparam
 	var params types.QueryProposalParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
 	if err != nil {
@@ -93,8 +93,7 @@ func queryProposal(ctx sdk.Context, path []string, req abci.RequestQuery, keeper
 	return bz, nil
 }
 
-//nolint: unparam
-func queryDeposit(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func queryDeposit(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) { //nolint: unparam
 	var params types.QueryDepositParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
 	if err != nil {
@@ -110,8 +109,7 @@ func queryDeposit(ctx sdk.Context, path []string, req abci.RequestQuery, keeper 
 	return bz, nil
 }
 
-//nolint: unparam
-func queryVote(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func queryVote(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) { //nolint: unparam
 	var params types.QueryVoteParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
 	if err != nil {
@@ -127,8 +125,7 @@ func queryVote(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Kee
 	return bz, nil
 }
 
-//nolint: unparam
-func queryDeposits(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func queryDeposits(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) { //nolint: unparam
 	var params types.QueryProposalParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
 	if err != nil {
@@ -148,8 +145,7 @@ func queryDeposits(ctx sdk.Context, path []string, req abci.RequestQuery, keeper
 	return bz, nil
 }
 
-//nolint: unparam
-func queryTally(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func queryTally(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) { //nolint: unparam
 	var params types.QueryProposalParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
 	if err != nil {
@@ -185,8 +181,7 @@ func queryTally(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Ke
 	return bz, nil
 }
 
-//nolint: unparam
-func queryVotes(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func queryVotes(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) { //nolint: unparam
 	var params types.QueryProposalVotesParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
 	if err != nil {

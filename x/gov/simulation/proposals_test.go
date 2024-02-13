@@ -4,13 +4,14 @@ import (
 	"math/rand"
 	"testing"
 
-	appparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
+	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
 )
 
 func TestProposalContents(t *testing.T) {

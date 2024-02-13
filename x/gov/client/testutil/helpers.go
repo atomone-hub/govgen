@@ -3,13 +3,13 @@ package testutil
 import (
 	"fmt"
 
-	govcli "github.com/atomone-hub/govgen/v1/x/gov/client/cli"
-
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	govcli "github.com/atomone-hub/govgen/v1/x/gov/client/cli"
 )
 
 var commonArgs = []string{

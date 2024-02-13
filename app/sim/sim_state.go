@@ -8,8 +8,6 @@ import (
 	"os"
 	"time"
 
-	govgen "github.com/atomone-hub/govgen/v1/app"
-	appparams "github.com/atomone-hub/govgen/v1/app/params"
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	tmtypes "github.com/tendermint/tendermint/types"
 
@@ -21,6 +19,9 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	govgen "github.com/atomone-hub/govgen/v1/app"
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
 )
 
 // AppStateFn returns the initial application state using a genesis or the simulation parameters.

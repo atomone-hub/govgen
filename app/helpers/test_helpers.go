@@ -10,7 +10,6 @@ import (
 	"testing"
 	"time"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/crypto"
@@ -33,6 +32,8 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
 )
 
 // SimAppChainID hardcoded chainID for simulation

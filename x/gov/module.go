@@ -8,12 +8,6 @@ import (
 	"fmt"
 	"math/rand"
 
-	govclient "github.com/atomone-hub/govgen/v1/x/gov/client"
-	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
-	govrest "github.com/atomone-hub/govgen/v1/x/gov/client/rest"
-	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
@@ -26,6 +20,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	sdkgovclient "github.com/cosmos/cosmos-sdk/x/gov/client"
+
+	govclient "github.com/atomone-hub/govgen/v1/x/gov/client"
+	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
+	govrest "github.com/atomone-hub/govgen/v1/x/gov/client/rest"
+	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 var (

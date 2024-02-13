@@ -3,12 +3,12 @@ package simulation
 import (
 	"math/rand"
 
-	appparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
+
+	appparams "github.com/atomone-hub/govgen/v1/app/params"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 // OpWeightSubmitTextProposal app params key for text proposal

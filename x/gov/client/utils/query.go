@@ -3,12 +3,12 @@ package utils
 import (
 	"fmt"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
-
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
+
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 const (

@@ -3,20 +3,21 @@ package keeper_test
 import (
 	"testing"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 var TestProposal = types.NewTextProposal("Test", "description")
 
-func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) { //nolint: thelper
+func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) { //nolint: thelper,unparam
 	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))
 	valAddrs := govgenhelpers.ConvertAddrsToValAddrs(addrs)
 	pks := govgenhelpers.CreateTestPubKeys(5)

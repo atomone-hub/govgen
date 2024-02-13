@@ -1,10 +1,10 @@
 package keeper
 
 import (
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 // TODO: Break into several smaller functions for clarity

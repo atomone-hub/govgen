@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	govutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 	"github.com/spf13/pflag"
+
+	govutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
 )
 
 func parseSubmitProposalFlags(fs *pflag.FlagSet) (*proposal, error) {

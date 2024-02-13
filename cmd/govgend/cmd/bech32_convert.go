@@ -3,8 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	addressutil "github.com/atomone-hub/govgen/v1/pkg/address"
 	"github.com/spf13/cobra"
+
+	addressutil "github.com/atomone-hub/govgen/v1/pkg/address"
 )
 
 var flagBech32Prefix = "prefix"
