@@ -12,7 +12,7 @@ import (
 
 // Default period for deposits & voting
 const (
-	DefaultPeriod             time.Duration = time.Hour * 24 * 2   // 2 days
+	DefaultPeriodDeposit      time.Duration = time.Hour * 24 * 2   // 2 days
 	DefaultPeriodParamsChange time.Duration = time.Hour * 24 * 14  // 2 weeks
 	DefaultPeriodUpgrade      time.Duration = time.Hour * 24 * 28  // 4 weeks
 	DefaultPeriodText         time.Duration = time.Hour * 24 * 365 // 1 year
@@ -54,7 +54,7 @@ func NewDepositParams(minDeposit sdk.Coins, maxDepositPeriod time.Duration) Depo
 func DefaultDepositParams() DepositParams {
 	return NewDepositParams(
 		sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, DefaultMinDepositTokens)),
-		DefaultPeriod,
+		DefaultPeriodDeposit,
 	)
 }
 
