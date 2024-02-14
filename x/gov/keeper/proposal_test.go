@@ -7,12 +7,14 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
+	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
 	"github.com/atomone-hub/govgen/v1/x/gov/types"
 )
 
 func (suite *KeeperTestSuite) TestGetSetProposal() {
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := suite.app.GovKeeper.SubmitProposal(suite.ctx, tp)
 	suite.Require().NoError(err)
 	proposalID := proposal.ProposalId
@@ -24,7 +26,7 @@ func (suite *KeeperTestSuite) TestGetSetProposal() {
 }
 
 func (suite *KeeperTestSuite) TestActivateVotingPeriod() {
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := suite.app.GovKeeper.SubmitProposal(suite.ctx, tp)
 	suite.Require().NoError(err)
 
@@ -78,7 +80,7 @@ func (suite *KeeperTestSuite) TestGetProposalsFiltered() {
 
 	for _, s := range status {
 		for i := 0; i < 50; i++ {
-			p, err := types.NewProposal(TestProposal, proposalID, time.Now(), time.Now())
+			p, err := types.NewProposal(govgenhelpers.TestTextProposal, proposalID, time.Now(), time.Now())
 			suite.Require().NoError(err)
 
 			p.Status = s
@@ -123,6 +125,60 @@ func (suite *KeeperTestSuite) TestGetProposalsFiltered() {
 					suite.Require().Equal(tc.params.ProposalStatus, p.Status)
 				}
 			}
+		})
+	}
+}
+
+func (suite *KeeperTestSuite) TestGetVotingPeriod() {
+	tests := []struct {
+		name                 string
+		content              types.Content
+		expectedVotingPeriod time.Duration
+		expectedPanic        string
+	}{
+		{
+			name:                 "text proposal",
+			content:              govgenhelpers.TestTextProposal,
+			expectedVotingPeriod: types.DefaultPeriodText,
+		},
+		{
+			name:                 "param changes proposal",
+			content:              govgenhelpers.TestParamsChangeProposal,
+			expectedVotingPeriod: types.DefaultPeriodParamsChange,
+		},
+		{
+			name:                 "software upgrade proposal",
+			content:              govgenhelpers.TestSoftwareUpgradeProposal,
+			expectedVotingPeriod: types.DefaultPeriodUpgrade,
+		},
+		{
+			name:                 "cancel software upgrade proposal",
+			content:              govgenhelpers.TestCancelSoftwareUpgradeProposal,
+			expectedVotingPeriod: types.DefaultPeriodUpgrade,
+		},
+		{
+			name: "unhandled proposal",
+			content: distrtypes.NewCommunityPoolSpendProposal(
+				"title", "desc", sdk.AccAddress{},
+				sdk.NewCoins(sdk.NewInt64Coin("igovgen", 1)),
+			),
+			expectedPanic: "cannot find voting period for proposal CommunityPoolSpend",
+		},
+	}
+	for _, tt := range tests {
+		suite.Run(tt.name, func() {
+			defer func() {
+				r := recover()
+				if tt.expectedPanic != "" {
+					suite.Require().Equal(tt.expectedPanic, r)
+					return
+				}
+				suite.Require().Nilf(r, "unexpected panic")
+			}()
+
+			vp := suite.app.GovKeeper.GetVotingPeriod(suite.ctx, tt.content)
+
+			suite.Require().Equal(tt.expectedVotingPeriod, vp)
 		})
 	}
 }

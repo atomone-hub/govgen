@@ -211,22 +211,22 @@ func TestTickPassedVotingPeriod(t *testing.T) {
 	}{
 		{
 			name:         "text proposal",
-			content:      TestTextProposal,
+			content:      govgenhelpers.TestTextProposal,
 			votingPeriod: types.DefaultPeriodText,
 		},
 		{
 			name:         "params change proposal",
-			content:      TestParamsChangeProposal,
+			content:      govgenhelpers.TestParamsChangeProposal,
 			votingPeriod: types.DefaultPeriodParamsChange,
 		},
 		{
 			name:         "upgrade proposal",
-			content:      TestUpgradeProposal,
+			content:      govgenhelpers.TestSoftwareUpgradeProposal,
 			votingPeriod: types.DefaultPeriodUpgrade,
 		},
 		{
 			name:         "cancel upgrade proposal",
-			content:      TestCancelUpgradeProposal,
+			content:      govgenhelpers.TestCancelSoftwareUpgradeProposal,
 			votingPeriod: types.DefaultPeriodUpgrade,
 		},
 	}
@@ -323,7 +323,7 @@ func TestProposalPassedEndblocker(t *testing.T) {
 	require.NotNil(t, macc)
 	initialModuleAccCoins := app.BankKeeper.GetAllBalances(ctx, macc.GetAddress())
 
-	proposal, err := app.GovKeeper.SubmitProposal(ctx, TestTextProposal)
+	proposal, err := app.GovKeeper.SubmitProposal(ctx, govgenhelpers.TestTextProposal)
 	require.NoError(t, err)
 
 	proposalCoins := sdk.Coins{sdk.NewCoin(sdk.DefaultBondDenom, app.StakingKeeper.TokensFromConsensusPower(ctx, 10))}
@@ -344,7 +344,7 @@ func TestProposalPassedEndblocker(t *testing.T) {
 	newHeader := ctx.BlockHeader()
 	newHeader.Time = ctx.BlockHeader().Time.
 		Add(app.GovKeeper.GetDepositParams(ctx).MaxDepositPeriod).
-		Add(app.GovKeeper.GetVotingPeriod(ctx, TestTextProposal))
+		Add(app.GovKeeper.GetVotingPeriod(ctx, govgenhelpers.TestTextProposal))
 	ctx = ctx.WithBlockHeader(newHeader)
 
 	gov.EndBlocker(ctx, app.GovKeeper)
@@ -373,7 +373,7 @@ func TestEndBlockerProposalHandlerFailed(t *testing.T) {
 	// Create a proposal where the handler will pass for the test proposal
 	// because the value of contextKeyBadProposal is true.
 	ctx = ctx.WithValue(contextKeyBadProposal, true)
-	proposal, err := app.GovKeeper.SubmitProposal(ctx, TestTextProposal)
+	proposal, err := app.GovKeeper.SubmitProposal(ctx, govgenhelpers.TestTextProposal)
 	require.NoError(t, err)
 
 	proposalCoins := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, app.StakingKeeper.TokensFromConsensusPower(ctx, 10)))
@@ -387,7 +387,7 @@ func TestEndBlockerProposalHandlerFailed(t *testing.T) {
 	newHeader := ctx.BlockHeader()
 	newHeader.Time = ctx.BlockHeader().Time.
 		Add(app.GovKeeper.GetDepositParams(ctx).MaxDepositPeriod).
-		Add(app.GovKeeper.GetVotingPeriod(ctx, TestTextProposal))
+		Add(app.GovKeeper.GetVotingPeriod(ctx, govgenhelpers.TestTextProposal))
 	ctx = ctx.WithBlockHeader(newHeader)
 
 	// Set the contextKeyBadProposal value to false so that the handler will fail

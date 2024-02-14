@@ -18,7 +18,7 @@ func TestVotes(t *testing.T) {
 
 	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId

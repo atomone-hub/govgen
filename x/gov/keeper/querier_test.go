@@ -156,7 +156,7 @@ func TestQueries(t *testing.T) {
 	oneCoins := sdk.NewCoins(sdk.NewInt64Coin(sdk.DefaultBondDenom, 1))
 	consCoins := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, app.StakingKeeper.TokensFromConsensusPower(ctx, 10)))
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 
 	depositParams, _, _ := getQueriedParams(t, ctx, legacyQuerierCdc, querier)
 

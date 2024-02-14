@@ -11,28 +11,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	paramsproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
-	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
 
 var (
-	valTokens                = sdk.TokensFromConsensusPower(42, sdk.DefaultPowerReduction)
-	TestTextProposal         = types.NewTextProposal("Test", "description")
-	TestParamsChangeProposal = paramsproposal.NewParameterChangeProposal(
-		"Test", "description", []paramsproposal.ParamChange{}, // TODO test such proposal?
-	)
-	TestUpgradeProposal = upgradetypes.NewSoftwareUpgradeProposal(
-		"Test", "description", upgradetypes.Plan{
-			Name:   "plan",
-			Height: 42,
-		},
-	)
-	TestCancelUpgradeProposal = upgradetypes.NewCancelSoftwareUpgradeProposal(
-		"Test", "description",
-	)
+	valTokens           = sdk.TokensFromConsensusPower(42, sdk.DefaultPowerReduction)
 	TestDescription     = stakingtypes.NewDescription("T", "E", "S", "T", "Z")
 	TestCommissionRates = stakingtypes.NewCommissionRates(sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec())
 )

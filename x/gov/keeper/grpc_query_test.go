@@ -276,7 +276,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryVote() {
 			"no votes present",
 			func() {
 				var err error
-				proposal, err = app.GovKeeper.SubmitProposal(ctx, TestProposal)
+				proposal, err = app.GovKeeper.SubmitProposal(ctx, govgenhelpers.TestTextProposal)
 				suite.Require().NoError(err)
 
 				req = &types.QueryVoteRequest{
@@ -381,7 +381,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryVotes() {
 			"create a proposal and get votes",
 			func() {
 				var err error
-				proposal, err = app.GovKeeper.SubmitProposal(ctx, TestProposal)
+				proposal, err = app.GovKeeper.SubmitProposal(ctx, govgenhelpers.TestTextProposal)
 				suite.Require().NoError(err)
 
 				req = &types.QueryVotesRequest{
@@ -572,7 +572,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryDeposit() {
 			"no deposits proposal",
 			func() {
 				var err error
-				proposal, err = app.GovKeeper.SubmitProposal(ctx, TestProposal)
+				proposal, err = app.GovKeeper.SubmitProposal(ctx, govgenhelpers.TestTextProposal)
 				suite.Require().NoError(err)
 				suite.Require().NotNil(proposal)
 
@@ -661,7 +661,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryDeposits() {
 			"create a proposal and get deposits",
 			func() {
 				var err error
-				proposal, err = app.GovKeeper.SubmitProposal(ctx, TestProposal)
+				proposal, err = app.GovKeeper.SubmitProposal(ctx, govgenhelpers.TestTextProposal)
 				suite.Require().NoError(err)
 
 				req = &types.QueryDepositsRequest{
@@ -763,7 +763,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryTally() {
 			"create a proposal and get tally",
 			func() {
 				var err error
-				proposal, err = app.GovKeeper.SubmitProposal(ctx, TestProposal)
+				proposal, err = app.GovKeeper.SubmitProposal(ctx, govgenhelpers.TestTextProposal)
 				suite.Require().NoError(err)
 				suite.Require().NotNil(proposal)
 

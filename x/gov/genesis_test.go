@@ -34,7 +34,7 @@ func TestImportExportQueues(t *testing.T) {
 	ctx = app.BaseApp.NewContext(false, tmproto.Header{})
 
 	// Create two proposals, put the second into the voting period
-	proposal := TestTextProposal
+	proposal := govgenhelpers.TestTextProposal
 	proposal1, err := app.GovKeeper.SubmitProposal(ctx, proposal)
 	require.NoError(t, err)
 	proposalID1 := proposal1.ProposalId
@@ -148,7 +148,7 @@ func TestEqualProposals(t *testing.T) {
 	app.BeginBlock(abci.RequestBeginBlock{Header: header})
 
 	// Submit two proposals
-	proposal := TestTextProposal
+	proposal := govgenhelpers.TestTextProposal
 	proposal1, err := app.GovKeeper.SubmitProposal(ctx, proposal)
 	require.NoError(t, err)
 
