@@ -164,17 +164,17 @@ message DepositParams {
 // VotingParams defines the params for voting on governance proposals.
 message VotingParams {
   //  Length of the voting period.
-  google.protobuf.Duration voting_period_params_change = 1 [
+  google.protobuf.Duration voting_period_parameter_change = 1 [
     (gogoproto.nullable)    = false,
     (gogoproto.stdduration) = true,
-    (gogoproto.jsontag)     = "voting_period_params_change,omitempty",
-    (gogoproto.moretags)    = "yaml:\"voting_period_params_change\""
+    (gogoproto.jsontag)     = "voting_period_parameter_change,omitempty",
+    (gogoproto.moretags)    = "yaml:\"voting_period_parameter_change\""
   ];
-  google.protobuf.Duration voting_period_upgrade = 2 [
+  google.protobuf.Duration voting_period_software_upgrade = 2 [
     (gogoproto.nullable)    = false,
     (gogoproto.stdduration) = true,
-    (gogoproto.jsontag)     = "voting_period_upgrade,omitempty",
-    (gogoproto.moretags)    = "yaml:\"voting_period_upgrade\""
+    (gogoproto.jsontag)     = "voting_period_software_upgrade,omitempty",
+    (gogoproto.moretags)    = "yaml:\"voting_period_software_upgrade\""
   ];
   google.protobuf.Duration voting_period_text = 3 [
     (gogoproto.nullable)    = false,

@@ -134,7 +134,6 @@ func (suite *KeeperTestSuite) TestGetVotingPeriod() {
 		name                 string
 		content              types.Content
 		expectedVotingPeriod time.Duration
-		expectedPanic        string
 	}{
 		{
 			name:                 "text proposal",
@@ -144,17 +143,17 @@ func (suite *KeeperTestSuite) TestGetVotingPeriod() {
 		{
 			name:                 "param changes proposal",
 			content:              govgenhelpers.TestParamsChangeProposal,
-			expectedVotingPeriod: types.DefaultPeriodParamsChange,
+			expectedVotingPeriod: types.DefaultPeriodParameterChange,
 		},
 		{
 			name:                 "software upgrade proposal",
 			content:              govgenhelpers.TestSoftwareUpgradeProposal,
-			expectedVotingPeriod: types.DefaultPeriodUpgrade,
+			expectedVotingPeriod: types.DefaultPeriodSoftwareUpgrade,
 		},
 		{
 			name:                 "cancel software upgrade proposal",
 			content:              govgenhelpers.TestCancelSoftwareUpgradeProposal,
-			expectedVotingPeriod: types.DefaultPeriodUpgrade,
+			expectedVotingPeriod: types.DefaultPeriodSoftwareUpgrade,
 		},
 		{
 			name: "unhandled proposal",
@@ -162,20 +161,11 @@ func (suite *KeeperTestSuite) TestGetVotingPeriod() {
 				"title", "desc", sdk.AccAddress{},
 				sdk.NewCoins(sdk.NewInt64Coin("igovgen", 1)),
 			),
-			expectedPanic: "cannot find voting period for proposal CommunityPoolSpend",
+			expectedVotingPeriod: types.DefaultPeriod,
 		},
 	}
 	for _, tt := range tests {
 		suite.Run(tt.name, func() {
-			defer func() {
-				r := recover()
-				if tt.expectedPanic != "" {
-					suite.Require().Equal(tt.expectedPanic, r)
-					return
-				}
-				suite.Require().Nilf(r, "unexpected panic")
-			}()
-
 			vp := suite.app.GovKeeper.GetVotingPeriod(suite.ctx, tt.content)
 
 			suite.Require().Equal(tt.expectedVotingPeriod, vp)

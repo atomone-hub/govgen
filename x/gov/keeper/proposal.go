@@ -192,11 +192,11 @@ func (keeper Keeper) GetVotingPeriod(ctx sdk.Context, content types.Content) tim
 	case *types.TextProposal:
 		return keeper.GetVotingParams(ctx).VotingPeriodText
 	case *paramsproposal.ParameterChangeProposal:
-		return keeper.GetVotingParams(ctx).VotingPeriodParamsChange
+		return keeper.GetVotingParams(ctx).VotingPeriodParameterChange
 	case *upgradetypes.SoftwareUpgradeProposal, *upgradetypes.CancelSoftwareUpgradeProposal:
-		return keeper.GetVotingParams(ctx).VotingPeriodUpgrade
+		return keeper.GetVotingParams(ctx).VotingPeriodSoftwareUpgrade
 	}
-	panic("cannot find voting period for proposal " + content.ProposalType())
+	return types.DefaultPeriod
 }
 
 func (keeper Keeper) ActivateVotingPeriod(ctx sdk.Context, proposal types.Proposal) {
