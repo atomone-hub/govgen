@@ -215,17 +215,17 @@ func TestTickPassedVotingPeriod(t *testing.T) {
 			votingPeriod: types.DefaultPeriodText,
 		},
 		{
-			name:         "params change proposal",
-			content:      govgenhelpers.TestParamsChangeProposal,
+			name:         "parameter change proposal",
+			content:      govgenhelpers.TestParameterChangeProposal,
 			votingPeriod: types.DefaultPeriodParameterChange,
 		},
 		{
-			name:         "upgrade proposal",
+			name:         "software upgrade proposal",
 			content:      govgenhelpers.TestSoftwareUpgradeProposal,
 			votingPeriod: types.DefaultPeriodSoftwareUpgrade,
 		},
 		{
-			name:         "cancel upgrade proposal",
+			name:         "cancel software upgrade proposal",
 			content:      govgenhelpers.TestCancelSoftwareUpgradeProposal,
 			votingPeriod: types.DefaultPeriodSoftwareUpgrade,
 		},

@@ -45,9 +45,9 @@ const (
 )
 
 var (
-	TestTextProposal         = types.NewTextProposal("Test", "description")
-	TestParamsChangeProposal = paramsproposal.NewParameterChangeProposal(
-		"Test", "description", []paramsproposal.ParamChange{}, // TODO test such proposal?
+	TestTextProposal            = types.NewTextProposal("Test", "description")
+	TestParameterChangeProposal = paramsproposal.NewParameterChangeProposal(
+		"Test", "description", []paramsproposal.ParamChange{},
 	)
 	TestSoftwareUpgradeProposal = upgradetypes.NewSoftwareUpgradeProposal(
 		"Test", "description", upgradetypes.Plan{

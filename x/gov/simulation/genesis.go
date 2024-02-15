@@ -17,14 +17,14 @@ import (
 
 // Simulation parameter constants
 const (
-	DepositParamsMinDeposit              = "deposit_params_min_deposit"
-	DepositParamsDepositPeriod           = "deposit_params_deposit_period"
-	VotingParamsVotingPeriodParamsChange = "voting_params_voting_period_params_change"
-	VotingParamsVotingPeriodUpgrade      = "voting_params_voting_period_upgrade"
-	VotingParamsVotingPeriodText         = "voting_params_voting_period_text"
-	TallyParamsQuorum                    = "tally_params_quorum"
-	TallyParamsThreshold                 = "tally_params_threshold"
-	TallyParamsVeto                      = "tally_params_veto"
+	DepositParamsMinDeposit                 = "deposit_params_min_deposit"
+	DepositParamsDepositPeriod              = "deposit_params_deposit_period"
+	VotingParamsVotingPeriodParameterChange = "voting_params_voting_period_parameter_change"
+	VotingParamsVotingPeriodSoftwareUpgrade = "voting_params_voting_period_software_upgrade"
+	VotingParamsVotingPeriodText            = "voting_params_voting_period_text"
+	TallyParamsQuorum                       = "tally_params_quorum"
+	TallyParamsThreshold                    = "tally_params_threshold"
+	TallyParamsVeto                         = "tally_params_veto"
 )
 
 // GenDepositParamsDepositPeriod randomized DepositParamsDepositPeriod
@@ -73,15 +73,15 @@ func RandomizedGenState(simState *module.SimulationState) {
 		func(r *rand.Rand) { depositPeriod = GenDepositParamsDepositPeriod(r) },
 	)
 
-	var votingPeriodParamsChange time.Duration
+	var votingPeriodParameterChange time.Duration
 	simState.AppParams.GetOrGenerate(
-		simState.Cdc, VotingParamsVotingPeriodParamsChange, &votingPeriodParamsChange, simState.Rand,
-		func(r *rand.Rand) { votingPeriodParamsChange = GenVotingParamsVotingPeriod(r) },
+		simState.Cdc, VotingParamsVotingPeriodParameterChange, &votingPeriodParameterChange, simState.Rand,
+		func(r *rand.Rand) { votingPeriodParameterChange = GenVotingParamsVotingPeriod(r) },
 	)
-	var votingPeriodUpgrade time.Duration
+	var votingPeriodSoftwareUpgrade time.Duration
 	simState.AppParams.GetOrGenerate(
-		simState.Cdc, VotingParamsVotingPeriodUpgrade, &votingPeriodUpgrade, simState.Rand,
-		func(r *rand.Rand) { votingPeriodUpgrade = GenVotingParamsVotingPeriod(r) },
+		simState.Cdc, VotingParamsVotingPeriodSoftwareUpgrade, &votingPeriodSoftwareUpgrade, simState.Rand,
+		func(r *rand.Rand) { votingPeriodSoftwareUpgrade = GenVotingParamsVotingPeriod(r) },
 	)
 	var votingPeriodText time.Duration
 	simState.AppParams.GetOrGenerate(
@@ -110,7 +110,7 @@ func RandomizedGenState(simState *module.SimulationState) {
 	govGenesis := types.NewGenesisState(
 		startingProposalID,
 		types.NewDepositParams(minDeposit, depositPeriod),
-		types.NewVotingParams(votingPeriodParamsChange, votingPeriodUpgrade, votingPeriodText),
+		types.NewVotingParams(votingPeriodParameterChange, votingPeriodSoftwareUpgrade, votingPeriodText),
 		types.NewTallyParams(quorum, threshold, veto),
 	)
 

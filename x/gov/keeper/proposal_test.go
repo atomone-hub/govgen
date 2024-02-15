@@ -142,7 +142,7 @@ func (suite *KeeperTestSuite) TestGetVotingPeriod() {
 		},
 		{
 			name:                 "param changes proposal",
-			content:              govgenhelpers.TestParamsChangeProposal,
+			content:              govgenhelpers.TestParameterChangeProposal,
 			expectedVotingPeriod: types.DefaultPeriodParameterChange,
 		},
 		{
