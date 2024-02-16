@@ -8,8 +8,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/atomone-hub/govgen/v1/types/errors"
-	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
+	"github.com/atomone-hub/govgen/types/errors"
+	govkeeper "github.com/atomone-hub/govgen/x/gov/keeper"
 )
 
 // HandlerOptions extend the SDK's AnteHandler options by requiring the IBC

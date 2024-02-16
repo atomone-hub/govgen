@@ -14,11 +14,11 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	appparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenapp "github.com/atomone-hub/govgen/app"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
+	appparams "github.com/atomone-hub/govgen/app/params"
+	"github.com/atomone-hub/govgen/x/gov/simulation"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 type MockWeightedProposalContent struct {

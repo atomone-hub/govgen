@@ -1,4 +1,4 @@
-module github.com/atomone-hub/govgen/v1
+module github.com/atomone-hub/govgen
 
 go 1.20
 

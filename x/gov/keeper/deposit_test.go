@@ -9,7 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
 )
 
 func TestDeposits(t *testing.T) {

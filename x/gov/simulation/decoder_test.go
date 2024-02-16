@@ -12,9 +12,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/kv"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenapp "github.com/atomone-hub/govgen/app"
+	"github.com/atomone-hub/govgen/x/gov/simulation"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var (

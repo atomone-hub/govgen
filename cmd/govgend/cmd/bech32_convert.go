@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	addressutil "github.com/atomone-hub/govgen/v1/pkg/address"
+	addressutil "github.com/atomone-hub/govgen/pkg/address"
 )
 
 var flagBech32Prefix = "prefix"

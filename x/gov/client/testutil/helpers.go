@@ -9,7 +9,7 @@ import (
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	govcli "github.com/atomone-hub/govgen/v1/x/gov/client/cli"
+	govcli "github.com/atomone-hub/govgen/x/gov/client/cli"
 )
 
 var commonArgs = []string{
