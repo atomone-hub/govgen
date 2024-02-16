@@ -8,7 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 // NewQuerier creates a new gov Querier instance

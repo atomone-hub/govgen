@@ -16,9 +16,9 @@ import (
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 	"github.com/cosmos/cosmos-sdk/types/rest"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
-	govtestutil "github.com/atomone-hub/govgen/v1/x/gov/client/testutil"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/atomone-hub/govgen/x/gov/client/cli"
+	govtestutil "github.com/atomone-hub/govgen/x/gov/client/testutil"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 type IntegrationTestSuite struct {

@@ -12,9 +12,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
+	"github.com/atomone-hub/govgen/x/gov"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 func TestTickExpiredDepositPeriod(t *testing.T) {

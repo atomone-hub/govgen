@@ -13,7 +13,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var (

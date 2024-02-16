@@ -3,7 +3,7 @@ package utils
 import (
 	"strings"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 // NormalizeVoteOption - normalize user specified vote option

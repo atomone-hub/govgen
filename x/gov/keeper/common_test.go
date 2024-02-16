@@ -10,9 +10,9 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenapp "github.com/atomone-hub/govgen/app"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var TestProposal = types.NewTextProposal("Test", "description")

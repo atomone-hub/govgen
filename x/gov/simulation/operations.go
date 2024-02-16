@@ -12,9 +12,9 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	appparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	appparams "github.com/atomone-hub/govgen/app/params"
+	"github.com/atomone-hub/govgen/x/gov/keeper"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var initialProposalID = uint64(100000000000000)

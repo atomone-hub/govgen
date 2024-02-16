@@ -36,9 +36,9 @@ import (
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/x/gov"
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenappparams "github.com/atomone-hub/govgen/app/params"
+	"github.com/atomone-hub/govgen/x/gov"
+	govtypes "github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var maccPerms = map[string][]string{

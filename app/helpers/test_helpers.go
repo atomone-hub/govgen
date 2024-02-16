@@ -33,7 +33,7 @@ import (
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
+	govgenapp "github.com/atomone-hub/govgen/app"
 )
 
 // SimAppChainID hardcoded chainID for simulation

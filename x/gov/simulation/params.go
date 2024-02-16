@@ -11,7 +11,7 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 const (

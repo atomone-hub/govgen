@@ -40,8 +40,8 @@ import (
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
+	govkeeper "github.com/atomone-hub/govgen/x/gov/keeper"
+	govtypes "github.com/atomone-hub/govgen/x/gov/types"
 )
 
 type AppKeepers struct {
