@@ -196,7 +196,7 @@ func (keeper Keeper) GetVotingPeriod(ctx sdk.Context, content types.Content) tim
 	case *upgradetypes.SoftwareUpgradeProposal, *upgradetypes.CancelSoftwareUpgradeProposal:
 		return keeper.GetVotingParams(ctx).VotingPeriodSoftwareUpgrade
 	}
-	return types.DefaultPeriod
+	return keeper.GetVotingParams(ctx).VotingPeriodDefault
 }
 
 func (keeper Keeper) ActivateVotingPeriod(ctx sdk.Context, proposal types.Proposal) {

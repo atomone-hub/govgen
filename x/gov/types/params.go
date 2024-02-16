@@ -139,8 +139,9 @@ func validateTallyParams(i interface{}) error {
 }
 
 // NewVotingParams creates a new VotingParams object
-func NewVotingParams(votingPeriodParameterChange, votingPeriodSoftwareUpgrade, votingPeriodText time.Duration) VotingParams {
+func NewVotingParams(votingPeriodDefault, votingPeriodParameterChange, votingPeriodSoftwareUpgrade, votingPeriodText time.Duration) VotingParams {
 	return VotingParams{
+		VotingPeriodDefault:         votingPeriodDefault,
 		VotingPeriodParameterChange: votingPeriodParameterChange,
 		VotingPeriodSoftwareUpgrade: votingPeriodSoftwareUpgrade,
 		VotingPeriodText:            votingPeriodText,
@@ -149,12 +150,13 @@ func NewVotingParams(votingPeriodParameterChange, votingPeriodSoftwareUpgrade, v
 
 // DefaultVotingParams default parameters for voting
 func DefaultVotingParams() VotingParams {
-	return NewVotingParams(DefaultPeriodParameterChange, DefaultPeriodSoftwareUpgrade, DefaultPeriodText)
+	return NewVotingParams(DefaultPeriod, DefaultPeriodParameterChange, DefaultPeriodSoftwareUpgrade, DefaultPeriodText)
 }
 
 // Equal checks equality of TallyParams
 func (vp VotingParams) Equal(other VotingParams) bool {
-	return vp.VotingPeriodParameterChange == other.VotingPeriodParameterChange &&
+	return vp.VotingPeriodDefault == other.VotingPeriodDefault &&
+		vp.VotingPeriodParameterChange == other.VotingPeriodParameterChange &&
 		vp.VotingPeriodSoftwareUpgrade == other.VotingPeriodSoftwareUpgrade &&
 		vp.VotingPeriodText == other.VotingPeriodText
 }
@@ -171,6 +173,9 @@ func validateVotingParams(i interface{}) error {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
 
+	if v.VotingPeriodDefault <= 0 {
+		return fmt.Errorf("default voting period must be positive: %s", v.VotingPeriodDefault)
+	}
 	if v.VotingPeriodParameterChange <= 0 {
 		return fmt.Errorf("voting period for params change must be positive: %s", v.VotingPeriodParameterChange)
 	}
