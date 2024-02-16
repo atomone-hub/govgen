@@ -14,9 +14,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/legacy/legacytx"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	"github.com/atomone-hub/govgen/v1/x/gov/client/utils"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenapp "github.com/atomone-hub/govgen/app"
+	"github.com/atomone-hub/govgen/x/gov/client/utils"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 type TxSearchMock struct {

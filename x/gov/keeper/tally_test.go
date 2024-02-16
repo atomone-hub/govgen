@@ -9,8 +9,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 func TestTallyNoOneVotes(t *testing.T) {

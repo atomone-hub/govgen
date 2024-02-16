@@ -10,9 +10,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenapp "github.com/atomone-hub/govgen/app"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 type KeeperTestSuite struct {

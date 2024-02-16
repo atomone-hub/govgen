@@ -21,12 +21,12 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	sdkgovclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 
-	govclient "github.com/atomone-hub/govgen/v1/x/gov/client"
-	"github.com/atomone-hub/govgen/v1/x/gov/client/cli"
-	govrest "github.com/atomone-hub/govgen/v1/x/gov/client/rest"
-	"github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govclient "github.com/atomone-hub/govgen/x/gov/client"
+	"github.com/atomone-hub/govgen/x/gov/client/cli"
+	govrest "github.com/atomone-hub/govgen/x/gov/client/rest"
+	"github.com/atomone-hub/govgen/x/gov/keeper"
+	"github.com/atomone-hub/govgen/x/gov/simulation"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var (

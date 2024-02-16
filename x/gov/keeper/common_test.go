@@ -10,8 +10,8 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	govgenapp "github.com/atomone-hub/govgen/v1/app"
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
+	govgenapp "github.com/atomone-hub/govgen/app"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
 )
 
 func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) { //nolint: thelper,unparam

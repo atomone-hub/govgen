@@ -9,8 +9,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
-	govgenhelpers "github.com/atomone-hub/govgen/v1/app/helpers"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 func (suite *KeeperTestSuite) TestGetSetProposal() {

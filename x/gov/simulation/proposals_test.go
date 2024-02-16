@@ -10,8 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	appparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/x/gov/simulation"
+	appparams "github.com/atomone-hub/govgen/app/params"
+	"github.com/atomone-hub/govgen/x/gov/simulation"
 )
 
 func TestProposalContents(t *testing.T) {

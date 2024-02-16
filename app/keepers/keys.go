@@ -16,7 +16,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
+	govtypes "github.com/atomone-hub/govgen/x/gov/types"
 )
 
 func (appKeepers *AppKeepers) GenerateKeys() {

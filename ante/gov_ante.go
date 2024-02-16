@@ -7,9 +7,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 
-	"github.com/atomone-hub/govgen/v1/types/errors"
-	govkeeper "github.com/atomone-hub/govgen/v1/x/gov/keeper"
-	govtypes "github.com/atomone-hub/govgen/v1/x/gov/types"
+	"github.com/atomone-hub/govgen/types/errors"
+	govkeeper "github.com/atomone-hub/govgen/x/gov/keeper"
+	govtypes "github.com/atomone-hub/govgen/x/gov/types"
 )
 
 // initial deposit must be greater than or equal to 1% of the minimum deposit

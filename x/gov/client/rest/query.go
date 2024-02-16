@@ -11,8 +11,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
 
-	gcutils "github.com/atomone-hub/govgen/v1/x/gov/client/utils"
-	"github.com/atomone-hub/govgen/v1/x/gov/types"
+	gcutils "github.com/atomone-hub/govgen/x/gov/client/utils"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 func registerQueryRoutes(clientCtx client.Context, r *mux.Router) {
