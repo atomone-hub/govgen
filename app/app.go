@@ -42,10 +42,10 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	govgenante "github.com/atomone-hub/govgen/v1/ante"
-	"github.com/atomone-hub/govgen/v1/app/keepers"
-	govgenappparams "github.com/atomone-hub/govgen/v1/app/params"
-	"github.com/atomone-hub/govgen/v1/app/upgrades"
+	govgenante "github.com/atomone-hub/govgen/ante"
+	"github.com/atomone-hub/govgen/app/keepers"
+	govgenappparams "github.com/atomone-hub/govgen/app/params"
+	"github.com/atomone-hub/govgen/app/upgrades"
 )
 
 var (
