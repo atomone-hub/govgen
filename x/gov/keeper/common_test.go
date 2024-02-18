@@ -12,10 +12,7 @@ import (
 
 	govgenapp "github.com/atomone-hub/govgen/app"
 	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
-	"github.com/atomone-hub/govgen/x/gov/types"
 )
-
-var TestProposal = types.NewTextProposal("Test", "description")
 
 func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) { //nolint: thelper,unparam
 	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))

@@ -18,5 +18,7 @@
   ([#10](https://github.com/atomone-hub/govgen/pull/10)).
 * Remove community spend proposal
   ([#13](https://github.com/atomone-hub/govgen/pull/13)).
+* Adapt voting period to proposal type.
+  ([#16](https://github.com/atomone-hub/govgen/pull/16)).
 
 ### STATE BREAKING

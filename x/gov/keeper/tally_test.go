@@ -19,7 +19,7 @@ func TestTallyNoOneVotes(t *testing.T) {
 
 	createValidators(t, ctx, app, []int64{5, 5, 5})
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -42,7 +42,7 @@ func TestTallyNoQuorum(t *testing.T) {
 	createValidators(t, ctx, app, []int64{2, 5, 0})
 	addrs := govgenhelpers.AddTestAddrs(app, ctx, 1, sdk.NewInt(10000000))
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -75,7 +75,7 @@ func TestTallyAllYes(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
@@ -113,7 +113,7 @@ func TestTally51No(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -148,7 +148,7 @@ func TestTally51Yes(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -184,7 +184,7 @@ func TestTallyVetoed(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -221,7 +221,7 @@ func TestTallyAbstainPasses(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -258,7 +258,7 @@ func TestTallyAbstainFails(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -295,7 +295,7 @@ func TestTallyNonVoter(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId

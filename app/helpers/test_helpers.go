@@ -31,9 +31,12 @@ import (
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+	paramsproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
 	govgenapp "github.com/atomone-hub/govgen/app"
+	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 // SimAppChainID hardcoded chainID for simulation
@@ -41,24 +44,40 @@ const (
 	SimAppChainID = "govgen-app"
 )
 
-// DefaultConsensusParams defines the default Tendermint consensus params used
-// in GovGenApp testing.
-var DefaultConsensusParams = &abci.ConsensusParams{
-	Block: &abci.BlockParams{
-		MaxBytes: 200000,
-		MaxGas:   2000000,
-	},
-	Evidence: &tmproto.EvidenceParams{
-		MaxAgeNumBlocks: 302400,
-		MaxAgeDuration:  504 * time.Hour, // 3 weeks is the max duration
-		MaxBytes:        10000,
-	},
-	Validator: &tmproto.ValidatorParams{
-		PubKeyTypes: []string{
-			tmtypes.ABCIPubKeyTypeEd25519,
+var (
+	TestTextProposal            = types.NewTextProposal("Test", "description")
+	TestParameterChangeProposal = paramsproposal.NewParameterChangeProposal(
+		"Test", "description", []paramsproposal.ParamChange{},
+	)
+	TestSoftwareUpgradeProposal = upgradetypes.NewSoftwareUpgradeProposal(
+		"Test", "description", upgradetypes.Plan{
+			Name:   "plan",
+			Height: 42,
 		},
-	},
-}
+	)
+	TestCancelSoftwareUpgradeProposal = upgradetypes.NewCancelSoftwareUpgradeProposal(
+		"Test", "description",
+	)
+
+	// DefaultConsensusParams defines the default Tendermint consensus params used
+	// in GovGenApp testing.
+	DefaultConsensusParams = &abci.ConsensusParams{
+		Block: &abci.BlockParams{
+			MaxBytes: 200000,
+			MaxGas:   2000000,
+		},
+		Evidence: &tmproto.EvidenceParams{
+			MaxAgeNumBlocks: 302400,
+			MaxAgeDuration:  504 * time.Hour, // 3 weeks is the max duration
+			MaxBytes:        10000,
+		},
+		Validator: &tmproto.ValidatorParams{
+			PubKeyTypes: []string{
+				tmtypes.ABCIPubKeyTypeEd25519,
+			},
+		},
+	}
+)
 
 type PV struct {
 	PrivKey cryptotypes.PrivKey

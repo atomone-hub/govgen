@@ -12,7 +12,10 @@ import (
 
 // Default period for deposits & voting
 const (
-	DefaultPeriod time.Duration = time.Hour * 24 * 2 // 2 days
+	DefaultPeriod                time.Duration = time.Hour * 24 * 2   // 2 days
+	DefaultPeriodParameterChange time.Duration = time.Hour * 24 * 14  // 2 weeks
+	DefaultPeriodSoftwareUpgrade time.Duration = time.Hour * 24 * 28  // 4 weeks
+	DefaultPeriodText            time.Duration = time.Hour * 24 * 365 // 1 year
 )
 
 // Default governance params
@@ -136,20 +139,26 @@ func validateTallyParams(i interface{}) error {
 }
 
 // NewVotingParams creates a new VotingParams object
-func NewVotingParams(votingPeriod time.Duration) VotingParams {
+func NewVotingParams(votingPeriodDefault, votingPeriodParameterChange, votingPeriodSoftwareUpgrade, votingPeriodText time.Duration) VotingParams {
 	return VotingParams{
-		VotingPeriod: votingPeriod,
+		VotingPeriodDefault:         votingPeriodDefault,
+		VotingPeriodParameterChange: votingPeriodParameterChange,
+		VotingPeriodSoftwareUpgrade: votingPeriodSoftwareUpgrade,
+		VotingPeriodText:            votingPeriodText,
 	}
 }
 
 // DefaultVotingParams default parameters for voting
 func DefaultVotingParams() VotingParams {
-	return NewVotingParams(DefaultPeriod)
+	return NewVotingParams(DefaultPeriod, DefaultPeriodParameterChange, DefaultPeriodSoftwareUpgrade, DefaultPeriodText)
 }
 
 // Equal checks equality of TallyParams
 func (vp VotingParams) Equal(other VotingParams) bool {
-	return vp.VotingPeriod == other.VotingPeriod
+	return vp.VotingPeriodDefault == other.VotingPeriodDefault &&
+		vp.VotingPeriodParameterChange == other.VotingPeriodParameterChange &&
+		vp.VotingPeriodSoftwareUpgrade == other.VotingPeriodSoftwareUpgrade &&
+		vp.VotingPeriodText == other.VotingPeriodText
 }
 
 // String implements stringer interface
@@ -164,8 +173,17 @@ func validateVotingParams(i interface{}) error {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
 
-	if v.VotingPeriod <= 0 {
-		return fmt.Errorf("voting period must be positive: %s", v.VotingPeriod)
+	if v.VotingPeriodDefault <= 0 {
+		return fmt.Errorf("default voting period must be positive: %s", v.VotingPeriodDefault)
+	}
+	if v.VotingPeriodParameterChange <= 0 {
+		return fmt.Errorf("voting period for params change must be positive: %s", v.VotingPeriodParameterChange)
+	}
+	if v.VotingPeriodSoftwareUpgrade <= 0 {
+		return fmt.Errorf("voting period for upgrades must be positive: %s", v.VotingPeriodSoftwareUpgrade)
+	}
+	if v.VotingPeriodText <= 0 {
+		return fmt.Errorf("voting period for text proposals must be positive: %s", v.VotingPeriodText)
 	}
 
 	return nil

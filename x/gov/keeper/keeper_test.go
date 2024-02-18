@@ -42,7 +42,7 @@ func TestIncrementProposalNumber(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	_, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	_, err = app.GovKeeper.SubmitProposal(ctx, tp)
@@ -64,7 +64,7 @@ func TestProposalQueues(t *testing.T) {
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	// create test proposals
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 

@@ -12,13 +12,10 @@ import (
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
-	"github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var (
 	valTokens           = sdk.TokensFromConsensusPower(42, sdk.DefaultPowerReduction)
-	TestProposal        = types.NewTextProposal("Test", "description")
 	TestDescription     = stakingtypes.NewDescription("T", "E", "S", "T", "Z")
 	TestCommissionRates = stakingtypes.NewCommissionRates(sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec())
 )

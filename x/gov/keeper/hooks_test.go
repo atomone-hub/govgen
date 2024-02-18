@@ -65,7 +65,7 @@ func TestHooks(t *testing.T) {
 	require.False(t, govHooksReceiver.AfterProposalFailedMinDepositValid)
 	require.False(t, govHooksReceiver.AfterProposalVotingPeriodEndedValid)
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	_, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	require.True(t, govHooksReceiver.AfterProposalSubmissionValid)
@@ -90,7 +90,9 @@ func TestHooks(t *testing.T) {
 	require.True(t, govHooksReceiver.AfterProposalVoteValid)
 
 	newHeader = ctx.BlockHeader()
-	newHeader.Time = ctx.BlockHeader().Time.Add(app.GovKeeper.GetVotingParams(ctx).VotingPeriod).Add(time.Duration(1) * time.Second)
+	newHeader.Time = ctx.BlockHeader().Time.
+		Add(app.GovKeeper.GetVotingPeriod(ctx, tp)).
+		Add(time.Duration(1) * time.Second)
 	ctx = ctx.WithBlockHeader(newHeader)
 	gov.EndBlocker(ctx, app.GovKeeper)
 	require.True(t, govHooksReceiver.AfterProposalVotingPeriodEndedValid)
