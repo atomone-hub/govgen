@@ -19,12 +19,6 @@ func (keeper Keeper) AddVote(ctx sdk.Context, proposalID uint64, voterAddr sdk.A
 		return sdkerrors.Wrapf(types.ErrInactiveProposal, "%d", proposalID)
 	}
 
-	// if account is validator it cannot vote
-	valAddr := sdk.ValAddress(voterAddr.Bytes())
-	if _, found := keeper.sk.GetValidator(ctx, valAddr); found {
-		return types.ErrValidatorCannotVote
-	}
-
 	for _, option := range options {
 		if !types.ValidWeightedVoteOption(option) {
 			return sdkerrors.Wrap(types.ErrInvalidVote, option.String())

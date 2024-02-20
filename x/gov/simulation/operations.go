@@ -29,7 +29,7 @@ const (
 // WeightedOperations returns all the operations from the module with their respective weights
 func WeightedOperations(
 	appParams simtypes.AppParams, cdc codec.JSONCodec, ak types.AccountKeeper,
-	bk types.BankKeeper, sk types.StakingKeeper, k keeper.Keeper,
+	bk types.BankKeeper, k keeper.Keeper,
 	wContents []simtypes.WeightedProposalContent,
 ) simulation.WeightedOperations {
 	var (
@@ -69,7 +69,7 @@ func WeightedOperations(
 			wProposalOps,
 			simulation.NewWeightedOperation(
 				weight,
-				SimulateMsgSubmitProposal(ak, bk, sk, k, wContent.ContentSimulatorFn()),
+				SimulateMsgSubmitProposal(ak, bk, k, wContent.ContentSimulatorFn()),
 			),
 		)
 	}
@@ -81,11 +81,11 @@ func WeightedOperations(
 		),
 		simulation.NewWeightedOperation(
 			weightMsgVote,
-			SimulateMsgVote(ak, bk, sk, k),
+			SimulateMsgVote(ak, bk, k),
 		),
 		simulation.NewWeightedOperation(
 			weightMsgVoteWeighted,
-			SimulateMsgVoteWeighted(ak, bk, sk, k),
+			SimulateMsgVoteWeighted(ak, bk, k),
 		),
 	}
 
@@ -96,7 +96,7 @@ func WeightedOperations(
 // voting on the proposal, and subsequently slashing the proposal. It is implemented using
 // future operations.
 func SimulateMsgSubmitProposal(
-	ak types.AccountKeeper, bk types.BankKeeper, sk types.StakingKeeper,
+	ak types.AccountKeeper, bk types.BankKeeper,
 	k keeper.Keeper, contentSim simtypes.ContentSimulatorFn,
 ) simtypes.Operation {
 	// The states are:
@@ -202,7 +202,7 @@ func SimulateMsgSubmitProposal(
 			whenVote := ctx.BlockHeader().Time.Add(time.Duration(r.Int63n(int64(votingPeriod.Seconds()))) * time.Second)
 			fops[i] = simtypes.FutureOperation{
 				BlockTime: whenVote,
-				Op:        operationSimulateMsgVote(ak, bk, sk, k, accs[whoVotes[i]], int64(proposalID)),
+				Op:        operationSimulateMsgVote(ak, bk, k, accs[whoVotes[i]], int64(proposalID)),
 			}
 		}
 
@@ -262,11 +262,11 @@ func SimulateMsgDeposit(ak types.AccountKeeper, bk types.BankKeeper, k keeper.Ke
 }
 
 // SimulateMsgVote generates a MsgVote with random values.
-func SimulateMsgVote(ak types.AccountKeeper, bk types.BankKeeper, sk types.StakingKeeper, k keeper.Keeper) simtypes.Operation {
-	return operationSimulateMsgVote(ak, bk, sk, k, simtypes.Account{}, -1)
+func SimulateMsgVote(ak types.AccountKeeper, bk types.BankKeeper, k keeper.Keeper) simtypes.Operation {
+	return operationSimulateMsgVote(ak, bk, k, simtypes.Account{}, -1)
 }
 
-func operationSimulateMsgVote(ak types.AccountKeeper, bk types.BankKeeper, sk types.StakingKeeper,
+func operationSimulateMsgVote(ak types.AccountKeeper, bk types.BankKeeper,
 	k keeper.Keeper, simAccount simtypes.Account, proposalIDInt int64,
 ) simtypes.Operation {
 	return func(
@@ -288,12 +288,6 @@ func operationSimulateMsgVote(ak types.AccountKeeper, bk types.BankKeeper, sk ty
 			}
 		default:
 			proposalID = uint64(proposalIDInt)
-		}
-
-		// if account is validator it cannot vote
-		valAddr := sdk.ValAddress(simAccount.Address.Bytes())
-		if _, found := sk.GetValidator(ctx, valAddr); found {
-			return simtypes.NoOpMsg(types.ModuleName, types.TypeMsgVote, "account is a validator"), nil, nil
 		}
 
 		option := randomVotingOption(r)
@@ -322,11 +316,11 @@ func operationSimulateMsgVote(ak types.AccountKeeper, bk types.BankKeeper, sk ty
 }
 
 // SimulateMsgVoteWeighted generates a MsgVoteWeighted with random values.
-func SimulateMsgVoteWeighted(ak types.AccountKeeper, bk types.BankKeeper, sk types.StakingKeeper, k keeper.Keeper) simtypes.Operation {
-	return operationSimulateMsgVoteWeighted(ak, bk, sk, k, simtypes.Account{}, -1)
+func SimulateMsgVoteWeighted(ak types.AccountKeeper, bk types.BankKeeper, k keeper.Keeper) simtypes.Operation {
+	return operationSimulateMsgVoteWeighted(ak, bk, k, simtypes.Account{}, -1)
 }
 
-func operationSimulateMsgVoteWeighted(ak types.AccountKeeper, bk types.BankKeeper, sk types.StakingKeeper,
+func operationSimulateMsgVoteWeighted(ak types.AccountKeeper, bk types.BankKeeper,
 	k keeper.Keeper, simAccount simtypes.Account, proposalIDInt int64,
 ) simtypes.Operation {
 	return func(
@@ -348,12 +342,6 @@ func operationSimulateMsgVoteWeighted(ak types.AccountKeeper, bk types.BankKeepe
 			}
 		default:
 			proposalID = uint64(proposalIDInt)
-		}
-
-		// if account is validator it cannot vote
-		valAddr := sdk.ValAddress(simAccount.Address.Bytes())
-		if _, found := sk.GetValidator(ctx, valAddr); found {
-			return simtypes.NoOpMsg(types.ModuleName, types.TypeMsgVote, "account is a validator"), nil, nil
 		}
 
 		options := randomWeightedVotingOptions(r)

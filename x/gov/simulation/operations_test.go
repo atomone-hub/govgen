@@ -62,7 +62,7 @@ func TestWeightedOperations(t *testing.T) {
 	appParams := make(simtypes.AppParams)
 
 	weightesOps := simulation.WeightedOperations(appParams, cdc, app.AccountKeeper,
-		app.BankKeeper, app.StakingKeeper, app.GovKeeper, mockWeightedProposalContent(3),
+		app.BankKeeper, app.GovKeeper, mockWeightedProposalContent(3),
 	)
 
 	// setup 3 accounts
@@ -108,7 +108,7 @@ func TestSimulateMsgSubmitProposal(t *testing.T) {
 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash}})
 
 	// execute operation
-	op := simulation.SimulateMsgSubmitProposal(app.AccountKeeper, app.BankKeeper, app.StakingKeeper, app.GovKeeper, MockWeightedProposalContent{3}.ContentSimulatorFn())
+	op := simulation.SimulateMsgSubmitProposal(app.AccountKeeper, app.BankKeeper, app.GovKeeper, MockWeightedProposalContent{3}.ContentSimulatorFn())
 	operationMsg, _, err := op(r, app.BaseApp, ctx, accounts, "")
 	require.NoError(t, err)
 
@@ -193,7 +193,7 @@ func TestSimulateMsgVote(t *testing.T) {
 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash, Time: blockTime}})
 
 	// execute operation
-	op := simulation.SimulateMsgVote(app.AccountKeeper, app.BankKeeper, app.StakingKeeper, app.GovKeeper)
+	op := simulation.SimulateMsgVote(app.AccountKeeper, app.BankKeeper, app.GovKeeper)
 	operationMsg, _, err := op(r, app.BaseApp, ctx, accounts, "")
 	require.NoError(t, err)
 
@@ -235,7 +235,7 @@ func TestSimulateMsgVoteWeighted(t *testing.T) {
 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash, Time: blockTime}})
 
 	// execute operation
-	op := simulation.SimulateMsgVoteWeighted(app.AccountKeeper, app.BankKeeper, app.StakingKeeper, app.GovKeeper)
+	op := simulation.SimulateMsgVoteWeighted(app.AccountKeeper, app.BankKeeper, app.GovKeeper)
 	operationMsg, _, err := op(r, app.BaseApp, ctx, accounts, "")
 	require.NoError(t, err)
 

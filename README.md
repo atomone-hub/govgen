@@ -11,3 +11,6 @@ The following modifications have been made to the Cosmos Hub software to create 
     4. Revert to standard Cosmos SDK v0.46.16 without the Liquid Staking Module (LSM)
     5. Changed Bech32 prefixes to `govgen` (see `cmd/govgend/cmd/config.go`)
     6. Reduced hard-coded ante min-deposit percentage to 1% (see `ante/gov_ante.go:minInitialDepositFraction`)
+    7. Removed ability for validators to vote on proposals with delegations, they can only use their own stake
+    8. Remove community spend proposal
+    9. Allow selecting different voting periods for different proposal types

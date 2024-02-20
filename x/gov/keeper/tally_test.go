@@ -7,6 +7,7 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
@@ -59,21 +60,11 @@ func TestTallyNoQuorum(t *testing.T) {
 	require.True(t, burnDeposits)
 }
 
-func TestTallyAllYes(t *testing.T) {
+func TestTallyOnlyValidatorsAllYes(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	_, valAddrs := createValidators(t, ctx, app, []int64{1, 1, 1})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 5)
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	require.True(t, found)
-
-	for _, addr := range addrs {
-		_, err := app.StakingKeeper.Delegate(ctx, addr, delTokens, stakingtypes.Unbonded, val1, true)
-		require.NoError(t, err)
-	}
+	addrs, _ := createValidators(t, ctx, app, []int64{1, 1, 1})
 
 	tp := govgenhelpers.TestTextProposal
 
@@ -96,22 +87,11 @@ func TestTallyAllYes(t *testing.T) {
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
 
-func TestTally51No(t *testing.T) {
+func TestTallyOnlyValidators51No(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	power := []int64{5, 6, 0}
-	_, valAddrs := createValidators(t, ctx, app, []int64{1, 1, 1})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	require.True(t, found)
-
-	for i := range addrs {
-		delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power[i])
-		_, err := app.StakingKeeper.Delegate(ctx, addrs[i], delTokens, stakingtypes.Unbonded, val1, true)
-		require.NoError(t, err)
-	}
+	valAccAddrs, _ := createValidators(t, ctx, app, []int64{5, 6, 0})
 
 	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
@@ -120,8 +100,8 @@ func TestTally51No(t *testing.T) {
 	proposal.Status = types.StatusVotingPeriod
 	app.GovKeeper.SetProposal(ctx, proposal)
 
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionYes)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[1], types.NewNonSplitVoteOption(types.OptionNo)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[0], types.NewNonSplitVoteOption(types.OptionYes)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[1], types.NewNonSplitVoteOption(types.OptionNo)))
 
 	proposal, ok := app.GovKeeper.GetProposal(ctx, proposalID)
 	require.True(t, ok)
@@ -131,22 +111,11 @@ func TestTally51No(t *testing.T) {
 	require.False(t, burnDeposits)
 }
 
-func TestTally51Yes(t *testing.T) {
+func TestTallyOnlyValidators51Yes(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	power := []int64{5, 6, 0}
-	_, valAddrs := createValidators(t, ctx, app, []int64{1, 1, 1})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	require.True(t, found)
-
-	for i := range addrs {
-		delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power[i])
-		_, err := app.StakingKeeper.Delegate(ctx, addrs[i], delTokens, stakingtypes.Unbonded, val1, true)
-		require.NoError(t, err)
-	}
+	valAccAddrs, _ := createValidators(t, ctx, app, []int64{5, 6, 0})
 
 	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
@@ -155,8 +124,8 @@ func TestTally51Yes(t *testing.T) {
 	proposal.Status = types.StatusVotingPeriod
 	app.GovKeeper.SetProposal(ctx, proposal)
 
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionNo)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[1], types.NewNonSplitVoteOption(types.OptionYes)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[0], types.NewNonSplitVoteOption(types.OptionNo)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[1], types.NewNonSplitVoteOption(types.OptionYes)))
 
 	proposal, ok := app.GovKeeper.GetProposal(ctx, proposalID)
 	require.True(t, ok)
@@ -167,22 +136,11 @@ func TestTally51Yes(t *testing.T) {
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
 
-func TestTallyVetoed(t *testing.T) {
+func TestTallyOnlyValidatorsVetoed(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	power := []int64{6, 6, 7}
-	_, valAddrs := createValidators(t, ctx, app, []int64{1, 1, 1})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	require.True(t, found)
-
-	for i := range addrs {
-		delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power[i])
-		_, err := app.StakingKeeper.Delegate(ctx, addrs[i], delTokens, stakingtypes.Unbonded, val1, true)
-		require.NoError(t, err)
-	}
+	valAccAddrs, _ := createValidators(t, ctx, app, []int64{6, 6, 7})
 
 	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
@@ -191,9 +149,9 @@ func TestTallyVetoed(t *testing.T) {
 	proposal.Status = types.StatusVotingPeriod
 	app.GovKeeper.SetProposal(ctx, proposal)
 
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionYes)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[1], types.NewNonSplitVoteOption(types.OptionYes)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[2], types.NewNonSplitVoteOption(types.OptionNoWithVeto)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[0], types.NewNonSplitVoteOption(types.OptionYes)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[1], types.NewNonSplitVoteOption(types.OptionYes)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[2], types.NewNonSplitVoteOption(types.OptionNoWithVeto)))
 
 	proposal, ok := app.GovKeeper.GetProposal(ctx, proposalID)
 	require.True(t, ok)
@@ -204,22 +162,11 @@ func TestTallyVetoed(t *testing.T) {
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
 
-func TestTallyAbstainPasses(t *testing.T) {
+func TestTallyOnlyValidatorsAbstainPasses(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	power := []int64{6, 6, 7}
-	_, valAddrs := createValidators(t, ctx, app, []int64{1, 1, 1})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	require.True(t, found)
-
-	for i := range addrs {
-		delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power[i])
-		_, err := app.StakingKeeper.Delegate(ctx, addrs[i], delTokens, stakingtypes.Unbonded, val1, true)
-		require.NoError(t, err)
-	}
+	valAccAddrs, _ := createValidators(t, ctx, app, []int64{6, 6, 7})
 
 	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
@@ -228,9 +175,9 @@ func TestTallyAbstainPasses(t *testing.T) {
 	proposal.Status = types.StatusVotingPeriod
 	app.GovKeeper.SetProposal(ctx, proposal)
 
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionAbstain)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[1], types.NewNonSplitVoteOption(types.OptionNo)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[2], types.NewNonSplitVoteOption(types.OptionYes)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[0], types.NewNonSplitVoteOption(types.OptionAbstain)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[1], types.NewNonSplitVoteOption(types.OptionNo)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[2], types.NewNonSplitVoteOption(types.OptionYes)))
 
 	proposal, ok := app.GovKeeper.GetProposal(ctx, proposalID)
 	require.True(t, ok)
@@ -245,18 +192,7 @@ func TestTallyAbstainFails(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	power := []int64{6, 6, 7}
-	_, valAddrs := createValidators(t, ctx, app, []int64{1, 1, 1})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	require.True(t, found)
-
-	for i := range addrs {
-		delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power[i])
-		_, err := app.StakingKeeper.Delegate(ctx, addrs[i], delTokens, stakingtypes.Unbonded, val1, true)
-		require.NoError(t, err)
-	}
+	valAccAddrs, _ := createValidators(t, ctx, app, []int64{6, 6, 7})
 
 	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
@@ -265,9 +201,9 @@ func TestTallyAbstainFails(t *testing.T) {
 	proposal.Status = types.StatusVotingPeriod
 	app.GovKeeper.SetProposal(ctx, proposal)
 
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionAbstain)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[1], types.NewNonSplitVoteOption(types.OptionYes)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[2], types.NewNonSplitVoteOption(types.OptionNo)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[0], types.NewNonSplitVoteOption(types.OptionAbstain)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[1], types.NewNonSplitVoteOption(types.OptionYes)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[2], types.NewNonSplitVoteOption(types.OptionNo)))
 
 	proposal, ok := app.GovKeeper.GetProposal(ctx, proposalID)
 	require.True(t, ok)
@@ -278,22 +214,11 @@ func TestTallyAbstainFails(t *testing.T) {
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
 
-func TestTallyNonVoter(t *testing.T) {
+func TestTallyOnlyValidatorsNonVoter(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	power := []int64{6, 6, 7}
-	_, valAddrs := createValidators(t, ctx, app, []int64{1, 1, 1})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	require.True(t, found)
-
-	for i := range addrs {
-		delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power[i])
-		_, err := app.StakingKeeper.Delegate(ctx, addrs[i], delTokens, stakingtypes.Unbonded, val1, true)
-		require.NoError(t, err)
-	}
+	valAccAddrs, _ := createValidators(t, ctx, app, []int64{6, 6, 7})
 
 	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
@@ -302,8 +227,8 @@ func TestTallyNonVoter(t *testing.T) {
 	proposal.Status = types.StatusVotingPeriod
 	app.GovKeeper.SetProposal(ctx, proposal)
 
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionYes)))
-	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[1], types.NewNonSplitVoteOption(types.OptionNo)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[0], types.NewNonSplitVoteOption(types.OptionYes)))
+	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, valAccAddrs[1], types.NewNonSplitVoteOption(types.OptionNo)))
 
 	proposal, ok := app.GovKeeper.GetProposal(ctx, proposalID)
 	require.True(t, ok)
@@ -313,10 +238,6 @@ func TestTallyNonVoter(t *testing.T) {
 	require.False(t, burnDeposits)
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
-
-/*
-// NOTE: these tests are disabled as voting for validators is not available and therefore
-// all features around voting and delegations will not work
 
 func TestTallyDelgatorOverride(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
@@ -333,7 +254,7 @@ func TestTallyDelgatorOverride(t *testing.T) {
 
 	_ = staking.EndBlocker(ctx, app.StakingKeeper)
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -354,6 +275,8 @@ func TestTallyDelgatorOverride(t *testing.T) {
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
 
+// As validators can only vote with their own stake, delegators don't inherit votes from validators
+// so the proposal fails
 func TestTallyDelgatorInherit(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
@@ -369,7 +292,7 @@ func TestTallyDelgatorInherit(t *testing.T) {
 
 	_ = staking.EndBlocker(ctx, app.StakingKeeper)
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -384,7 +307,7 @@ func TestTallyDelgatorInherit(t *testing.T) {
 	require.True(t, ok)
 	passes, burnDeposits, tallyResults := app.GovKeeper.Tally(ctx, proposal)
 
-	require.True(t, passes)
+	require.False(t, passes)
 	require.False(t, burnDeposits)
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
@@ -408,7 +331,7 @@ func TestTallyDelgatorMultipleOverride(t *testing.T) {
 
 	_ = staking.EndBlocker(ctx, app.StakingKeeper)
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -429,6 +352,8 @@ func TestTallyDelgatorMultipleOverride(t *testing.T) {
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
 
+// As validators can only vote with their own stake, delegators don't inherit votes from validators
+// so the proposal passes
 func TestTallyDelgatorMultipleInherit(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
@@ -450,7 +375,7 @@ func TestTallyDelgatorMultipleInherit(t *testing.T) {
 
 	_ = staking.EndBlocker(ctx, app.StakingKeeper)
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -465,7 +390,7 @@ func TestTallyDelgatorMultipleInherit(t *testing.T) {
 	require.True(t, ok)
 	passes, burnDeposits, tallyResults := app.GovKeeper.Tally(ctx, proposal)
 
-	require.False(t, passes)
+	require.True(t, passes)
 	require.False(t, burnDeposits)
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
@@ -493,7 +418,7 @@ func TestTallyJailedValidator(t *testing.T) {
 	require.NoError(t, err)
 	app.StakingKeeper.Jail(ctx, sdk.ConsAddress(consAddr.Bytes()))
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -526,7 +451,7 @@ func TestTallyValidatorMultipleDelegations(t *testing.T) {
 	_, err := app.StakingKeeper.Delegate(ctx, addrs[0], delTokens, stakingtypes.Unbonded, val2, true)
 	require.NoError(t, err)
 
-	tp := TestProposal
+	tp := govgenhelpers.TestTextProposal
 	proposal, err := app.GovKeeper.SubmitProposal(ctx, tp)
 	require.NoError(t, err)
 	proposalID := proposal.ProposalId
@@ -552,5 +477,3 @@ func TestTallyValidatorMultipleDelegations(t *testing.T) {
 
 	require.True(t, tallyResults.Equals(expectedTallyResult))
 }
-
-*/
