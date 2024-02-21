@@ -14,7 +14,7 @@ import (
 	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
 )
 
-func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) { //nolint: thelper,unparam
+func createValidators(t *testing.T, ctx sdk.Context, app *govgenapp.GovGenApp, powers []int64) ([]sdk.AccAddress, []sdk.ValAddress) { //nolint: thelper
 	addrs := govgenhelpers.AddTestAddrsIncremental(app, ctx, 5, sdk.NewInt(30000000))
 	valAddrs := govgenhelpers.ConvertAddrsToValAddrs(addrs)
 	pks := govgenhelpers.CreateTestPubKeys(5)

@@ -71,6 +71,8 @@ func (keeper Keeper) Tally(ctx sdk.Context, proposal types.Proposal) (passes boo
 		return false
 	})
 
+	/* DISABLED on GovGen - Voting can only be done with your own stake
+
 	// iterate over the validators again to tally their voting power
 	for _, val := range currValidators {
 		if len(val.Vote) == 0 {
@@ -86,6 +88,8 @@ func (keeper Keeper) Tally(ctx sdk.Context, proposal types.Proposal) (passes boo
 		}
 		totalVotingPower = totalVotingPower.Add(votingPower)
 	}
+
+	*/
 
 	tallyParams := keeper.GetTallyParams(ctx)
 	tallyResults = types.NewTallyResultFromMap(results)

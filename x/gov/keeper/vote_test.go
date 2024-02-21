@@ -33,12 +33,6 @@ func TestVotes(t *testing.T) {
 
 	require.Error(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(invalidOption)), "invalid option")
 
-	// Test vote from validator
-	vals := app.StakingKeeper.GetAllValidators(ctx)
-	valAddr, err := sdk.ValAddressFromBech32(vals[0].OperatorAddress)
-	require.NoError(t, err)
-	require.Error(t, app.GovKeeper.AddVote(ctx, proposalID, sdk.AccAddress(valAddr.Bytes()), types.NewNonSplitVoteOption(types.OptionAbstain)), "voting for validators is disabled")
-
 	// Test first vote
 	require.NoError(t, app.GovKeeper.AddVote(ctx, proposalID, addrs[0], types.NewNonSplitVoteOption(types.OptionAbstain)))
 	vote, found := app.GovKeeper.GetVote(ctx, proposalID, addrs[0])

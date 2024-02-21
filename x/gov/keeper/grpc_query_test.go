@@ -7,7 +7,6 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	govgenhelpers "github.com/atomone-hub/govgen/app/helpers"
 	"github.com/atomone-hub/govgen/x/gov/types"
@@ -715,17 +714,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryDeposits() {
 func (suite *KeeperTestSuite) TestGRPCQueryTally() {
 	app, ctx, queryClient := suite.app, suite.ctx, suite.queryClient
 
-	_, valAddrs := createValidators(suite.T(), ctx, app, []int64{5, 5, 5})
-	addrs := govgenhelpers.AddTestAddrs(app, ctx, 3, sdk.NewInt(50000000))
-
-	delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 5)
-	val1, found := app.StakingKeeper.GetValidator(ctx, valAddrs[0])
-	suite.Require().True(found)
-
-	for _, addr := range addrs {
-		_, err := app.StakingKeeper.Delegate(ctx, addr, delTokens, stakingtypes.Unbonded, val1, true)
-		suite.Require().NoError(err)
-	}
+	addrs, _ := createValidators(suite.T(), ctx, app, []int64{5, 5, 5})
 
 	var (
 		req      *types.QueryTallyResultRequest
