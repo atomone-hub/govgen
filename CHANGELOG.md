@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## [Unreleased]
+## v1.0.0
 
-*February ?, 2024*
+*February 21st, 2024*
 
 ### API BREAKING
 
