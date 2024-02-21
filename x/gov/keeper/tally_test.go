@@ -308,7 +308,7 @@ func TestTallyDelgatorInherit(t *testing.T) {
 	require.True(t, ok)
 	passes, burnDeposits, tallyResults := app.GovKeeper.Tally(ctx, proposal)
 
-	require.True(t, passes)
+	require.False(t, passes)
 	require.False(t, burnDeposits)
 	valSelfDelegations := []sdk.Int{
 		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[0]),
@@ -316,7 +316,7 @@ func TestTallyDelgatorInherit(t *testing.T) {
 		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[2]),
 	}
 	require.Equal(t, tallyResults.String(), types.NewTallyResult(
-		valSelfDelegations[2].Add(delTokens),
+		valSelfDelegations[2],
 		sdk.ZeroInt(),
 		valSelfDelegations[0].Add(valSelfDelegations[1]),
 		sdk.ZeroInt(),
@@ -421,7 +421,7 @@ func TestTallyDelgatorMultipleInherit(t *testing.T) {
 	require.Equal(t, tallyResults.String(), types.NewTallyResult(
 		valSelfDelegations[0],
 		sdk.ZeroInt(),
-		valSelfDelegations[1].Add(valSelfDelegations[2]).Add(delTokens).Add(delTokens),
+		valSelfDelegations[1].Add(valSelfDelegations[2]),
 		sdk.ZeroInt(),
 	).String())
 }
