@@ -1,13 +1,13 @@
 syntax = "proto3";
-package cosmos.gov.v1beta1;
+package govgen.gov.v1beta1;
 
 import "cosmos/base/v1beta1/coin.proto";
-import "cosmos/gov/v1beta1/gov.proto";
+import "govgen/gov/v1beta1/gov.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "google/protobuf/any.proto";
 
-option go_package = "github.com/cosmos/cosmos-sdk/x/gov/types";
+option go_package = "github.com/atomone-hub/govgen/x/gov/types";
 
 // Msg defines the bank Msg service.
 service Msg {

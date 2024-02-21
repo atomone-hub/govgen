@@ -38,7 +38,6 @@ import (
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
@@ -46,6 +45,7 @@ import (
 	"github.com/atomone-hub/govgen/app/keepers"
 	govgenappparams "github.com/atomone-hub/govgen/app/params"
 	"github.com/atomone-hub/govgen/app/upgrades"
+	govtypes "github.com/atomone-hub/govgen/x/gov/types"
 )
 
 var (
