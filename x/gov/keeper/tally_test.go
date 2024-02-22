@@ -281,7 +281,8 @@ func TestTallyDelgatorInherit(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	addrs, vals := createValidators(t, ctx, app, []int64{5, 6, 7})
+	valPowers := []int64{5, 6, 7}
+	addrs, vals := createValidators(t, ctx, app, valPowers)
 
 	delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 30)
 	val3, found := app.StakingKeeper.GetValidator(ctx, vals[2])
@@ -309,14 +310,25 @@ func TestTallyDelgatorInherit(t *testing.T) {
 
 	require.False(t, passes)
 	require.False(t, burnDeposits)
-	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
+	valSelfDelegations := []sdk.Int{
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[0]),
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[1]),
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[2]),
+	}
+	require.Equal(t, tallyResults.String(), types.NewTallyResult(
+		valSelfDelegations[2],
+		sdk.ZeroInt(),
+		valSelfDelegations[0].Add(valSelfDelegations[1]),
+		sdk.ZeroInt(),
+	).String())
 }
 
 func TestTallyDelgatorMultipleOverride(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	addrs, vals := createValidators(t, ctx, app, []int64{5, 6, 7})
+	valPowers := []int64{5, 6, 7}
+	addrs, vals := createValidators(t, ctx, app, valPowers)
 
 	delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 10)
 	val1, found := app.StakingKeeper.GetValidator(ctx, vals[0])
@@ -349,7 +361,17 @@ func TestTallyDelgatorMultipleOverride(t *testing.T) {
 
 	require.False(t, passes)
 	require.False(t, burnDeposits)
-	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
+	valSelfDelegations := []sdk.Int{
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[0]),
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[1]),
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[2]),
+	}
+	require.Equal(t, tallyResults.String(), types.NewTallyResult(
+		valSelfDelegations[0].Add(valSelfDelegations[1]).Add(valSelfDelegations[2]),
+		sdk.ZeroInt(),
+		delTokens.Add(delTokens),
+		sdk.ZeroInt(),
+	).String())
 }
 
 // As validators can only vote with their own stake, delegators don't inherit votes from validators
@@ -358,9 +380,8 @@ func TestTallyDelgatorMultipleInherit(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	createValidators(t, ctx, app, []int64{25, 6, 7})
-
-	addrs, vals := createValidators(t, ctx, app, []int64{5, 6, 7})
+	valPowers := []int64{5, 6, 7}
+	addrs, vals := createValidators(t, ctx, app, valPowers)
 
 	delTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 10)
 	val2, found := app.StakingKeeper.GetValidator(ctx, vals[1])
@@ -390,9 +411,19 @@ func TestTallyDelgatorMultipleInherit(t *testing.T) {
 	require.True(t, ok)
 	passes, burnDeposits, tallyResults := app.GovKeeper.Tally(ctx, proposal)
 
-	require.True(t, passes)
+	require.False(t, passes)
 	require.False(t, burnDeposits)
-	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
+	valSelfDelegations := []sdk.Int{
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[0]),
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[1]),
+		app.StakingKeeper.TokensFromConsensusPower(ctx, valPowers[2]),
+	}
+	require.Equal(t, tallyResults.String(), types.NewTallyResult(
+		valSelfDelegations[0],
+		sdk.ZeroInt(),
+		valSelfDelegations[1].Add(valSelfDelegations[2]),
+		sdk.ZeroInt(),
+	).String())
 }
 
 func TestTallyJailedValidator(t *testing.T) {
