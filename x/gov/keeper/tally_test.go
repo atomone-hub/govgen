@@ -239,7 +239,7 @@ func TestTallyOnlyValidatorsNonVoter(t *testing.T) {
 	require.False(t, tallyResults.Equals(types.EmptyTallyResult()))
 }
 
-func TestTallyDelgatorOverride(t *testing.T) {
+func TestTallyDelegatorOverride(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
@@ -277,7 +277,7 @@ func TestTallyDelgatorOverride(t *testing.T) {
 
 // As validators can only vote with their own stake, delegators don't inherit votes from validators
 // so the proposal fails
-func TestTallyDelgatorInherit(t *testing.T) {
+func TestTallyDelegatorInherit(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
@@ -323,7 +323,7 @@ func TestTallyDelgatorInherit(t *testing.T) {
 	).String())
 }
 
-func TestTallyDelgatorMultipleOverride(t *testing.T) {
+func TestTallyDelegatorMultipleOverride(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
@@ -376,7 +376,7 @@ func TestTallyDelgatorMultipleOverride(t *testing.T) {
 
 // As validators can only vote with their own stake, delegators don't inherit votes from validators
 // so the proposal passes
-func TestTallyDelgatorMultipleInherit(t *testing.T) {
+func TestTallyDelegatorMultipleInherit(t *testing.T) {
 	app := govgenhelpers.SetupNoValset(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
