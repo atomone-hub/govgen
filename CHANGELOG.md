@@ -20,5 +20,7 @@
   ([#13](https://github.com/atomone-hub/govgen/pull/13)).
 * Adapt voting period to proposal type.
   ([#16](https://github.com/atomone-hub/govgen/pull/16)).
+* `InitChainer` auto stakes uniformly to validators at genesis
+  ([#26](https://github.com/atomone-hub/govgen/pull/26)).
 
 ### STATE BREAKING

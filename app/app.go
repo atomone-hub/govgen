@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
@@ -15,6 +16,7 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
+	"golang.org/x/exp/slices"
 
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
@@ -37,6 +39,7 @@ import (
 	authrest "github.com/cosmos/cosmos-sdk/x/auth/client/rest"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
@@ -241,7 +244,87 @@ func (app *GovGenApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) ab
 
 	app.UpgradeKeeper.SetModuleVersionMap(ctx, app.mm.GetVersionMap())
 
-	return app.mm.InitGenesis(ctx, app.appCodec, genesisState)
+	res := app.mm.InitGenesis(ctx, app.appCodec, genesisState)
+
+	// auto stake genesis accounts
+	app.setInitialStakingDistribution(ctx, genesisState)
+
+	return res
+}
+
+// setInitialStakingDistribution auto stakes genesis accounts in a fairly
+// distributed manner.
+func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisState GenesisState) {
+	var bankState banktypes.GenesisState
+	app.appCodec.MustUnmarshalJSON(genesisState[banktypes.ModuleName], &bankState)
+	// Sort balances in descending order
+	sort.Slice(bankState.Balances, func(i, j int) bool {
+		return bankState.Balances[i].Coins.IsAllGT(bankState.Balances[j].Coins)
+	})
+
+	var (
+		minTokens      = sdk.NewInt(25_000_000)
+		powerReduction = app.StakingKeeper.PowerReduction(ctx)
+	)
+	// Extend validator to track delegations
+	type validator struct {
+		stakingtypes.Validator
+		totalDelegations int64
+	}
+	var validators []*validator
+	for _, val := range app.StakingKeeper.GetAllValidators(ctx) {
+		validators = append(validators, &validator{
+			Validator: val,
+		})
+	}
+	if len(validators) == 0 {
+		return
+	}
+	for _, balance := range bankState.Balances {
+		tokens := balance.Coins.AmountOf("ugovgen")
+		if tokens.LTE(minTokens) {
+			// Don't stake when tokens <= minToken
+			continue
+		}
+		// Take 50% of the balance for staking
+		stake := tokens.QuoRaw(2)
+
+		// Determine the number of validators that will receive a delegation
+		var splitStake sdk.Int
+		switch {
+		case stake.LT(sdk.NewInt(500_000_000)):
+			splitStake = stake.QuoRaw(5)
+		case stake.LT(sdk.NewInt(10_000_000_000)):
+			splitStake = stake.QuoRaw(10)
+		default:
+			splitStake = stake.QuoRaw(20)
+		}
+
+		// Delegation loop for each selected validator
+		for ; stake.GTE(powerReduction); stake = stake.Sub(splitStake) {
+			bondAmt := sdk.MinInt(stake, splitStake)
+			// Delegate to validator which has the less delegations
+			validator := slices.MinFunc(validators, func(val1, val2 *validator) int {
+				return int(val1.totalDelegations - val2.totalDelegations)
+			})
+			if _, err := app.StakingKeeper.Delegate(
+				ctx,
+				balance.GetAddress(),
+				bondAmt,
+				stakingtypes.Unbonded,
+				validator.Validator,
+				true,
+			); err != nil {
+				panic(err)
+			}
+
+			// track delegation for the sake of the algorithm
+			validator.totalDelegations += bondAmt.Int64()
+
+			// reload validator to avoid power index problem
+			validator.Validator, _ = app.StakingKeeper.GetValidator(ctx, validator.GetOperator())
+		}
+	}
 }
 
 // LoadHeight loads a particular height

@@ -19,7 +19,8 @@ func TestItCreatesModuleAccountOnInitBlock(t *testing.T) {
 
 	app.InitChain(
 		abcitypes.RequestInitChain{
-			AppStateBytes: []byte("{}"),
+			// bank module must be present because of app.setInitialStakingDistribution
+			AppStateBytes: []byte(`{"bank":{}}`),
 			ChainId:       "test-chain-id",
 		},
 	)
