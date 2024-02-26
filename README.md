@@ -14,4 +14,5 @@ The following modifications have been made to the Cosmos Hub software to create 
     7. Removed ability for validators to vote on proposals with delegations, they can only use their own stake
     8. Removed community spend proposal
     9. Allowed setting different voting periods for different proposal types
-   10. Auto stake genesis accounts
+   10. Stake automatically 50% of balance for accounts that have more than 25 $GOVGEN at genesis initialization. The resulting stake distribution will provide approximately the same voting power to all genesis validators. Accounts will automatically stake to 5 validators if balance is less than 500 $GOVGEN, 10 validators if balance is less than 10000 $GOVGEN and 20 validators if more, uniformly.
+   
