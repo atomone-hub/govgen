@@ -237,6 +237,7 @@ func (app *GovGenApp) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci
 
 // InitChainer application update at chain initialization
 func (app *GovGenApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
+	fmt.Println("INIT CHAINER")
 	var genesisState GenesisState
 	if err := tmjson.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
@@ -257,6 +258,10 @@ func (app *GovGenApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) ab
 func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisState GenesisState) {
 	var bankState banktypes.GenesisState
 	app.appCodec.MustUnmarshalJSON(genesisState[banktypes.ModuleName], &bankState)
+	if len(bankState.Balances) == 0 {
+		// no balances, skip
+		return
+	}
 	// Sort balances in descending order
 	sort.Slice(bankState.Balances, func(i, j int) bool {
 		return bankState.Balances[i].Coins.IsAllGT(bankState.Balances[j].Coins)
@@ -277,6 +282,7 @@ func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisStat
 			Validator: val,
 		})
 	}
+	fmt.Println("VALS", len(validators))
 	if len(validators) == 0 {
 		return
 	}
