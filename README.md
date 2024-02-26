@@ -14,3 +14,4 @@ The following modifications have been made to the Cosmos Hub software to create 
     7. Removed ability for validators to vote on proposals with delegations, they can only use their own stake
     8. Removed community spend proposal
     9. Allowed setting different voting periods for different proposal types
+   10. Auto stake genesis accounts
