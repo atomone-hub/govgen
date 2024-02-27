@@ -68,8 +68,8 @@ func TestGovGenApp_InitialStakingDistribution(t *testing.T) {
 		balance := banktypes.Balance{
 			Address: acc.GetAddress().String(),
 			Coins: sdk.NewCoins(
+				// randomize govgen distribution amoung the accounts
 				sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000*tmrand.Int63n(1_000_000))),
-				// sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000_000_000)),
 				sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100_000_000_000_000)),
 			),
 		}
