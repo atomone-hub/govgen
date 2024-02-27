@@ -278,6 +278,8 @@ func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisStat
 	// Extend validator to track delegations
 	type validator struct {
 		stakingtypes.Validator
+		// FIXME(tb): should be replaceable by validator.DelegatorShares field
+		// (so no need for custom struct)
 		totalDelegations int64
 	}
 	var validators []*validator

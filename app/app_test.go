@@ -52,22 +52,24 @@ func TestGovGenApp_Export(t *testing.T) {
 }
 
 func TestGovGenApp_InitialStakingDistribution(t *testing.T) {
-	// generate 20 validators
-	valset, _ := tmtypes.RandValidatorSet(20, 1)
+	// generate 30 validators
+	valset, _ := tmtypes.RandValidatorSet(30, 1)
 	var (
 		genesisAccounts []authtypes.GenesisAccount
 		balances        []banktypes.Balance
 	)
-	// generate 100 accounts
-	for i := 0; i < 100; i++ {
+
+	// generate 2000 accounts
+	// (for the algorithm to work well, numAccounts >> numValidator)
+	for i := 0; i < 2000; i++ {
 		senderPrivKey := govgenhelpers.NewPV()
 		senderPubKey := senderPrivKey.PrivKey.PubKey()
 		acc := authtypes.NewBaseAccount(senderPubKey.Address().Bytes(), senderPubKey, 0, 0)
 		balance := banktypes.Balance{
 			Address: acc.GetAddress().String(),
 			Coins: sdk.NewCoins(
-				// sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000*tmrand.Int63n(1_000_000))),
-				sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000*1_000_000)),
+				sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000*tmrand.Int63n(1_000_000))),
+				// sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000_000_000)),
 				sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100_000_000_000_000)),
 			),
 		}
@@ -81,19 +83,20 @@ func TestGovGenApp_InitialStakingDistribution(t *testing.T) {
 	})
 
 	// Checking fairness delegation distribution
-	delegations := app.StakingKeeper.GetAllDelegations(ctx)
 	validators := app.StakingKeeper.GetAllValidators(ctx)
 	var shareReference int64
 	for _, val := range validators {
-		delegations := app.StakingKeeper.GetValidatorDelegations(ctx, val.GetOperator())
 		if shareReference == 0 {
 			// initialize the reference share, all other shares should match
-			// approximately to assert godd fairness distribution.
-			shareReference = delegations[0].Shares.TruncateInt64()
+			// approximately to assert good fairness distribution.
+			shareReference = val.DelegatorShares.TruncateInt64()
+			require.Greater(t,
+				shareReference, int64(1),
+				"share must be greater than 1 or else that means the distribution didn't happen",
+			)
+			continue
 		}
-		for _, del := range delegations {
-			assert.InDelta(t, shareReference, del.Shares.TruncateInt64(), 1, "unfair share distribution")
-		}
+		// Allow a maximum of 100 shares difference
+		assert.InDelta(t, shareReference, val.DelegatorShares.TruncateInt64(), 100, "unfair share distribution")
 	}
-	fmt.Println(len(delegations))
 }
