@@ -255,6 +255,8 @@ func (app *GovGenApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) ab
 
 // setInitialStakingDistribution auto stakes genesis accounts in a fairly
 // distributed manner.
+// NOTE: To achieve good distribution fairness, the number of genesis accounts
+// must be much larger than the number of validators.
 func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisState GenesisState) {
 	var bankState banktypes.GenesisState
 	app.appCodec.MustUnmarshalJSON(genesisState[banktypes.ModuleName], &bankState)
@@ -295,16 +297,23 @@ func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisStat
 		// Take 50% of the balance for staking
 		stake := tokens.QuoRaw(2)
 
-		// Determine the number of validators that will receive a delegation
-		var splitStake sdk.Int
+		// Determine how many times the stake will be split.
+		// NOTE: numSplit doesn't necessarily correspond to the number of
+		// validators that will receive a delegation. Indeed, the loop below may
+		// select the same validator multiple times, if the distribution is
+		// particularly unbalanced, which results in the same delegation from the
+		// same delegator to the same validator, but this is not a problem as the
+		// delegations will just accumulate.
+		var numSplit int64
 		switch {
 		case stake.LT(sdk.NewInt(500_000_000)):
-			splitStake = stake.QuoRaw(5)
+			numSplit = 5
 		case stake.LT(sdk.NewInt(10_000_000_000)):
-			splitStake = stake.QuoRaw(10)
+			numSplit = 10
 		default:
-			splitStake = stake.QuoRaw(20)
+			numSplit = 20
 		}
+		splitStake := stake.QuoRaw(numSplit)
 
 		// Delegation loop for each selected validator
 		for ; stake.GTE(powerReduction); stake = stake.Sub(splitStake) {

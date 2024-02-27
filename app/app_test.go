@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/log"
 	tmrand "github.com/tendermint/tendermint/libs/rand"
@@ -51,12 +52,13 @@ func TestGovGenApp_Export(t *testing.T) {
 }
 
 func TestGovGenApp_InitialStakingDistribution(t *testing.T) {
-	// generate 30 validators and 100 genesis accounts
+	// generate 20 validators
+	valset, _ := tmtypes.RandValidatorSet(20, 1)
 	var (
-		valset, _       = tmtypes.RandValidatorSet(20, 1)
 		genesisAccounts []authtypes.GenesisAccount
 		balances        []banktypes.Balance
 	)
+	// generate 100 accounts
 	for i := 0; i < 100; i++ {
 		senderPrivKey := govgenhelpers.NewPV()
 		senderPubKey := senderPrivKey.PrivKey.PubKey()
@@ -64,16 +66,11 @@ func TestGovGenApp_InitialStakingDistribution(t *testing.T) {
 		balance := banktypes.Balance{
 			Address: acc.GetAddress().String(),
 			Coins: sdk.NewCoins(
-				sdk.NewCoin("ugovgen", sdk.NewInt(100_000_000_000_000)),
+				// sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000*tmrand.Int63n(1_000_000))),
+				sdk.NewCoin("ugovgen", sdk.NewInt(1_000_000*1_000_000)),
 				sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100_000_000_000_000)),
 			),
 		}
-		// if i == 0 {
-		// balance.Coins = balance.Coins.Add(
-		// sdk.NewInt64Coin(sdk.DefaultBondDenom, int64(1_000_000*len(valset.Validators))),
-		// sdk.NewInt64Coin(sdk.DefaultBondDenom, 1_000_000),
-		// )
-		// }
 		balances = append(balances, balance)
 		genesisAccounts = append(genesisAccounts, acc)
 	}
@@ -83,10 +80,20 @@ func TestGovGenApp_InitialStakingDistribution(t *testing.T) {
 		Height:  1,
 	})
 
-	// encodingConfig := gaiaapp.MakeTestEncodingConfig()
-	// encodingConfig.Amino.RegisterConcrete(&testdata.TestMsg{}, "testdata.TestMsg", nil)
-	// testdata.RegisterInterfaces(encodingConfig.InterfaceRegistry)
-
+	// Checking fairness delegation distribution
 	delegations := app.StakingKeeper.GetAllDelegations(ctx)
-	fmt.Println(delegations)
+	validators := app.StakingKeeper.GetAllValidators(ctx)
+	var shareReference int64
+	for _, val := range validators {
+		delegations := app.StakingKeeper.GetValidatorDelegations(ctx, val.GetOperator())
+		if shareReference == 0 {
+			// initialize the reference share, all other shares should match
+			// approximately to assert godd fairness distribution.
+			shareReference = delegations[0].Shares.TruncateInt64()
+		}
+		for _, del := range delegations {
+			assert.InDelta(t, shareReference, del.Shares.TruncateInt64(), 1, "unfair share distribution")
+		}
+	}
+	fmt.Println(len(delegations))
 }
