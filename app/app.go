@@ -266,7 +266,9 @@ func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisStat
 	}
 	// Sort balances in descending order
 	sort.Slice(bankState.Balances, func(i, j int) bool {
-		return bankState.Balances[i].Coins.IsAllGT(bankState.Balances[j].Coins)
+		coin1 := bankState.Balances[i].Coins.AmountOf("ugovgen")
+		coin2 := bankState.Balances[j].Coins.AmountOf("ugovgen")
+		return coin1.GT(coin2)
 	})
 
 	var (
@@ -284,7 +286,6 @@ func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisStat
 			Validator: val,
 		})
 	}
-	fmt.Println("VALS", len(validators))
 	if len(validators) == 0 {
 		return
 	}
