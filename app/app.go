@@ -237,7 +237,6 @@ func (app *GovGenApp) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci
 
 // InitChainer application update at chain initialization
 func (app *GovGenApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
-	fmt.Println("INIT CHAINER")
 	var genesisState GenesisState
 	if err := tmjson.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
