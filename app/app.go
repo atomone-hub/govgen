@@ -254,12 +254,20 @@ func (app *GovGenApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) ab
 
 // setInitialStakingDistribution auto stakes genesis accounts in a fairly
 // distributed manner.
+// NOTE: To achieve good distribution fairness, the number of genesis accounts
+// must be much larger than the number of validators.
 func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisState GenesisState) {
 	var bankState banktypes.GenesisState
 	app.appCodec.MustUnmarshalJSON(genesisState[banktypes.ModuleName], &bankState)
+	if len(bankState.Balances) == 0 {
+		// no balances, skip
+		return
+	}
 	// Sort balances in descending order
 	sort.Slice(bankState.Balances, func(i, j int) bool {
-		return bankState.Balances[i].Coins.IsAllGT(bankState.Balances[j].Coins)
+		coin1 := bankState.Balances[i].Coins.AmountOf("ugovgen")
+		coin2 := bankState.Balances[j].Coins.AmountOf("ugovgen")
+		return coin1.GT(coin2)
 	})
 
 	var (
@@ -269,6 +277,8 @@ func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisStat
 	// Extend validator to track delegations
 	type validator struct {
 		stakingtypes.Validator
+		// FIXME(tb): should be replaceable by validator.DelegatorShares field
+		// (so no need for custom struct)
 		totalDelegations int64
 	}
 	var validators []*validator
@@ -289,16 +299,23 @@ func (app *GovGenApp) setInitialStakingDistribution(ctx sdk.Context, genesisStat
 		// Take 50% of the balance for staking
 		stake := tokens.QuoRaw(2)
 
-		// Determine the number of validators that will receive a delegation
-		var splitStake sdk.Int
+		// Determine how many times the stake will be split.
+		// NOTE: numSplit doesn't necessarily correspond to the number of
+		// validators that will receive a delegation. Indeed, the loop below may
+		// select the same validator multiple times, if the distribution is
+		// particularly unbalanced, which results in the same delegation from the
+		// same delegator to the same validator, but this is not a problem as the
+		// delegations will just accumulate.
+		var numSplit int64
 		switch {
 		case stake.LT(sdk.NewInt(500_000_000)):
-			splitStake = stake.QuoRaw(5)
+			numSplit = 5
 		case stake.LT(sdk.NewInt(10_000_000_000)):
-			splitStake = stake.QuoRaw(10)
+			numSplit = 10
 		default:
-			splitStake = stake.QuoRaw(20)
+			numSplit = 20
 		}
+		splitStake := stake.QuoRaw(numSplit)
 
 		// Delegation loop for each selected validator
 		for ; stake.GTE(powerReduction); stake = stake.Sub(splitStake) {
