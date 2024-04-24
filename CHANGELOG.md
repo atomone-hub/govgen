@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## Unreleased
+
+*Release date*
+
+### API BREAKING
+
+### BUG FIXES
+
+### DEPENDENCIES
+
+### FEATURES
+
+* Add reproducible builds ([#34](https://github.com/atomone-hub/govgen/pull/34))
+
 ## v1.0.0
 
 *February 21st, 2024*
