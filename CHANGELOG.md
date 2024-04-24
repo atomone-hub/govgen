@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## Unreleased
+
+*Release date*
+
+### API BREAKING
+
+### BUG FIXES
+
+### DEPENDENCIES
+
+### FEATURES
+
+* Add reproducible builds ([#34](https://github.com/atomone-hub/govgen/pull/34))
+
+## v1.0.1
+
+*February 26st, 2024*
+
+### API BREAKING
+
+### BUG FIXES
+
+### DEPENDENCIES
+
+### FEATURES
+
+* `InitChainer` auto stakes uniformly to validators at genesis ([#26](https://github.com/atomone-hub/govgen/pull/26)).
+
 ## v1.0.0
 
 *February 21st, 2024*
@@ -20,7 +48,5 @@
   ([#13](https://github.com/atomone-hub/govgen/pull/13)).
 * Adapt voting period to proposal type.
   ([#16](https://github.com/atomone-hub/govgen/pull/16)).
-* `InitChainer` auto stakes uniformly to validators at genesis
-  ([#26](https://github.com/atomone-hub/govgen/pull/26)).
 
 ### STATE BREAKING

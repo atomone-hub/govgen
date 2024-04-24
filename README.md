@@ -25,3 +25,11 @@ The following modifications have been made to the Cosmos Hub software to create 
 8. Removed community spend proposal
 9. Allowed setting different voting periods for different proposal types
 10. Stake automatically 50% of balance for accounts that have more than 25 $GOVGEN at genesis initialization. The resulting stake distribution will provide approximately the same voting power to all genesis validators. Accounts will automatically stake to a maximum of 5 validators if 50% of the balance is less than 500 $GOVGEN, a maximum of 10 validators if less than 10,000 $GOVGEN and a maximum of 20 validators if more, uniformly. The number of validators elected for the delegations is not a constant because it depends on the state of the distribution.
+
+## Reproducible builds
+
+An effort has been made to make it possible to build the exact same binary
+locally as the Github Release section. To do this, checkout to the expected
+version and then simply run `make build` (which will output the binary to the
+`build` directory) or `make install`. The resulted binary should have the same
+sha256 hash than the one from the Github Release section.
