@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"encoding/base64"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -19,13 +21,18 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/keys"
 	"github.com/cosmos/cosmos-sdk/client/rpc"
+	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/server"
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	"github.com/cosmos/cosmos-sdk/snapshots"
 	"github.com/cosmos/cosmos-sdk/store"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/tx/signing"
+	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
 	authcmd "github.com/cosmos/cosmos-sdk/x/auth/client/cli"
+	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
@@ -165,11 +172,98 @@ func txCommand() *cobra.Command {
 		authcmd.GetBroadcastCommand(),
 		authcmd.GetEncodeCommand(),
 		authcmd.GetDecodeCommand(),
+		getBytesToSignCommand(),
 	)
 
 	govgen.ModuleBasics.AddTxCommands(cmd)
 	cmd.PersistentFlags().String(flags.FlagChainID, "", "The network chain ID")
 
+	return cmd
+}
+
+func getBytesToSignCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "bytes-to-sign [file]",
+		Short: "Outputs the bytes to be signed for the input transaction",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			var clientCtx client.Context
+
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			stdTx, err := authclient.ReadTxFromFile(clientCtx, args[0])
+			if err != nil {
+				return err
+			}
+			txFactory := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+			txCfg := clientCtx.TxConfig
+			txBuilder, err := txCfg.WrapTxBuilder(stdTx)
+			if err != nil {
+				return err
+			}
+
+			from, _ := cmd.Flags().GetString(flags.FlagFrom)
+			_, fromName, _, err := client.GetFromFields(clientCtx, txFactory.Keybase(), from)
+			if err != nil {
+				return fmt.Errorf("error getting account from keybase: %w", err)
+			}
+			signMode := txFactory.SignMode()
+			if signMode == signing.SignMode_SIGN_MODE_UNSPECIFIED {
+				// use the SignModeHandler's default mode if unspecified
+				signMode = txCfg.SignModeHandler().DefaultMode()
+			}
+			if signMode == signing.SignMode_SIGN_MODE_DIRECT && len(txBuilder.GetTx().GetSigners()) > 1 {
+				return sdkerrors.Wrap(sdkerrors.ErrNotSupported, "Signing in DIRECT mode is only supported for transactions with one signer only")
+			}
+
+			key, err := txFactory.Keybase().Key(fromName)
+			if err != nil {
+				return err
+			}
+			pubKey := key.GetPubKey()
+			signerData := authsigning.SignerData{
+				ChainID:       txFactory.ChainID(),
+				AccountNumber: txFactory.AccountNumber(),
+				Sequence:      txFactory.Sequence(),
+			}
+
+			// For SIGN_MODE_DIRECT, calling SetSignatures calls setSignerInfos on
+			// TxBuilder under the hood, and SignerInfos is needed to generated the
+			// sign bytes. This is the reason for setting SetSignatures here, with a
+			// nil signature.
+			//
+			// Note: this line is not needed for SIGN_MODE_LEGACY_AMINO, but putting it
+			// also doesn't affect its generated sign bytes, so for code's simplicity
+			// sake, we put it here.
+			sigData := signing.SingleSignatureData{
+				SignMode:  signMode,
+				Signature: nil,
+			}
+			sig := signing.SignatureV2{
+				PubKey:   pubKey,
+				Data:     &sigData,
+				Sequence: txFactory.Sequence(),
+			}
+			if err := txBuilder.SetSignatures(sig); err != nil {
+				return err
+			}
+
+			// Generate the bytes to be signed.
+			bytesToSign, err := txCfg.SignModeHandler().GetSignBytes(signMode, signerData, txBuilder.GetTx())
+			if err != nil {
+				return err
+			}
+
+			cmd.Printf("%s\n", base64.StdEncoding.EncodeToString(bytesToSign))
+			return nil
+		},
+	}
+	cmd.Flags().String(flags.FlagChainID, "", "The network chain ID")
+	cmd.MarkFlagRequired(flags.FlagFrom)
+	flags.AddTxFlagsToCmd(cmd)
 	return cmd
 }
 
