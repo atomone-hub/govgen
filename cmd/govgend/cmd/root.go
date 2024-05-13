@@ -256,14 +256,23 @@ func getBytesToSignCommand() *cobra.Command {
 			if err != nil {
 				return err
 			}
+			cmd.Printf("Bytes to sign:\n%s\n", base64.StdEncoding.EncodeToString(bytesToSign))
 
-			cmd.Printf("%s\n", base64.StdEncoding.EncodeToString(bytesToSign))
+			// Print the input tx with the filled `auth_info.signer_infos` field.
+			json, err := clientCtx.TxConfig.TxJSONEncoder()(txBuilder.GetTx())
+			if err != nil {
+				return err
+			}
+			cmd.Printf("Tx with filled `signer_infos`:\n%s\n", json)
 			return nil
 		},
 	}
 	cmd.Flags().String(flags.FlagChainID, "", "The network chain ID")
-	cmd.MarkFlagRequired(flags.FlagFrom)
 	flags.AddTxFlagsToCmd(cmd)
+	cmd.MarkFlagRequired(flags.FlagFrom)
+	cmd.MarkFlagRequired(flags.FlagChainID)
+	cmd.MarkFlagRequired(flags.FlagSequence)
+	cmd.MarkFlagRequired(flags.FlagAccountNumber)
 	return cmd
 }
 
