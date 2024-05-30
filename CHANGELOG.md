@@ -8,6 +8,8 @@
 
 ### BUG FIXES
 
+* Fix duplicate amino path in gov module ([#44](https://github.com/atomone-hub/govgen/pull/44))
+
 ### DEPENDENCIES
 
 ### FEATURES
