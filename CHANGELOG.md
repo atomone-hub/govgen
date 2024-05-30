@@ -8,6 +8,8 @@
 
 ### BUG FIXES
 
+* Fix gov cli for params and upgrade proposals ([#42](https://github.com/atomone-hub/govgen/pull/42))
+
 ### DEPENDENCIES
 
 ### FEATURES

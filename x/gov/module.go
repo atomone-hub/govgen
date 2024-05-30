@@ -19,7 +19,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	sdkgovclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 
 	govclient "github.com/atomone-hub/govgen/x/gov/client"
 	"github.com/atomone-hub/govgen/x/gov/client/cli"
@@ -42,13 +41,9 @@ type AppModuleBasic struct {
 }
 
 // NewAppModuleBasic creates a new AppModuleBasic object
-func NewAppModuleBasic(proposalHandlers ...sdkgovclient.ProposalHandler) AppModuleBasic {
-	var phs []govclient.ProposalHandler
-	for _, p := range proposalHandlers {
-		phs = append(phs, govclient.WrapPropposalHandler(p))
-	}
+func NewAppModuleBasic(proposalHandlers ...govclient.ProposalHandler) AppModuleBasic {
 	return AppModuleBasic{
-		proposalHandlers: phs,
+		proposalHandlers: proposalHandlers,
 	}
 }
 
