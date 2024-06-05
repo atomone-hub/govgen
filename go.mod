@@ -19,6 +19,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/tendermint/tendermint v0.34.27
 	github.com/tendermint/tm-db v0.6.7
+	golang.org/x/exp v0.0.0-20230905200255-921286631fa9
 	google.golang.org/genproto/googleapis/api v0.0.0-20230913181813-007df8e322eb
 	google.golang.org/grpc v1.58.2
 	google.golang.org/protobuf v1.31.0
@@ -107,7 +108,7 @@ require (
 	github.com/mtibben/percent v0.2.1 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.26.0 // indirect
-	github.com/opencontainers/runc v1.1.5 // indirect
+	github.com/opencontainers/runc v1.1.12 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/petermattis/goid v0.0.0-20180202154549-b0b1615b78e5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -137,7 +138,6 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
-	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/term v0.13.0 // indirect
