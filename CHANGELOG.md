@@ -8,7 +8,9 @@
 
 ### BUG FIXES
 
+* Fix duplicate amino path in gov module ([#44](https://github.com/atomone-hub/govgen/pull/44))
 * Fix gov cli for params and upgrade proposals ([#42](https://github.com/atomone-hub/govgen/pull/42))
+* Ensure correct version of `protoc-gen-gocosmos` is installed ([#41](https://github.com/atomone-hub/govgen/pull/41)).
 
 ### DEPENDENCIES
 
