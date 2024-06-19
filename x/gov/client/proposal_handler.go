@@ -29,17 +29,12 @@ func NewProposalHandler(cliHandler CLIHandlerFn, restHandler RESTHandlerFn) Prop
 	}
 }
 
-func WrapPropposalHandler(h legacyclient.ProposalHandler) ProposalHandler {
-	return ProposalHandler{
-		CLIHandler: func() *cobra.Command {
-			return h.CLIHandler()
-		},
-		RESTHandler: func(ctx client.Context) rest.ProposalRESTHandler {
-			handler := h.RESTHandler(ctx)
-			return rest.ProposalRESTHandler{
-				SubRoute: handler.SubRoute,
-				Handler:  handler.Handler,
-			}
-		},
+func WrapPropposalRESTHandler(h legacyclient.RESTHandlerFn) RESTHandlerFn {
+	return func(ctx client.Context) rest.ProposalRESTHandler {
+		handler := h(ctx)
+		return rest.ProposalRESTHandler{
+			SubRoute: handler.SubRoute,
+			Handler:  handler.Handler,
+		}
 	}
 }
