@@ -40,3 +40,7 @@ Run `make build-ledger` to have ledger support in `./build/govgend` binary.
 Note that this will disable reproducible builds, as it introduces OS
 dependencies.
 
+## Nodes and RPCs
+
+Check out https://cosmos.directory/govgen to have a list of available RPCs and
+REST interfaces.
