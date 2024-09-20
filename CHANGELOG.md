@@ -14,6 +14,14 @@
 
 ### STATE BREAKING
 
+## v1.0.4
+
+*Sep 20th, 2024*
+
+### BUG FIXES
+
+* Revert fix duplicate amino path in gov module ([#48](https://github.com/atomone-hub/govgen/pull/48))
+
 ## v1.0.3
 
 *Jul 1st, 2024*
