@@ -107,6 +107,10 @@ all: install lint run-tests vulncheck
 
 BUILD_TARGETS := build install
 
+build-ledger: check_version go.sum $(BUILDDIR)/
+	@echo "WARNING: Ledger build involves enabling cgo, which disables the ability to have reproducible builds."
+	CGO_ENABLED=1 go build -mod=readonly $(BUILD_FLAGS) $(BUILD_ARGS) -o $(BUILDDIR)/ ./...
+
 build: BUILD_ARGS=-o $(BUILDDIR)/
 
 $(BUILD_TARGETS): check_version go.sum $(BUILDDIR)/

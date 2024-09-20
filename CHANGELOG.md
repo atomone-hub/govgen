@@ -20,7 +20,11 @@
 
 ### BUG FIXES
 
-* Revert fix duplicate amino path in gov module ([#48](https://github.com/atomone-hub/govgen/pull/48))
+* Revert fix duplicate amino path in gov module ([#51](https://github.com/atomone-hub/govgen/pull/51))
+
+### FEATURES
+
+* Add `build-ledger` Makefile target ([#52](https://github.com/atomone-hub/govgen/pull/52))
 
 ## v1.0.3
 

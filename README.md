@@ -33,3 +33,10 @@ locally as the Github Release section. To do this, checkout to the expected
 version and then simply run `make build` (which will output the binary to the
 `build` directory) or `make install`. The resulted binary should have the same
 sha256 hash than the one from the Github Release section.
+
+## Ledger support
+
+Run `make build-ledger` to have ledger support in `./build/govgend` binary.
+Note that this will disable reproducible builds, as it introduces OS
+dependencies.
+
